@@ -7,4 +7,5 @@ import frappe
 from frappe.model.document import Document
 
 class IOTApplicationVersion(Document):
-	pass
+	def validate(self):
+		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')

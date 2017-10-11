@@ -4,7 +4,11 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw,_
 from frappe.model.document import Document
 
+
 class AppDeveloper(Document):
-	pass
+	def validate(self):
+		if self.alias.find('@') >= 0:
+			throw(_("Developer Alias cannot include character @"))

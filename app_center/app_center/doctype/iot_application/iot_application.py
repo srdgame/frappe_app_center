@@ -7,6 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 class IOTApplication(Document):
-	# def autoname(self):
-	# 	self.name = self.app_name + "@" + self.owner
-	pass
+	def autoname(self):
+		if self.app_path:
+			self.name = self.app_path

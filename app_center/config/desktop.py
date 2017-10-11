@@ -7,7 +7,7 @@ def get_data():
 		{
 			"module_name": "App Center",
 			"color": "#11AAEE",
-			"icon": "fa fa-cubes",
+			"icon": "octicon octicon-beaker",
 			"type": "module",
 			"label": _("App Center")
 		}

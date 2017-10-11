@@ -9,6 +9,7 @@ from frappe.model.document import Document
 
 
 class AppDeveloper(Document):
-	def validate(self):
-		if self.alias.find('@') >= 0:
-			throw(_("Developer Alias cannot include character @"))
+	# def validate(self):
+	# 	if self.alias.find('@') >= 0:
+	# 		throw(_("Developer Alias cannot include character @"))
+	pass

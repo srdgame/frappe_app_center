@@ -1,0 +1,27 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ doc.dev_name }}{% endblock %}
+
+{% block header %}  {% endblock %}
+
+{% block style %}
+	<style>
+		{% include "http://hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css" %}
+	</style>
+{% endblock %}
+
+
+{% block page_content %}
+    <div id="fileuploader">Upload</div>
+
+	<script>
+		{% include "templates/pages/new_app.js" %}
+	</script>
+
+{% endblock %}
+
+{% block script %}
+		<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
+{% endblock %}
+
+

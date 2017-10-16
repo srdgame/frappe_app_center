@@ -4,10 +4,14 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw, _
 from frappe.model.document import Document
+
 
 class IOTApplication(Document):
 	def autoname(self):
+		if self.app_name.find('.') >= 0:
+			throw(_("Application name cannot include dot character(.)!"))
 		if self.app_path:
 			self.name = self.app_path
 		else:

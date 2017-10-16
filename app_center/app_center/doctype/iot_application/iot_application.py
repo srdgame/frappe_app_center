@@ -10,3 +10,5 @@ class IOTApplication(Document):
 	def autoname(self):
 		if self.app_path:
 			self.name = self.app_path
+		else:
+			self.name = self.owner + "." + self.app_name

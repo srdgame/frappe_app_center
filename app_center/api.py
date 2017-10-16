@@ -41,25 +41,38 @@ def app_upload():
 	version = int(decode_input(frappe.form_dict, 'version'))
 	app = decode_input(frappe.form_dict, 'app')
 	app_name = decode_input(frappe.form_dict, 'app_name')
-	owner = decode_input(frappe.form_dict, 'owner')
+	owner = decode_input(frappe.form_dict, 'owner') or frappe.session.user
 	beta = decode_input_checkbox(frappe.form_dict, 'beta')
-	print(app, app_name, owner, beta, version)
+
+	if not version:
+		throw(_("Application version not found!"))
+
+	if not app or not app_name:
+		throw(_("Application name not found!"))
 
 	if not frappe.request.files:
-		throw(_("Attachment file not found!"))
+		throw(_("Application file not found!"))
 
 	f = frappe.request.files['app_file']  # 从表单的file字段获取文件，app_file为该表单的name值
 	fname = secure_filename(f.filename)
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
+		basedir = os.path.abspath(os.path.dirname(frappe.db.get_single('App Center Settings', 'release_folder')))
+		file_dir = os.path.join(basedir, owner)
+		if not os.path.exists(file_dir):
+			os.makedirs(file_dir)
+		file_dir = os.path.join(file_dir, app)
+		if not os.path.exists(file_dir):
+			os.makedirs(file_dir)
+
 		ext = fname.rsplit('.', 1)[1]  # 获取文件后缀
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
 		if beta:
 			new_filename = "beta_" + new_filename
 		print(new_filename)
-		f.save(os.path.join("/tmp/", new_filename))  # 保存文件到upload目录
+		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
 
-		return _("Upload Success")
+		return _("Application upload success")
 	else:
-		throw(_("Upload Failed!"))
+		throw(_("Application upload failed!"))

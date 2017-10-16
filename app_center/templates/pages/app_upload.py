@@ -4,22 +4,31 @@
 
 from __future__ import unicode_literals
 import frappe
-import json
-import redis
-from frappe import _
-from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
-from iot.hdb import iot_device_tree
+from frappe import throw, _
 
 
 def get_context(context):
 	user_roles = frappe.get_roles(frappe.session.user)
-	if 'IOT User' not in user_roles or frappe.session.user == 'Guest':
+	if 'App User' not in user_roles or frappe.session.user == 'Guest':
 		raise frappe.PermissionError
+
+	app = frappe.form_dict.app
+	if not app:
+		raise frappe.DoesNotExistError(_("Application not specified"))
+
+	app_name = frappe.get_value("IOT Application", app, "app_name")
+	if not app_name:
+		raise frappe.DoesNotExistError(_("Application {0} is not exits!").format(app_name))
+
+	owner = frappe.get_value("IOT Application", app, "owner")
+	if frappe.session.user != 'Administrator' and owner != frappe.session.user:
+		raise frappe.PermissionError(_("You are not the owner of application {0}").format(app_name))
 
 	context.no_cache = 1
 	context.show_sidebar = False
 
 	context.doc = {
-		"app_name": "modbus",
-		"app": "Modbus"
+		"app": app,
+		"app_name": app_name,
+		"owner": owner,
 	}

@@ -24,8 +24,8 @@
 
 		<label for="app_owner" class="col-sm-2 control-label">{{_("Owner")}}</label>
 		<div class="col-sm-10">
-			<div class="form-control-static" id="app_owner" name="owner">{{frappe.session.user}}</div>
-			<input type="hidden" name="owner" value="{{frappe.session.user}}">
+			<div class="form-control-static" id="app_owner" name="owner">{{doc.owner}}</div>
+			<input type="hidden" name="owner" value="{{doc.owner}}">
 		</div>
 	</div>
 	<div class="form-group">

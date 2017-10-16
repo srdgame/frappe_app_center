@@ -57,7 +57,7 @@ def app_upload():
 	fname = secure_filename(f.filename)
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
-		basedir = os.path.abspath(os.path.dirname(frappe.db.get_single('App Center Settings', 'release_folder')))
+		basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
 		file_dir = os.path.join(basedir, owner)
 		if not os.path.exists(file_dir):
 			os.makedirs(file_dir)
@@ -72,6 +72,19 @@ def app_upload():
 			new_filename = "beta_" + new_filename
 		print(new_filename)
 		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
+
+		data = {
+			"doctype": "IOT Application Version",
+			"app": app,
+			"app_name": app_name,
+			"version": version,
+			"owner": owner,
+			"beta": 0,
+		}
+		if beta:
+			data.update({"beta": 1})
+		doc = frappe.get_doc(data).insert()
+		doc.save()
 
 		return _("Application upload success")
 	else:

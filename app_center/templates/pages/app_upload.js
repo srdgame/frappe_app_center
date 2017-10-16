@@ -7,18 +7,18 @@ frappe.ready(function() {
 	$('form').ajaxForm({
 		before_send: function() {
 		},
-		success: function() {
-			alert('Success');
+		success: function(xhr) {
+			frappe.msgprint(xhr.message);
 		},
 		complete :function(xhr) {
-			//alert('Done');
+			//frappe.msgprint('Done');
 		},
 		error: function(xhr) {
 			if (xhr.responseJSON && xhr.responseJSON._server_messages) {
 				msgs = JSON.parse(xhr.responseJSON._server_messages);
-				alert(JSON.parse(msgs[0]).message);
+				frappe.msgprint(JSON.parse(msgs[0]).message);
 			} else {
-				alert("Error!");
+				frappe.msgprint("Error!");
 			}
 		}
 	})();

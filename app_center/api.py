@@ -89,3 +89,24 @@ def app_upload():
 		return _("Application upload success")
 	else:
 		throw(_("Application upload failed!"))
+
+
+def get_latest_version(app, beta):
+	l = [d[0] for d in frappe.db.get_values("IOT Application Version", {"app": app, "beta": beta}, "version")]
+	if not l:
+		return None
+	return max(l)
+
+
+@frappe.whitelist()
+def check_update(app, beta=False):
+	if not beta:
+		return get_latest_version(app, 0)
+	else:
+		return get_latest_version(app, 1)
+
+
+@frappe.whitelist()
+def get_forks(app):
+	l = [d[0] for d in frappe.db.get_values("IOT Application", {"fork_from": app}, "name")]
+	return l

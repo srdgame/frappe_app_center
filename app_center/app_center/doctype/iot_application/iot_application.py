@@ -15,7 +15,7 @@ class IOTApplication(Document):
 			self.name = self.app_path
 		else:
 			#self.name = self.owner + "." + self.app_name
-			self.name = make_autoname('APP.####')
+			self.name = make_autoname('APP.########')
 
 	def validate(self):
 		if self.app_name.find('.') >= 0:

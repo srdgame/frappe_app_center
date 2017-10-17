@@ -1,7 +1,7 @@
 frappe.ready(function() {
 	$.ajaxSetup({
 		headers: { // 默认添加请求头
-			"X-Frappe-CSRF-Token": frappe.csrf_token,
+			"X-Frappe-CSRF-Token": frappe.csrf_token
 		}
 	});
 	$('form').ajaxForm({

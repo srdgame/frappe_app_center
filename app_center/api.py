@@ -58,10 +58,10 @@ def app_upload():
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
 		basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
-		file_dir = os.path.join(basedir, owner)
-		if not os.path.exists(file_dir):
-			os.makedirs(file_dir)
-		file_dir = os.path.join(file_dir, app)
+		# file_dir = os.path.join(basedir, owner)
+		# if not os.path.exists(file_dir):
+		# 	os.makedirs(file_dir)
+		file_dir = os.path.join(basedir, app)
 		if not os.path.exists(file_dir):
 			os.makedirs(file_dir)
 

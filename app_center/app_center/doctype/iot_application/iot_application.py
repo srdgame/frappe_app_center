@@ -8,6 +8,8 @@ from frappe import throw, _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
 
+RESERVED_NAMES = ['skynet_iot', 'iot']
+
 
 class IOTApplication(Document):
 	def autoname(self):
@@ -23,3 +25,7 @@ class IOTApplication(Document):
 		if self.app_path:
 			if self.app_path.find('.') >= 0:
 				throw(_("Application path cannot include dot character(.)!"))
+			if self.app_path in RESERVED_NAMES:
+				throw(_("Application path is not an valid path!"))
+			if self.app_path.find("_skynet") >= 0:
+				throw(_("Application path is not an valid path!"))

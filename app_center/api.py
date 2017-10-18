@@ -91,6 +91,16 @@ def app_upload():
 		throw(_("Application upload failed!"))
 
 
+device_props = ["name", "app_name", "owner", "category", "protocol",
+				"license_type", "device_supplier", "device_serial", "creation"]
+
+
+@frappe.whitelist(allow_guest=True)
+def list_apps(filters=None):
+	return frappe.get_all("IOT Application", fields=device_props, filters=filters)
+
+
+@frappe.whitelist(allow_guest=True)
 def get_latest_version(app, beta):
 	l = [d[0] for d in frappe.db.get_values("IOT Application Version", {"app": app, "beta": beta}, "version")]
 	if not l:
@@ -98,7 +108,7 @@ def get_latest_version(app, beta):
 	return max(l)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def check_update(app, beta=False):
 	if not beta:
 		return get_latest_version(app, 0)
@@ -106,7 +116,18 @@ def check_update(app, beta=False):
 		return get_latest_version(app, 1)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_forks(app):
 	l = [d[0] for d in frappe.db.get_values("IOT Application", {"fork_from": app}, "name")]
 	return l
+
+
+@frappe.whitelist(allow_guest=True)
+def enable_beta(sn):
+	user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
+	# form dict keeping
+	form_dict = frappe.local.form_dict
+	frappe.set_user(user)
+	frappe.local.form_dict = form_dict
+
+	return frappe.get_value("IOT Device", sn, "use_beta")

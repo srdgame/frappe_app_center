@@ -12,7 +12,7 @@ from frappe import throw, msgprint, _
 from werkzeug.utils import secure_filename
 
 
-ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP'])
+ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP', 'gz', 'GZ'])
 
 
 def allowed_file(filename):
@@ -31,6 +31,16 @@ def decode_input_checkbox(form_dict, key):
 	if val:
 		return val.decode('utf-8') == 'on'
 	return False
+
+
+def app_remove(app, version):
+	basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
+	file_dir = os.path.join(basedir, app)
+
+	ext = frappe.get_value("IOT Application", app, "app_ext")
+
+	filename = str(version) + '.' + ext  # 修改了上传的文件名
+	os.remove(os.path.join(file_dir, filename))
 
 
 @frappe.whitelist()

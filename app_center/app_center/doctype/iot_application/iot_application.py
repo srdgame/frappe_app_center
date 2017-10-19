@@ -23,9 +23,9 @@ class IOTApplication(Document):
 		if self.app_path:
 			if self.app_path.find('.') >= 0:
 				throw(_("Application path cannot include dot character(.)!"))
-			if frappe.session.user == 'Administrator':
-				return
-			if self.app_path in RESERVED_NAMES:
-				throw(_("Application path is not an valid path!"))
-			if self.app_path.find("_skynet") >= 0:
-				throw(_("Application path is not an valid path!"))
+			if frappe.session.user != 'Administrator':
+				if self.app_path in RESERVED_NAMES:
+					throw(_("Application path is not an valid path!"))
+				if self.app_path.find("_skynet") >= 0:
+					throw(_("Application path is not an valid path!"))
+		self.app_ext = self.app_ext.lower()

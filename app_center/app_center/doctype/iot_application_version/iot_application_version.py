@@ -12,3 +12,10 @@ class IOTApplicationVersion(Document):
 
 	def autoname(self):
 		self.name = self.app + "." + str(self.version)
+
+	def on_trash(self):
+		from app_center.api import app_remove
+		try:
+			app_remove(self.app, self.version)
+		except Exception as ex:
+			frappe.logger(__name__).error(ex.message)

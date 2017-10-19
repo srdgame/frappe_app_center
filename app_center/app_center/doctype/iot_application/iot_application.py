@@ -20,11 +20,11 @@ class IOTApplication(Document):
 			self.name = make_autoname('APP.########')
 
 	def validate(self):
-		if self.app_name.find('.') >= 0:
-			throw(_("Application name cannot include dot character(.)!"))
 		if self.app_path:
 			if self.app_path.find('.') >= 0:
 				throw(_("Application path cannot include dot character(.)!"))
+			if frappe.session.user == 'Administrator':
+				return
 			if self.app_path in RESERVED_NAMES:
 				throw(_("Application path is not an valid path!"))
 			if self.app_path.find("_skynet") >= 0:

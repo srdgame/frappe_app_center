@@ -75,7 +75,9 @@ def app_upload():
 		if not os.path.exists(file_dir):
 			os.makedirs(file_dir)
 
-		ext = fname.rsplit('.', 1)[1]  # 获取文件后缀
+		ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
+		if ext != frappe.get_value("IOT Application", app, "app_ext"):
+			throw(_("Appication file extension name incorrect!"))
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
 		# if beta:

@@ -95,8 +95,13 @@ def app_upload():
 		}
 		if beta:
 			data.update({"beta": 1})
-		doc = frappe.get_doc(data).insert()
-		doc.save()
+
+		try:
+			doc = frappe.get_doc(data).insert()
+			doc.save()
+		except Exception as ex:
+			frappe.logger(__name__).error(ex.message)
+			os.remove(os.path.join(file_dir, new_filename))
 
 		return _("Application upload success")
 	else:

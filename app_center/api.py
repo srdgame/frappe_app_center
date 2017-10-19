@@ -117,6 +117,17 @@ def check_update(app, beta=False):
 
 
 @frappe.whitelist(allow_guest=True)
+def check_version(app, version):
+	v = frappe.get_value("IOT Application Version", {"app": app, "beta": 0, "version": version}, "version")
+	bv = frappe.get_value("IOT Application Version", {"app": app, "beta": 1, "version": version}, "version")
+	if v != version and bv == version:
+		return "beta"
+	if v == version:
+		return "release"
+	return "invalid"
+
+
+@frappe.whitelist(allow_guest=True)
 def get_forks(app):
 	l = [d[0] for d in frappe.db.get_values("IOT Application", {"fork_from": app}, "name")]
 	return l

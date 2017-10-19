@@ -100,8 +100,8 @@ def app_upload():
 			doc = frappe.get_doc(data).insert()
 			doc.save()
 		except Exception as ex:
-			frappe.logger(__name__).error(ex.message)
 			os.remove(os.path.join(file_dir, new_filename))
+			throw(_("Application version creation failed!"))
 
 		return _("Application upload success")
 	else:

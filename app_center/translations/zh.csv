@@ -1,0 +1,63 @@
+DocType: App Developer,Admin,管理员
+DocType: App Category,All,所有
+DocType: IOT Application Version,App,应用
+DocType: App Category,App Category,应用分类
+DocType: App Category,App Center,应用中心
+DocType: App Center Settings,App Center Settings,应用中心配置
+DocType: App Developer,App Developer,应用开发者
+DocType: App Device Protocol,App Device Protocol,设备通讯协议
+DocType: App Device Supplier,App Device Supplier,设备供应商
+DocType: IOT Application,App Ext,应用文件扩展
+DocType: IOT Application Version,App Name,应用程序名称
+DocType: IOT Application,App Path,应用内部名称
+DocType: App Developer,App User,开发者用户
+apps/app_center/app_center/api.py +80,Appication file extension name incorrect!,应用文件扩展名不正确!
+apps/app_center/app_center/templates/pages/app_upload.html +19,Application,应用
+DocType: IOT Application,Application Description,应用描述
+apps/app_center/app_center/templates/pages/app_upload.html +13,Application Name,应用名称
+apps/app_center/app_center/api.py +64,Application file not found!,没有发现应用包文件1
+apps/app_center/app_center/api.py +61,Application name not found!,应用名称丢失！
+apps/app_center/app_center/templates/pages/app_upload.py +17,Application not specified,没有指定应用
+apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +25,Application path cannot include dot character(.)!,应用路径不能包含字符(.)!
+apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +28,Application path is not an valid path!,应用路径不合法!
+apps/app_center/app_center/api.py +103,Application upload failed!,应用包上传失败!
+apps/app_center/app_center/api.py +101,Application upload success,应用包上传成功
+apps/app_center/app_center/api.py +58,Application version not found!,应用包版本丢失！
+apps/app_center/app_center/templates/pages/app_upload.py +21,Application {0} is not exits!,应用{0}不存在!
+DocType: IOT Application Version,Approved,已验证
+DocType: IOT Application Version,Approved Date,验证日期
+DocType: IOT Application Version,Beta,Beta版
+DocType: App Category,Category,类别
+DocType: IOT Application,Close,关闭
+DocType: App Category,Description,描述
+DocType: IOT Application,Device Serial,设备型号
+DocType: IOT Application,Device Supplier,设备厂商
+DocType: App Developer,Enabled,启用
+apps/app_center/app_center/templates/pages/app_upload.html +46,File,配置文件
+DocType: IOT Application,Fork From,
+DocType: App Device Supplier,Full Name,全名
+DocType: App Developer,Group,组
+DocType: IOT Application,IOT Application,IOT应用
+DocType: IOT Application Version,IOT Application Version,IOT应用版本
+DocType: IOT Application,Information,信息
+DocType: IOT Application,License Type,授权类型
+DocType: IOT Application,Name,名称
+DocType: App Developer,Normal,
+DocType: IOT Application,Open,开放
+DocType: IOT Application,Owner,所有人
+DocType: App Developer,Power,
+DocType: IOT Application,Private,私有
+DocType: App Device Protocol,Protocol,协议
+DocType: App Center Settings,Release Folder,发布目录
+apps/app_center/app_center/api.py +49,Request Method Must be POST!,只接受POST请求
+apps/app_center/app_center/templates/pages/app_upload.html +55,Submit,提交
+DocType: App Device Supplier,Supplier,供应商
+DocType: App Category,System Manager,系统管理员
+DocType: IOT Application Version,Tested,已测试
+DocType: IOT Application Version,Tested Date,测试日期
+DocType: IOT Application Version,Testing Information,测试详情
+apps/app_center/app_center/templates/pages/app_upload.html +3,Upload release file for ,上传发布包文件
+DocType: App Developer,User,用户
+DocType: IOT Application Version,Version,版本
+apps/app_center/app_center/templates/pages/app_upload.py +25,You are not the owner of application {0},应用{0}并不属于您
+apps/app_center/app_center/templates/pages/app_upload.html +49,Zipped application file.,应用压缩包

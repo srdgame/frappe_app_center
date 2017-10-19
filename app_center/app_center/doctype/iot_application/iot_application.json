@@ -420,7 +420,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-10-17 12:14:49.433798", 
+ "modified": "2017-10-19 11:30:08.174184", 
  "modified_by": "Administrator", 
  "module": "App Center", 
  "name": "IOT Application", 
@@ -508,7 +508,7 @@
    "write": 0
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "search_fields": "app_name,description,owner,category", 

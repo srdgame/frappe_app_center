@@ -118,6 +118,7 @@ def check_update(app, beta=False):
 
 @frappe.whitelist(allow_guest=True)
 def check_version(app, version):
+	version = int(version)
 	v = frappe.get_value("IOT Application Version", {"app": app, "beta": 0, "version": version}, "version")
 	bv = frappe.get_value("IOT Application Version", {"app": app, "beta": 1, "version": version}, "version")
 	if v != version and bv == version:

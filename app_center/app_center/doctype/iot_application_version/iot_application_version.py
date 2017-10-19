@@ -11,7 +11,4 @@ class IOTApplicationVersion(Document):
 		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')
 
 	def autoname(self):
-		if self.beta == 0:
-			self.name = self.app + "." + str(self.version)
-		else:
-			self.name = self.app + ".beta." + str(self.version)
+		self.name = self.app + "." + str(self.version)

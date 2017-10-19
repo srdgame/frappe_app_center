@@ -68,9 +68,9 @@ def app_upload():
 		ext = fname.rsplit('.', 1)[1]  # 获取文件后缀
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
-		if beta:
-			new_filename = "beta_" + new_filename
-		print(new_filename)
+		# if beta:
+		# 	new_filename = "beta_" + new_filename
+		# print(new_filename)
 		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
 
 		data = {
@@ -119,11 +119,10 @@ def check_update(app, beta=False):
 @frappe.whitelist(allow_guest=True)
 def check_version(app, version):
 	version = int(version)
-	v = frappe.get_value("IOT Application Version", {"app": app, "beta": 0, "version": version}, "version")
-	bv = frappe.get_value("IOT Application Version", {"app": app, "beta": 1, "version": version}, "version")
-	if v != version and bv == version:
+	beta = frappe.get_value("IOT Application Version", {"app": app, "version": version}, "beta")
+	if beta == 1:
 		return "beta"
-	if v == version:
+	if beta == 0:
 		return "release"
 	return "invalid"
 

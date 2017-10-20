@@ -4,10 +4,8 @@
 
 from __future__ import unicode_literals
 import frappe
-import base64
-import json
-import time
 import os
+import requests
 from frappe import throw, msgprint, _
 from werkzeug.utils import secure_filename
 
@@ -160,12 +158,20 @@ def get_forks(app):
 	return l
 
 
+def init_request_headers(headers):
+	headers['HDB-AuthorizationCode'] = frappe.db.get_single_value("IOT Center Settings", "iot_center_auth_code")
+	headers['Content-Type'] = 'application/json'
+	headers['Accept'] = 'application/json'
+
+
 @frappe.whitelist(allow_guest=True)
 def enable_beta(sn):
-	user = frappe.db.get_single_value("IOT HDB Settings", "on_behalf")
-	# form dict keeping
-	form_dict = frappe.local.form_dict
-	frappe.set_user(user)
-	frappe.local.form_dict = form_dict
+	iot_center = frappe.db.get_single_value("IOT Center Settings", "iot_center")
 
-	return frappe.get_value("IOT Device", sn, "use_beta")
+	session = requests.session()
+	# session.auth = (username, passwd)
+	init_request_headers(session.headers)
+	r = session.get(iot_center + "/api/method/iot.hdb_api.is_beta_enable", params={"sn":sn})
+	if r.status_code != 200:
+		throw(_("Cannot query beta information from IOT Center"))
+	return r.json().get("message")

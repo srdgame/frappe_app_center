@@ -124,7 +124,7 @@ def get_latest_version(app, beta):
 	}
 	if not beta:
 		filters.update({
-			"beta": 1
+			"beta": 0
 		})
 
 	vlist = [d[0] for d in frappe.db.get_values("IOT Application Version", filters, "version")]

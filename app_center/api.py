@@ -119,18 +119,28 @@ def list_apps(filters=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_latest_version(app, beta):
-	l = [d[0] for d in frappe.db.get_values("IOT Application Version", {"app": app, "beta": beta}, "version")]
-	if not l:
+	filters = {
+		"app": app
+	}
+	if not beta:
+		filters.update({
+			"beta": 1
+		})
+
+	vlist = [d[0] for d in frappe.db.get_values("IOT Application Version", filters, "version")]
+	if not vlist:
 		return None
-	return max(l)
+	return max(vlist)
 
 
 @frappe.whitelist(allow_guest=True)
 def check_update(app, beta=False):
-	if not beta:
-		return get_latest_version(app, 0)
-	else:
-		return get_latest_version(app, 1)
+	version = get_latest_version(app, beta)
+	beta = frappe.get_value("IOT Application Version", {"app": app, "version": version}, "beta")
+	return {
+		"version": version,
+		"beta": beta
+	}
 
 
 @frappe.whitelist(allow_guest=True)

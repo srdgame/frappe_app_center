@@ -29,3 +29,4 @@ class IOTApplication(Document):
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
 		self.app_ext = self.app_ext.lower()
+		self.app_name_unique = self.owner + "/" + self.app_name

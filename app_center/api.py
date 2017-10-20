@@ -61,6 +61,9 @@ def app_upload():
 	if not frappe.request.files:
 		throw(_("Application file not found!"))
 
+	if frappe.get_value("IOT Application Version", {"app": app, "version":version}, "name"):
+		throw(_("Application version duplicated!"))
+
 	f = frappe.request.files['app_file']  # 从表单的file字段获取文件，app_file为该表单的name值
 	fname = secure_filename(f.filename)
 

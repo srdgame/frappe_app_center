@@ -159,14 +159,14 @@ def get_forks(app):
 
 
 def init_request_headers(headers):
-	headers['HDB-AuthorizationCode'] = frappe.db.get_single_value("IOT Center Settings", "iot_center_auth_code")
+	headers['HDB-AuthorizationCode'] = frappe.db.get_single_value("App Center Settings", "iot_center_auth_code")
 	headers['Content-Type'] = 'application/json'
 	headers['Accept'] = 'application/json'
 
 
 @frappe.whitelist(allow_guest=True)
 def enable_beta(sn):
-	iot_center = frappe.db.get_single_value("IOT Center Settings", "iot_center")
+	iot_center = frappe.db.get_single_value("App Center Settings", "iot_center")
 
 	session = requests.session()
 	# session.auth = (username, passwd)

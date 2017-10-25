@@ -1,0 +1,120 @@
+{% extends "templates/apc_base.html" %}
+
+
+{% block content %}
+<div class="row">
+    <div class="column">
+        <h3 class="ui top attached header">
+		  Top Attached
+		</h3>
+		<div class="ui attached segment">
+            <div class="ui items">
+				<div class="ui floating labeled icon dropdown button" tabindex="0">
+					<i class="filter icon"></i>
+					<span class="text">Category Filter</span>
+					<div class="menu">
+						<div class="header">
+							Search Category
+						</div>
+						<div class="ui left icon input">
+							<i class="search icon"></i>
+							<input name="search" placeholder="Search..." type="text">
+						</div>
+						<div class="header">
+							<i class="tags icon"></i>
+							Filter by Category
+						</div>
+						{% for cate in categories %}
+						<div class="item">
+							<div class="ui green empty circular label"></div>
+							{{_(cate)}}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+                <div class="ui floating labeled icon dropdown button" tabindex="0">
+					<i class="filter icon"></i>
+					<span class="text">Protocol Filter</span>
+					<div class="menu">
+						<div class="header">
+							Search Protocol
+						</div>
+						<div class="ui left icon input">
+							<i class="search icon"></i>
+							<input name="search" placeholder="Search..." type="text">
+						</div>
+						<div class="header">
+							<i class="tags icon"></i>
+							Filter by Protocol
+						</div>
+						{% for p in protocols %}
+						<div class="item">
+							<div class="ui teal empty circular label"></div>
+							{{_(p)}}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+                <div class="ui floating labeled icon dropdown button" tabindex="0">
+					<i class="filter icon"></i>
+					<span class="text">Supplier Filter</span>
+					<div class="menu">
+						<div class="header">
+							Search Device Supplier
+						</div>
+						<div class="ui left icon input">
+							<i class="search icon"></i>
+							<input name="search" placeholder="Search..." type="text">
+						</div>
+						<div class="header">
+							<i class="tags icon"></i>
+							Filter by Device Supplier
+						</div>
+						{% for s in suppliers %}
+						<div class="item">
+							<div class="ui gray empty circular label"></div>
+							{{_(s)}}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+                <button class="ui icon button">
+                    <i class="refresh icon"></i>
+                </button>
+                <div class="ui right floated buttons">
+                    <button class="ui button"><i class="chevron left icon"></i></button>
+                    <button class="ui button"><i class="chevron right icon"></i></button>
+                </div>
+
+                {% for app in apps %}
+                <div class="ui divider"></div>
+                <div class="item">
+                    <a class="ui tiny circular image">
+                        <img src="/assets/app_center/releases/{{app.name}}/icon.png" alt="label-image">
+                    </a>
+                    <div class="content">
+                        <a class="header">{{app.app_name}}</a>
+                        <div class="description">
+                            <p>
+                                {{app.description}} -
+                                {% if app.license_type == 'Open' %}
+                                <a class="ui teal mini label">{{_("Free")}}</a>
+                                {% endif %}
+                                {% if app.license_type == 'Private' %}
+                                <a class="ui orange mini label">{{_("Private")}}</a>
+                                {% endif %}
+                                {% if app.license_type == 'Close' %}
+                                <a class="ui red mini label">{{_("Closed")}}</a>
+                                {% endif %}
+                                <button class="ui right floated tiny teal button"> Get it !</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="ui divider"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

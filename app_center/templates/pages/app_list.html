@@ -10,33 +10,27 @@
 		<div class="ui attached segment">
             <div class="ui items">
 				<div class="ui floating labeled icon dropdown button" tabindex="0">
-				  <i class="filter icon"></i>
-				  <span class="text">Filter Apps</span>
-				  <div class="menu">
-					<div class="header">
-					  Search Issues
+					<i class="filter icon"></i>
+					<span class="text">Category Filter</span>
+					<div class="menu">
+						<div class="header">
+							Search Category
+						</div>
+						<div class="ui left icon input">
+							<i class="search icon"></i>
+							<input name="search" placeholder="Search..." type="text">
+						</div>
+						<div class="header">
+							<i class="tags icon"></i>
+							Filter by Category
+						</div>
+						{% for cate in categories %}
+						<div class="item">
+							<div class="ui red empty circular label"></div>
+							{{_(cate)}}
+						</div>
+						{% endfor %}
 					</div>
-					<div class="ui left icon input">
-					  <i class="search icon"></i>
-					  <input name="search" placeholder="Search..." type="text">
-					</div>
-					<div class="header">
-					  <i class="tags icon"></i>
-					  Filter by tag
-					</div>
-					<div class="item">
-					  <div class="ui red empty circular label"></div>
-					  Important
-					</div>
-					<div class="item">
-					  <div class="ui blue empty circular label"></div>
-					  Announcement
-					</div>
-					<div class="item">
-					  <div class="ui black empty circular label"></div>
-					  Discussion
-					</div>
-				  </div>
 				</div>
                 <button class="ui icon button">
                     <i class="refresh icon"></i>

@@ -47,11 +47,16 @@
 				<div class="ui icon dropdown item" data-content="Select Language">
 					<i class="large world icon"></i>
 					<div tabindex="-1" class="menu transition hidden">
-						<a class="item" href="/lang/en_US"><i class="us flag"></i> English</a>
-						<a class="item" href="/lang/zh_CN"><i class="cn flag"></i> 中文(简体)</a>
+						{% if frappe.local.lang=="zh" %}
+						<a class="item active selected" language="zh"><i class="cn flag"></i> 中文(简体)</a>
+						<a class="item" language="en-US"><i class="us flag"></i> English</a>
+						{% else %}
+						<a class="item active selected" language="en-US"><i class="us flag"></i> English</a>
+						<a class="item" language="zh"><i class="cn flag"></i> 中文(简体)</a>
+						{% endif %}
 					</div>
 				</div>
-				{% if frappe.session.user == 'Guest' %}
+				{% if user == 'Guest' %}
 				<a href="/user/login" class="icon item" data-content="Login">
 					<i class="large sign in icon"></i>
 				</a>
@@ -59,7 +64,7 @@
 					<img src="/assets/img/logo.png" class="ui avatar image" alt="logo">
 				</a>
 				{% else %}
-				{% set avatar_path = '/assets/app_center/img/avatar/' + frappe.session.user + '.jpg' %}
+				{% set avatar_path = '/assets/app_center/img/avatar/' + user + '.jpg' %}
 				<a class="icon item pointer" data-toggle="popup" data-content="#mail" data-position="bottom right">
 					<i class="mail icon"></i>
 				</a>
@@ -96,13 +101,13 @@
 		<div class="pusher">
 			<div class="ui fluid container">
 				<div class="ui two column grid">
-					{% if frappe.session.user != 'Guest' %}
-					{% set avatar_path = '/assets/app_center/img/avatar/' + frappe.session.user + '.jpg' %}
+					{% if user != 'Guest' %}
+					{% set avatar_path = '/assets/app_center/img/avatar/' + user + '.jpg' %}
 					<div class="side menu" id="sideMenu">
 						<div align="center" class="profile">
 							<br>
 							<a href="/user/profile"><img src="{{avatar_path}}" alt="Avatar" class="ui circular image" width="150px" height="150px"></a>
-							<div class="ui white header">{{frappe.session.user}}</div>
+							<div class="ui white header">{{fullname}}</div>
 							<div class="ui divider"></div>
 						</div>
 						<div class="ui fluid vertical menu" id="verticalMenu">
@@ -145,6 +150,13 @@
 
 		<script type="text/javascript" src="/assets/app_center/semantic/semantic.min.js"></script>
 		<script type="text/javascript" src="/assets/app_center/library/less.min.js"></script>
+
+		<script type="text/javascript">
+			window._version_number = "{{ build_version }}";
+			if(!window.frappe) window.frappe = {};
+			frappe.csrf_token = "{{ frappe.local.session.data.csrf_token }}";
+			frappe.user = "{{user}}";
+		</script>
 
 		<script type="text/javascript" src="/assets/app_center/js/main.js"></script>
 		<script type="text/javascript" src="/assets/app_center/js/validate-form.js"></script>

@@ -36,4 +36,41 @@ $(document).ready(function() {
         $('#hideToggle').show();
         $('#sideMenu').removeClass('hide');
     });
+
+    $.ajaxSetup( {
+		headers: { // 默认添加请求头
+			"X-Frappe-CSRF-Token": frappe.csrf_token,
+		}
+	} );
+
+	$('.menu.transition .item').click(function () {
+	    var lang = $(this).attr("language");
+
+		var userinfo = {
+			"language": lang,
+			"doctype": "User",
+			"name":frappe.user
+		};
+
+		var postdata = {
+			"data": JSON.stringify(userinfo),
+			"web_form": "edit-profile",
+			"cmd": "frappe.website.doctype.web_form.web_form.accept"
+		};
+		$.ajax({
+			type: 'POST',
+			url: "/",
+			contentType: "application/x-www-form-urlencoded", //必须有
+			data: postdata,
+			dataType: "json",
+			success: function (r) {
+				if (r.message) {
+					window.location.reload();
+				}
+			},
+			error: function () {
+				console.log("异常!");
+			}
+		});
+	});
 });

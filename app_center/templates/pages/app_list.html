@@ -63,8 +63,8 @@
                                 {% if app.license_type == 'Close' %}
                                 <a class="ui red mini label">{{_("Closed")}}</a>
                                 {% endif %}
-                                <button class="ui right floated tiny teal upload button"> Upload New </button>
-                                <button class="ui right floated tiny yellow modify button"> Modify </button>
+                                <button class="ui right floated tiny teal app upload button" app="{{app.name}}"> Upload New </button>
+                                <button class="ui right floated tiny yellow app modify button" app="{{app.name}}"> Modify </button>
                             </p>
                         </div>
                     </div>
@@ -75,4 +75,13 @@
         </div>
     </div>
 </div>
+
+<script>
+	{% include "templates/pages/app_list.js" %}
+</script>
+
+{% endblock %}
+
+
+{% block script %}
 {% endblock %}

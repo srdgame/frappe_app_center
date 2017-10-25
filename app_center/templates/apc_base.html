@@ -74,7 +74,6 @@
 		<script type="text/javascript">
 			window._version_number = "{{ build_version }}";
 			if(!window.frappe) window.frappe = {};
-			frappe.csrf_token = "{{ frappe.local.session.data.csrf_token }}";
 			frappe.user = "{{user}}";
 		</script>
 
@@ -85,7 +84,10 @@
 		<script type="text/javascript" src="/assets/app_center/js/modal.js"></script>
 
 		<script type="text/javascript" src="/assets/app_center/library/github-buttons.js"></script>
+
 		{%- block script %}{%- endblock %}
+
+		<!-- csrf_token -->
 
 		{%- block body_include %}{{ body_include or "" }}{% endblock -%}
 	</body>

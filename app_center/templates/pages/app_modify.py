@@ -20,14 +20,13 @@ def get_context(context):
 	if not app_name:
 		raise frappe.DoesNotExistError(_("Application {0} is not exits!").format(app_name))
 
-	owner = frappe.get_value("IOT Application", app, "owner")
-	if frappe.session.user != 'Administrator' and owner != frappe.session.user:
+	doc = frappe.get_doc("IOT Application", app)
+	if frappe.session.user != 'Administrator' and doc.owner != frappe.session.user:
 		raise frappe.PermissionError(_("You are not the owner of application {0}").format(app_name))
 
 	context.no_cache = 0
 
-	context.doc = {
-		"app": app,
-		"app_name": app_name,
-		"owner": owner,
-	}
+	context.categories = [d.name for d in frappe.get_all("App Category", ["name"], order_by="name")]
+	context.protocols = [d.name for d in frappe.get_all("App Device Protocol", ["name"], order_by="name")]
+	context.suppliers = [d.name for d in frappe.get_all("App Device Supplier", ["name"], order_by="name")]
+	context.doc = doc

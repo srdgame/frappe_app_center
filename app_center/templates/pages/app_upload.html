@@ -7,65 +7,44 @@
 {% block style %}
 {% endblock %}
 
-{% block page_content %}
-<form class="form-horizontal" action="/api/method/app_center.api.app_upload" method="post" enctype="multipart/form-data">
-	<div class="form-group">
-		<label for="app_name" class="col-sm-2 control-label">{{_("Application Name")}}</label>
-		<div class="col-sm-10">
-			<div class="form-control-static" id="app_name">{{doc.app_name}}</div>
-			<input type="hidden" name="app_name" value="{{doc.app_name}}">
-		</div>
-
-		<label for="app_id" class="col-sm-2 control-label">{{_("Application")}}</label>
-		<div class="col-sm-10">
-			<div class="form-control-static" id="app_id">{{doc.app}}</div>
-			<input type="hidden" name="app" value="{{doc.app}}">
-		</div>
-
-		<label for="app_owner" class="col-sm-2 control-label">{{_("Owner")}}</label>
-		<div class="col-sm-10">
-			<div class="form-control-static" id="app_owner" name="owner">{{doc.owner}}</div>
-			<input type="hidden" name="owner" value="{{doc.owner}}">
-		</div>
+{% block content %}
+<form class="ui segment form" action="/api/method/app_center.api.app_upload" method="post" enctype="multipart/form-data">
+	<div class="required inline field">
+		<label>{{_("Application")}}</label>
+		<input value="{{doc.app}}" readonly="true" name="app" type="text">
 	</div>
-	<div class="form-group">
-		<label for="version" class="col-sm-2 control-label">{{_("Version")}}</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" id="version" name="version">
-		</div>
-
-		<label for="app_beta" class="col-sm-2 control-label">{{_("Beta")}}</label>
-		<div class="col-sm-10">
-			<div class="checkbox" id="app_beta">
-				<label>
-					<input type="checkbox" name="beta">
-				</label>
-			</div>
-		</div>
-
-		<label for="app_file" class="col-sm-2 control-label">{{_("File")}}</label>
-		<div class="col-sm-10">
-			<input type="file" id="app_file" name="app_file">
-			<p class="help-block">{{_("Zipped application file.")}}</p>
-		</div>
+	<div class="required inline field">
+		<label>{{_("Application Name")}}</label>
+		<input value="{{doc.app_name}}" readonly="true" name="appname" type="text">
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label"></label>
-		<div class="col-sm-10">
-			<button type="submit" class="btn btn-default">{{_("Submit")}}</button>
-		</div>
+	<div class="required inline field">
+		<label>{{_("Version")}}</label>
+		<input placeholder="Application Name" name="version" type="text" tabindex="0">
+    </div>
+	<div class="hidden field">
+		<label>{{_("Comments")}} </label>
+		<textarea name="comments"></textarea>
 	</div>
+	<div class="field">
+		<label>{{_("Application Package")}} </label>
+		<input type="file" name="file"/>
+	</div>
+
+	<button class="ui teal button" type="submit">{{_("Upload")}}</button>
+
+	<div class="ui tiny progress">
+		<div class="bar"></div>
+	</div>
+
+	<div class="ui success message"></div>
 </form>
-<script>
-	{% include "templates/pages/app_upload.js" %}
-</script>
 
 {% endblock %}
 
 {% block script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"
-		integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
-		crossorigin="anonymous"></script>
+<script>
+	{% include "templates/pages/app_upload.js" %}
+</script>
 {% endblock %}
 
 

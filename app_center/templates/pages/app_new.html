@@ -1,0 +1,77 @@
+{% extends "templates/apc_base.html" %}
+
+{% block title %}{{ _("Create new IOT Application") }} {% endblock %}
+
+{% block header %}  {% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+<form class="ui segment form" action="/api/method/app_center.api.app_new" method="post" enctype="multipart/form-data">
+ 	<div class="required inline field">
+		<label>{{_("Application Name")}}</label>
+		<input placeholder="Application Name" name="app_name" type="text" tabindex="0">
+    </div>
+
+	<div class="two fields">
+		<div class="three wide required inline field">
+			<label>{{_("License Type")}}</label>
+			<select class="ui search dropdown" name="license_type">
+				<option value="Open">Free</option>
+				<option value="Private">Private</option>
+				<option value="Close">Close</option>
+			</select>
+		</div>
+
+		<div class="three wide required inline field">
+			<label>{{_("Category")}}</label>
+			<select class="ui search dropdown" name="category">
+				{% for opt in categories %}
+				<option value="{{opt}}">{{opt}}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="three fields">
+		<div class="three wide required inline field">
+			<label>{{_("Device Protocol")}}</label>
+			<select class="ui search dropdown" name="device_protocol">
+				{% for opt in protocols %}
+				<option value="{{opt}}">{{opt}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="three wide required inline field">
+			<label>{{_("Device Supplier")}}</label>
+			<select class="ui search dropdown" name="device_supplier">
+				{% for opt in suppliers %}
+				<option value="{{opt}}">{{opt}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="three wide required inline field">
+			<label>{{_("Device Serial")}}</label>
+			<input placeholder="Application Name" name="device_serial" type="text">
+		</div>
+	</div>
+
+	<div class="field">
+		<label>{{_("Description")}} </label>
+		<textarea name="description"></textarea>
+	</div>
+
+	<button class="ui teal button" type="submit">{{_("Create")}}</button>
+	<div class="ui success message"></div>
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+	{% include "templates/pages/app_new.js" %}
+</script>
+{% endblock %}
+
+

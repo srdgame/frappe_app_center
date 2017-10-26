@@ -13,7 +13,6 @@ def get_context(context):
 		raise frappe.Redirect
 
 	context.no_cache = 1
-	context.show_sidebar = True
 
 	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
 	if frappe.session.user != 'Administrator':

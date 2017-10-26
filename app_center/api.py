@@ -162,7 +162,6 @@ def get_forks(app):
 
 
 def init_request_headers(headers):
-	headers['HDB-AuthorizationCode'] = frappe.db.get_single_value("App Center Settings", "iot_center_auth_code")
 	headers['Content-Type'] = 'application/json'
 	headers['Accept'] = 'application/json'
 

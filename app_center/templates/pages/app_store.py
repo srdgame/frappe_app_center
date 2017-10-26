@@ -8,7 +8,6 @@ from frappe import throw, _
 
 
 def get_context(context):
-	context.show_sidebar = True
 
 	context.categories = [d.name for d in frappe.get_all("App Category", ["name"], order_by="name")]
 	context.protocols = [d.name for d in frappe.get_all("App Device Protocol", ["name"], order_by="name")]

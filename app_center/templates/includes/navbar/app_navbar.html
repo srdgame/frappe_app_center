@@ -19,7 +19,7 @@
 				{% endif %}
 			</div>
 		</div>
-		{% if user == 'Guest' %}
+		{% if frappe.user == 'Guest' %}
 		<a href="/login" class="icon item" data-content="Login">
 			<i class="large sign in icon"></i>
 		</a>
@@ -27,7 +27,7 @@
 			<img src="/assets/img/logo.png" class="ui avatar image" alt="logo">
 		</a>
 		{% else %}
-		{% set avatar_path = '/assets/app_center/img/avatar/' + user + '.jpg' %}
+		{% set avatar_path = '/assets/app_center/img/avatar/' + frappe.user + '.jpg' %}
 		<a class="icon item pointer" data-toggle="popup" data-content="#mail" data-position="bottom right">
 			<i class="mail icon"></i>
 		</a>

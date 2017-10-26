@@ -8,7 +8,7 @@ $(document).ready(function() {
 		window.location.href="/app_modify?app="+app;
 	});
 	$('.ui.app-add.button').click(function () {
-		window.location.href="/app_create";
+		window.location.href="/app_new";
 	});
 });
 

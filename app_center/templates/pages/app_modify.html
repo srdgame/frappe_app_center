@@ -9,10 +9,8 @@
 
 {% block content %}
 <form class="ui segment form" action="/api/method/app_center.api.app_modify" method="post" enctype="multipart/form-data">
-	<div class="inline field">
-		<label>{{_("Application")}}</label>
-		<input value="{{doc.name}}" readonly="true" name="app" type="text">
-	</div>
+	<input value="{{doc.name}}" name="app" type="hidden">
+	<input value="{{doc.license_type}}" name="license_type" type="hidden">
 	<div class="required inline field">
 		<label>{{_("Application")}}</label>
 		<input value="{{doc.app_name}}" name="app_name" type="text" tabindex="0">
@@ -20,50 +18,56 @@
 
 	<div class="two fields">
 		<div class="three wide required inline field">
-			<label>{{_("License Type")}}</label>
-			<select class="ui search dropdown" name="license_type">
-				<option value="Open">Free</option>
-				<option value="Private">Private</option>
-				<option value="Close">Close</option>
-			</select>
-		</div>
-
-		<div class="three wide required inline field">
 			<label>{{_("Category")}}</label>
 			<select class="ui search dropdown" name="category">
+      			<option value="">{{_("Select Category")}}</option>
 				{% for opt in categories %}
+				{% if opt == doc.category %}
+				<option value="{{opt}}" selected="">{{opt}}</option>
+				{% else %}
 				<option value="{{opt}}">{{opt}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</div>
+		<div class="three wide required inline field">
+			<label>{{_("Protocol")}}</label>
+			<select class="ui search dropdown" name="protocol">
+      			<option value="">{{_("Select Protocol")}}</option>
+				{% for opt in protocols %}
+				{% if opt == doc.protocol %}
+				<option value="{{opt}}" selected="">{{opt}}</option>
+				{% else %}
+				<option value="{{opt}}">{{opt}}</option>
+				{% endif %}
 				{% endfor %}
 			</select>
 		</div>
 	</div>
 
-	<div class="three fields">
-		<div class="three wide required inline field">
-			<label>{{_("Device Protocol")}}</label>
-			<select class="ui search dropdown" name="device_protocol">
-				{% for opt in protocols %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endfor %}
-			</select>
-		</div>
+	<div class="two fields">
 		<div class="three wide required inline field">
 			<label>{{_("Device Supplier")}}</label>
 			<select class="ui search dropdown" name="device_supplier">
+      			<option value="">{{_("Select Device Supplier")}}</option>
 				{% for opt in suppliers %}
+				{% if opt == doc.device_supplier %}
+				<option value="{{opt}}" selected="">{{opt}}</option>
+				{% else %}
 				<option value="{{opt}}">{{opt}}</option>
+				{% endif %}
 				{% endfor %}
 			</select>
 		</div>
 		<div class="three wide required inline field">
 			<label>{{_("Device Serial")}}</label>
-			<input placeholder="Application Name" name="device_serial" type="text">
+			<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text" value="{{doc.device_serial or ''}}">
 		</div>
 	</div>
 
 	<div class="field">
 		<label>{{_("Description")}} </label>
-		<textarea name="description"></textarea>
+		<textarea name="description">{{doc.description or ""}}</textarea>
 	</div>
 
 	<button class="ui teal button" type="submit">{{_("Modify")}}</button>

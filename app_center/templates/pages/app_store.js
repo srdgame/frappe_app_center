@@ -19,10 +19,13 @@ $(document).ready(function() {
 		}
 		var supplier = $('#supplier_filter .menu .item.selected').attr("value");
 		if (supplier != null) {
-			query_data["supplier"] = supplier;
+			query_data["device_supplier"] = supplier;
 		}
 
 		window.location.href="/app_store"+jsonToQueryString(query_data);
+	});
+	$('.ui.app-clean.button').click(function () {
+		window.location.href="/app_store";
 	});
 });
 

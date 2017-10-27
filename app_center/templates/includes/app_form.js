@@ -1,6 +1,5 @@
 //validation settings in formvalidation page
 'use strict'
-
 $(document).ready(function() {
 	$('.ui.app.form').form({
 		fields: {

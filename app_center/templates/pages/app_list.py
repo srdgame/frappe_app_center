@@ -18,11 +18,9 @@ def get_context(context):
 
 	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
 
-	filters = {}
+	filters = {"owner": frappe.session.user}
 	if category:
 		filters["category"] = category
-	if frappe.session.user != 'Administrator':
-		filters["owner"] = frappe.session.user
 
 	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
 

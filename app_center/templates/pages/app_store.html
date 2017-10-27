@@ -4,9 +4,9 @@
 {% block content %}
 <div class="row">
     <div class="column">
-        <h3 class="ui top attached header">
-		  Top Attached
-		</h3>
+        <h2 class="ui top attached header">
+		  Application List
+		</h2>
 		<div class="ui attached segment">
             <div class="ui items">
 				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
@@ -18,7 +18,7 @@
 					{% endif %}
 					<div class="menu">
 						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category  == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.category == item}}" value="{{item}}">
 							<i class="ui green empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
@@ -26,14 +26,14 @@
 				</div>
 				<div class="ui floating dropdown labeled search icon button" id="protocol_filter">
 					<i class="filter icon"></i>
-					{% if filters.category %}
+					{% if filters.protocol %}
 					<span class="text"><i class="ui teal empty circular label"></i>{{_(filters.protocol)}}</span>
 					{% else %}
 					<span class="text">Protocol Filter</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in protocols %}
-						<div class="item {{ 'active selected' if filters.protocol  == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.protocol == item}}" value="{{item}}">
 							<i class="ui teal empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
@@ -41,14 +41,14 @@
 				</div>
 				<div class="ui floating dropdown labeled search icon button" id="supplier_filter">
 					<i class="filter icon"></i>
-					{% if filters.category %}
-					<span class="text"><i class="ui blue empty circular label"></i>{{_(filters.supplier)}}</span>
+					{% if filters.device_supplier %}
+					<span class="text"><i class="ui blue empty circular label"></i>{{_(filters.device_supplier)}}</span>
 					{% else %}
 					<span class="text">Supplier Filter</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in suppliers %}
-						<div class="item {{ 'active selected' if filters.supplier  == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.device_supplier == item}}" value="{{item}}">
 							<i class="ui blue empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
@@ -56,6 +56,9 @@
 				</div>
                 <button class="ui app-refresh icon button">
                     <i class="refresh icon"></i>
+                </button>
+                <button class="ui app-clean icon button">
+                    <i class="remove icon"></i>
                 </button>
                 <div class="ui right floated buttons">
                     <button class="ui button"><i class="chevron left icon"></i></button>
@@ -66,7 +69,7 @@
                 <div class="ui divider"></div>
                 <div class="item">
                     <a class="ui tiny circular image">
-                        <img src="/assets/app_center/releases/{{app.name}}/icon.png" alt="label-image">
+                        <img src="/assets/app_center/releases/{{app.name}}/icon.png" alt="app-icon-image">
                     </a>
                     <div class="content">
                         <a class="header">{{app.app_name}}</a>

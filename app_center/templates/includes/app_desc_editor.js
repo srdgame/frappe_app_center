@@ -36,6 +36,12 @@ function query_md(uri) {
 				//this.width("100%");
 				//this.height(480);
 				//this.resize("100%", 640);
+			},
+			onfullscreen: function () {
+				$('#content').css({'zIndex': 9999});
+			},
+			onfullscreenExit: function () {
+				$('#content').css({'zIndex': 'auto'});
 			}
 		});
 	});
@@ -78,6 +84,12 @@ $(document).ready(function() {
 			//this.width("100%");
 			//this.height(480);
 			//this.resize("100%", 640);
+		},
+		onfullscreen: function () {
+			$('#content').css({'zIndex': 9999});
+		},
+		onfullscreenExit: function () {
+			$('#content').css({'zIndex': 'auto'});
 		}
 	});
 });

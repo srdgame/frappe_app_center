@@ -4,64 +4,28 @@
 $(document).ready(function() {
 	$('.ui.form').form({
 		fields: {
-			app_name: {
-				identifier: 'app_name',
-				rules: [{
-					type: 'empty',
-					prompt: 'Please enter application name'
-				}]
-			},
-			category: {
-				identifier: 'category',
-				rules: [{
-					type: 'empty',
-					prompt: 'Please select application category'
-				}]
-			},
-			protocol: {
-				identifier: 'protocol',
-				rules: [{
-					type: 'empty',
-					prompt: 'Please select application protocol'
-				}]
-			},
-			device_supplier: {
-				identifier: 'device_supplier',
-				rules: [{
-					type: 'empty',
-					prompt: 'Please select application device_supplier'
-				}]
-			},
-			device_serial: {
-				identifier: 'device_serial',
-				rules: [{
-					type: 'empty',
-					prompt: 'Please select application device_serial'
-				}, {
-					type: 'minLength[3]',
-					prompt: 'Your password must be at least {ruleValue} characters'
-				}]
-			},
-			terms: {
-				identifier: 'terms',
-				rules: [{
-					type: 'checked',
-					prompt: 'You must agree to the terms and conditions'
-				}]
-			}
+		  app_name : 'empty',
+		  category : 'empty',
+		  protocol : 'empty',
+		  device_supplier : 'empty',
+		  device_serial : ['minLength[3]', 'empty'],
+		  terms : 'checked'
 		}
 	});
 
-	$('form').ajaxForm({
+	$('.ui.form').ajaxForm({
 		beforeSend: function() {
 		},
-		success: function() {
-			$('.ui.form .ui.success.message').html('<br>'+xhr.responseText);
+		success: function(response) {
+			var action = $('.ui.form .ui.submit.button').text();
+			$('.ui.form .ui.success.message').html('Application ' + response.message.name + ' ' + action + '!');
+			$('.ui.form').addClass('success');
 		},
 		complete: function(xhr) {
 		},
 		error: function(xhr) {
 			$('.ui.form .ui.error.message').html(xhr.responseText);
+			$('.ui.form').addClass('error');
 		}
 	});
 });

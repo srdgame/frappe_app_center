@@ -158,6 +158,7 @@ def app_modify():
 	doc.set("device_serial", device_serial)
 	doc.set("description", description)
 	doc.save()
+	return doc
 
 
 @frappe.whitelist()

@@ -96,7 +96,10 @@
                         <a class="header">{{app.app_name}}</a>
                         <div class="description">
                             <p>
-                                {{app.description}} -
+                                <a class="ui label">{{_(app.category)}}</a>
+                                <a class="ui label">{{_(app.protocol)}}</a>
+                                <a class="ui label">{{_(app.device_supplier)}}</a>
+                                <a class="ui label">{{_(app.device_serial)}}</a> -
                                 {% if app.license_type == 'Open' %}
                                 <a class="ui teal mini label">{{_("Free")}}</a>
                                 {% endif %}

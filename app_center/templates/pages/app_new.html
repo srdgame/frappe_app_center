@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment form" action="/api/method/app_center.appmgr.app_new" method="post" enctype="multipart/form-data">
+<form class="ui segment form" action="/api/method/app_center.appmgr.app_new" method="post" accept-charset="utf-8">
 	<div class="two fields">
 		<div class="three wide required inline field">
 			<label>{{_("Application Name")}}</label>
@@ -64,7 +64,9 @@
 
 	<div class="field">
 		<label>{{_("Description")}} </label>
-		<textarea name="description"></textarea>
+		<div id="desc-editormd" style="z-index:10;">
+			<textarea name="description">###Application Usage</textarea>
+		</div>
 	</div>
 
 	<button class="ui teal button" type="submit">{{_("Create")}}</button>

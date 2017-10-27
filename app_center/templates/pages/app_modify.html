@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment form" action="/api/method/app_center.appmgr.app_modify" method="post" enctype="multipart/form-data">
+<form class="ui segment form" action="/api/method/app_center.appmgr.app_modify" method="post" accept-charset="utf-8">
 	<input value="{{doc.name}}" name="app" type="hidden">
 	<input value="{{doc.license_type}}" name="license_type" type="hidden">
 	<div class="required inline field">
@@ -68,8 +68,8 @@
 
 	<div class="field">
 		<label>{{_("Description")}} </label>
-		<div id="desc-editormd">
-			<textarea name="description" style="display:none;">{{doc.description or "#### Disabled options"}}</textarea>
+		<div id="desc-editormd" style="z-index:9999;">
+			<textarea name="description">{{doc.description or ""}}</textarea>
 		</div>
 	</div>
 

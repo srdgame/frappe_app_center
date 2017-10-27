@@ -13,4 +13,11 @@ $(document).ready(function() {
 			status.html(xhr.responseText);
 		}
 	});
+	$('form').submit(function() {
+		// submit the form
+		contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		$(this).ajaxSubmit();
+		// return false to prevent normal browser submit and page navigation
+		return false;
+	});
 });

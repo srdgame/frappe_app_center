@@ -9,30 +9,22 @@
 		</h3>
 		<div class="ui attached segment">
             <div class="ui items">
-				<div class="ui floating labeled icon dropdown button" tabindex="0">
+				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
 					<i class="filter icon"></i>
+					{% if filters.category %}
+					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
+					{% else %}
 					<span class="text">Category Filter</span>
+					{% endif %}
 					<div class="menu">
-						<div class="header">
-							Search Category
-						</div>
-						<div class="ui left icon input">
-							<i class="search icon"></i>
-							<input name="search" placeholder="Search..." type="text">
-						</div>
-						<div class="header">
-							<i class="tags icon"></i>
-							Filter by Category
-						</div>
-						{% for cate in categories %}
-						<div class="item">
-							<div class="ui red empty circular label"></div>
-							{{_(cate)}}
+						{% for item in categories %}
+						<div class="item {{ 'active selected' if filters.category  == item}}" value="{{item}}">
+							<i class="ui green empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
 					</div>
 				</div>
-                <button class="ui icon button">
+                <button class="ui app-refresh icon button">
                     <i class="refresh icon"></i>
                 </button>
                 <button class="ui app-add icon button">

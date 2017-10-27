@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment form" action="/api/method/app_center.appmgr.app_modify" method="post" accept-charset="utf-8">
+<form class="ui segment app form" action="/api/method/app_center.appmgr.app_modify" method="post" accept-charset="utf-8">
 	<input value="{{doc.name}}" name="app" type="hidden">
 	<input value="{{doc.license_type}}" name="license_type" type="hidden">
 	<div class="required inline field">

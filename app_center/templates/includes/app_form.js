@@ -2,7 +2,7 @@
 'use strict'
 
 $(document).ready(function() {
-	$('.ui.form').form({
+	$('.ui.app.form').form({
 		fields: {
 		  app_name : 'empty',
 		  category : 'empty',
@@ -13,19 +13,22 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.ui.form').ajaxForm({
+	$('.ui.app.form').ajaxForm({
 		beforeSend: function() {
 		},
 		success: function(response) {
 			var action = $('.ui.form .ui.submit.button').text();
-			$('.ui.form .ui.success.message').html('Application ' + response.message.name + ' ' + action + '!');
-			$('.ui.form').addClass('success');
+			$('.ui.app.form .ui.success.message').html('Done!');
+			$('.ui.app.form').addClass('success');
+			setTimeout(function() {
+				window.location.href = "/app_list";
+			}, 2000);
 		},
 		complete: function(xhr) {
 		},
 		error: function(xhr) {
-			$('.ui.form .ui.error.message').html(xhr.responseText);
-			$('.ui.form').addClass('error');
+			$('.ui.app.form .ui.error.message').html(xhr.responseText);
+			$('.ui.app.form').addClass('error');
 		}
 	});
 });

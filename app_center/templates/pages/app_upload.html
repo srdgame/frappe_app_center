@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment form" action="/api/method/app_center.appmgr.app_upload" method="post" enctype="multipart/form-data">
+<form class="ui segment app form" action="/api/method/app_center.appmgr.app_upload" method="post" enctype="multipart/form-data">
 	<div class="required inline field">
 		<label>{{_("Application")}}</label>
 		<input value="{{doc.app}}" readonly="true" name="app" type="text">

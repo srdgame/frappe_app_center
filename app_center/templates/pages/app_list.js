@@ -10,5 +10,9 @@ $(document).ready(function() {
 	$('.ui.app-add.button').click(function () {
 		window.location.href="/app_new";
 	});
+	$('.ui.app-refresh.button').click(function () {
+		var category = 	$('#category_filter').val();
+		window.location.href="/app_list?category="+category;
+	});
 });
 

@@ -14,9 +14,16 @@ def get_context(context):
 
 	context.no_cache = 1
 
-	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
-	if frappe.session.user != 'Administrator':
-		context.apps = frappe.db.get_all("IOT Application", "*", {"owner": frappe.session.user}, order_by="modified desc")
-	else:
-		context.apps = frappe.db.get_all("IOT Application", "*", order_by="modified desc")
+	category = frappe.form_dict.category
 
+	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
+
+	filters = {}
+	if category:
+		filters["category"] = category
+	if frappe.session.user != 'Administrator':
+		filters["owner"] = frappe.session.user
+
+	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
+
+	context.filters = filters

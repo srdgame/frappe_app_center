@@ -5,10 +5,11 @@
 {% block header %}  {% endblock %}
 
 {% block style %}
+<link rel="stylesheet" type="text/css" href="/assets/app_center/editor_md/css/editormd.min.css">
 {% endblock %}
 
 {% block content %}
-<form class="ui segment form" action="/api/method/app_center.api.app_new" method="post" enctype="multipart/form-data">
+<form class="ui segment form" action="/api/method/app_center.appmgr.app_new" method="post" enctype="multipart/form-data">
 	<div class="two fields">
 		<div class="three wide required inline field">
 			<label>{{_("Application Name")}}</label>
@@ -73,8 +74,10 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/javascript" src="/assets/app_center/editor_md/editormd.min.js"></script>
 <script>
 	{% include "templates/pages/app_new.js" %}
+	{% include "templates/includes/desc_editor.js" %}
 </script>
 {% endblock %}
 

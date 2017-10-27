@@ -115,13 +115,13 @@ def app_new():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	app_name = decode_input(frappe.form_dict, 'app_name')
-	license_type = decode_input(frappe.form_dict, 'license_type')
-	category = decode_input(frappe.form_dict, 'category')
-	protocol = decode_input(frappe.form_dict, 'protocol')
-	device_supplier = decode_input(frappe.form_dict, 'device_supplier')
-	device_serial = decode_input(frappe.form_dict, 'device_serial')
-	description = decode_input(frappe.form_dict, 'description')
+	app_name = frappe.form_dict.app_name
+	license_type = frappe.form_dict.license_type
+	category = frappe.form_dict.category
+	protocol = frappe.form_dict.protocol
+	device_supplier = frappe.form_dict.device_supplier
+	device_serial = frappe.form_dict.device_serial
+	description = frappe.form_dict.description
 	owner = frappe.session.user
 	doc = frappe.get_doc({
 		"doctype": "IOT Application",
@@ -142,14 +142,14 @@ def app_modify():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	app_name = decode_input(frappe.form_dict, 'app_name')
-	category = decode_input(frappe.form_dict, 'category')
-	protocol = decode_input(frappe.form_dict, 'protocol')
-	device_supplier = decode_input(frappe.form_dict, 'device_supplier')
-	device_serial = decode_input(frappe.form_dict, 'device_serial')
-	description = decode_input(frappe.form_dict, 'description')
+	app_name = frappe.form_dict.app_name
+	category = frappe.form_dict.category
+	protocol = frappe.form_dict.protocol
+	device_supplier = frappe.form_dict.device_supplier
+	device_serial = frappe.form_dict.device_serial
+	description = frappe.form_dict.description
 
-	app = decode_input(frappe.form_dict, 'app')
+	app = frappe.form_dict.app
 	doc = frappe.get_doc("IOT Application", app)
 	doc.set("app_name", app_name)
 	doc.set("category", category)
@@ -165,8 +165,8 @@ def app_fork():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	version = int(decode_input(frappe.form_dict, 'version'))
-	app = decode_input(frappe.form_dict, 'app')
+	version = int(frappe.form_dict.version)
+	app = frappe.form_dict.app
 	if not frappe.get_value('IOT Application Version', {"app": app, "version": version}, "name"):
 		throw(_("Application version does not exists!"))
 

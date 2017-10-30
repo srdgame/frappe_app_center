@@ -1,13 +1,6 @@
 $(document).ready(function() {
 	//Tab page tab trigger functions
-
-	$(".menu .item").tab();
-	$('#context1 .menu .item').tab({
-		context: $('#context1')
-	});
-	$('.paths.example .menu .item').tab({
-		context: '.paths.example'
-	});
+	$(".main.container .tabular.menu .item").tab();
 
 	var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {
 		htmlDecode      : "style,script,iframe",  // you can filter tags decode

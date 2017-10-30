@@ -68,11 +68,11 @@
                 {% for app in apps %}
                 <div class="ui divider"></div>
                 <div class="item">
-                    <a class="ui tiny circular image">
-                        <img src="/assets/app_center/releases/{{app.name}}/icon.png" alt="app-icon-image">
+                    <a class="ui tiny circular image" href="/app_detail?app={{app.name}}">
+                        <img src="/assets/app_center/releases/{{app.name}}/icon.png" alt="label-image">
                     </a>
                     <div class="content">
-                        <a class="header">{{app.app_name}}</a>
+                        <a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
                         <div class="description">
                             <p>
                                 <a class="ui label">{{_(app.category)}}</a>

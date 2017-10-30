@@ -27,7 +27,9 @@ $(document).ready(function() {
 		}
 	});
 	$('.ui.app-clean.button').click(function () {
-		window.location.href="/app_list";
+		//window.location.href="/app_list";
+		$('#category_filter .text').text('{{_("Category Filter")}}');
+		$('#category_filter .menu .item.selected').removeClass("active selected");
 	});
 });
 

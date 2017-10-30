@@ -5,7 +5,7 @@
 <div class="row">
     <div class="column">
         <h2 class="ui top attached header">
-		  Your Applications
+		  {{_('Your Applications')}}
 		</h2>
 		<div class="ui attached segment">
             <div class="ui items">
@@ -14,21 +14,21 @@
 					{% if filters.category %}
 					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
 					{% else %}
-					<span class="text">Category Filter</span>
+					<span class="text">{{_("Category Filter")}}</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category  == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.category  == item else ''}}" value="{{item}}">
 							<i class="ui green empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
 					</div>
 				</div>
+                <button class="ui app-clean icon button">
+                    <i class="trash icon"></i>
+                </button>
                 <button class="ui app-refresh icon button">
                     <i class="refresh icon"></i>
-                </button>
-                <button class="ui app-clean icon button">
-                    <i class="remove icon"></i>
                 </button>
                 <button class="ui app-add icon button">
                     <i class="add icon"></i>

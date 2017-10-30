@@ -5,7 +5,7 @@
 <div class="row">
     <div class="column">
         <h2 class="ui top attached header">
-		  Application List
+		  {{_('Application List')}}
 		</h2>
 		<div class="ui attached segment">
             <div class="ui items">
@@ -14,11 +14,11 @@
 					{% if filters.category %}
 					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
 					{% else %}
-					<span class="text">Category Filter</span>
+					<span class="text">{{_("Category Filter")}}</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.category == item else ''}}" value="{{item}}">
 							<i class="ui green empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
@@ -29,11 +29,11 @@
 					{% if filters.protocol %}
 					<span class="text"><i class="ui teal empty circular label"></i>{{_(filters.protocol)}}</span>
 					{% else %}
-					<span class="text">Protocol Filter</span>
+					<span class="text">{{_("Protocol Filter")}}</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in protocols %}
-						<div class="item {{ 'active selected' if filters.protocol == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.protocol == item else ''}}" value="{{item}}">
 							<i class="ui teal empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
@@ -44,21 +44,21 @@
 					{% if filters.device_supplier %}
 					<span class="text"><i class="ui blue empty circular label"></i>{{_(filters.device_supplier)}}</span>
 					{% else %}
-					<span class="text">Supplier Filter</span>
+					<span class="text">{{_("Supplier Filter")}}</span>
 					{% endif %}
 					<div class="menu">
 						{% for item in suppliers %}
-						<div class="item {{ 'active selected' if filters.device_supplier == item}}" value="{{item}}">
+						<div class="item {{ 'active selected' if filters.device_supplier == item else ''}}" value="{{item}}">
 							<i class="ui blue empty circular label"></i>{{_(item)}}
 						</div>
 						{% endfor %}
 					</div>
 				</div>
+                <button class="ui app-clean icon button">
+                    <i class="trash icon"></i>
+                </button>
                 <button class="ui app-refresh icon button">
                     <i class="refresh icon"></i>
-                </button>
-                <button class="ui app-clean icon button">
-                    <i class="remove icon"></i>
                 </button>
                 <div class="ui right floated buttons">
                     <button class="ui button"><i class="chevron left icon"></i></button>

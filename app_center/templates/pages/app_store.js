@@ -25,7 +25,13 @@ $(document).ready(function() {
 		window.location.href="/app_store"+jsonToQueryString(query_data);
 	});
 	$('.ui.app-clean.button').click(function () {
-		window.location.href="/app_store";
+		//window.location.href="/app_store";
+		$('#category_filter .text').text('{{_("Category Filter")}}');
+		$('#category_filter .menu .item.selected').removeClass("active selected");
+		$('#protocol_filter .text').text('{{_("Protocol Filter")}}');
+		$('#protocol_filter .menu .item.selected').removeClass("active selected");
+		$('#supplier_filter .text').text('{{_("Supplier Filter")}}');
+		$('#supplier_filter .menu .item.selected').removeClass("active selected");
 	});
 });
 

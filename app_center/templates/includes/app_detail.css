@@ -2,7 +2,7 @@
 /* =============Profile Page============ */
 
 .profileheader {
-    background: url(../img/profileheader.jpg) no-repeat top center;
+    background: url(/assets/app_center/img/profileheader.jpg) no-repeat top center;
     background-size: cover;
     width: 100%;
     height: 255px;

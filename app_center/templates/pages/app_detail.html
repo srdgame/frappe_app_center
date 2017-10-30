@@ -7,103 +7,137 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="/assets/app_center/editor_md/css/editormd.min.css">
 <style>
-#desc-editormd-view {
-  z-index: 8;
-}
+{% include "templates/includes/app_detail.css" %}
 </style>
 {% endblock %}
 
 {% block content %}
-
-<div class="ui segments">
-	<div class="ui segment">
-		<h5 class="ui  header">
-			Styled Tab Menu
-		</h5>
-	</div>
-	<div class="ui segment">
-		<div class="ui pointing secondary tabular menu stackable">
-			<a class="item active" data-tab="description">{{_("Description")}}</a>
-			<a class="item" data-tab="comments">{{_("Comments")}}</a>
-			<a class="item" data-tab="issues">{{_("Issues")}}</a>
-		</div>
-		<div class="ui tab basic segment active" data-tab="description">
-			<div id="desc-editormd-view">
-			   <textarea style="display:none;" name="test-editormd-markdown-doc">{{doc.description or ""}}</textarea>
-			</div>
-		</div>
-		<div class="ui tab basic segment" data-tab="comments">
-			<div class="ui comments" style="padding-bottom:8px">
-				{% for comm in comments %}
-				<div class="comment">
-					<a class="avatar">
-						<img src="img/avatar/people/Abraham.png" alt="image">
+<div class="ui equal width left aligned padded grid stackable">
+	<div class="sixteen wide tablet sixteen wide computer column profileheader row no-padding">
+		<div class="column  left floated">
+			<div class="ui items">
+				<div class="item">
+					<a class="ui small circular image">
+                        <img src="/assets/app_center/releases/{{doc.name}}/icon.png" alt="icon">
+						<i class="circle mini red icon avt" data-content="Offline" data-variation="inverted redli"></i>
 					</a>
-					<div class="content">
-						<a class="author">{{comm.author}}</a>
-						<div class="metadata">
-							<span class="date">{{comm.date}}</span>
+					<div class="middle aligned content hiddenui">
+						<div class="header">
+							<i class="like icon"></i>
+							{{doc.app_name}}
 						</div>
-						<div class="text">
-							{{comm.content}}
-						</div>
-						<div class="actions">
-							<a class="reply">
-								<i class="reply icon"></i>
-							</a>
-							<a class="star">
-								<i class="star icon"></i>
-							</a>
-							<a class="retweet">
-								<i class="retweet icon"></i>
-							</a>
-							<a class="heart">
-								<i class="heart icon"></i>
-							</a>
+						<div class="meta">
+							{{doc.owner}}, <i class="icon map marker"></i> London U.K.
 						</div>
 					</div>
 				</div>
-				{% endfor %}
 			</div>
-			<form class="ui reply form">
-				<div class="field">
-					<textarea></textarea>
-				</div>
-				<div class="ui blue labeled submit icon button">
-					<i class="icon edit"></i> Add Reply
-				</div>
-			</form>
 		</div>
-		<div class="ui basic tab segment" data-tab="issues">
-			<div class="ui basic segment">
-				<div class="ui relaxed divided list">
-					<div class="item">
-						<i class="large alarm middle aligned icon"></i>
-						<div class="content">
-							<a class="header">You Have No Notification</a>
-							<div class="description">Updated 10 mins ago</div>
-						</div>
+		<div class="column hiddenui">
+			<div class="description right aligned">
+				<button class="ui circular facebook icon button">
+					<i class="facebook icon"></i>
+				</button>
+				<button class="ui circular twitter icon button">
+					<i class="twitter icon"></i>
+				</button>
+				<button class="ui circular linkedin icon button">
+					<i class="linkedin icon"></i>
+				</button>
+				<button class="ui circular google plus icon button">
+					<i class="google plus icon"></i>
+				</button>
+				<button class="ui circular mail blue icon button">
+					<i class="mail icon"></i>
+				</button>
+				<div class="ui divider"></div>
+				<button class="ui mini inverted black button follow">Follow</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui basic segment">
+	<div class="ui pointing secondary tabular menu stackable">
+		<a class="item active" data-tab="description">{{_("Description")}}</a>
+		<a class="item" data-tab="comments">{{_("Comments")}}</a>
+		<a class="item" data-tab="issues">{{_("Issues")}}</a>
+	</div>
+	<div class="ui tab basic segment active" data-tab="description">
+		<div id="desc-editormd-view">
+		   <textarea style="display:none;" name="test-editormd-markdown-doc">{{doc.description or ""}}</textarea>
+		</div>
+	</div>
+	<div class="ui tab basic segment" data-tab="comments">
+		<div class="ui comments" style="padding-bottom:8px">
+			{% for comm in comments %}
+			<div class="comment">
+				<a class="avatar">
+					<img src="img/avatar/people/Abraham.png" alt="image">
+				</a>
+				<div class="content">
+					<a class="author">{{comm.author}}</a>
+					<div class="metadata">
+						<span class="date">{{comm.date}}</span>
 					</div>
-					<div class="item">
-						<i class="large alarm red middle aligned icon"></i>
-						<div class="content">
-							<a class="header">You Have Two New Notification</a>
-							<div class="description">Updated 22 mins ago</div>
-						</div>
+					<div class="text">
+						{{comm.content}}
 					</div>
-					<div class="item">
-						<i class="large alarm green middle aligned icon"></i>
-						<div class="content">
-							<a class="header">You Have Five New Notification</a>
-							<div class="description">Updated 34 mins ago</div>
-						</div>
+					<div class="actions">
+						<a class="reply">
+							<i class="reply icon"></i>
+						</a>
+						<a class="star">
+							<i class="star icon"></i>
+						</a>
+						<a class="retweet">
+							<i class="retweet icon"></i>
+						</a>
+						<a class="heart">
+							<i class="heart icon"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<form class="ui reply form">
+			<div class="field">
+				<textarea></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Reply
+			</div>
+		</form>
+	</div>
+	<div class="ui basic tab segment" data-tab="issues">
+		<div class="ui basic segment">
+			<div class="ui relaxed divided list">
+				<div class="item">
+					<i class="large alarm middle aligned icon"></i>
+					<div class="content">
+						<a class="header">You Have No Notification</a>
+						<div class="description">Updated 10 mins ago</div>
+					</div>
+				</div>
+				<div class="item">
+					<i class="large alarm red middle aligned icon"></i>
+					<div class="content">
+						<a class="header">You Have Two New Notification</a>
+						<div class="description">Updated 22 mins ago</div>
+					</div>
+				</div>
+				<div class="item">
+					<i class="large alarm green middle aligned icon"></i>
+					<div class="content">
+						<a class="header">You Have Five New Notification</a>
+						<div class="description">Updated 34 mins ago</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
 {% endblock %}
 
 {% block script %}

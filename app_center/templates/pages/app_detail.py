@@ -21,3 +21,20 @@ def get_context(context):
 	context.no_cache = 0
 
 	context.doc = doc
+	context.comments = [
+		{
+			"author": "Administrator",
+			"date": "2 days ago",
+			"content": "The hours, minutes and seconds stand as visible reminders that your effort put them all there.",
+		},
+		{
+			"author": "cch",
+			"date": "3 days ago",
+			"content": "Adfwccqqwe.",
+		},
+		{
+			"author": "dirk",
+			"date": "4 days ago",
+			"content": "Reminders that.",
+		}
+	]

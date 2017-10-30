@@ -1,0 +1,192 @@
+{% extends "templates/apc_base.html" %}
+
+{% block title %}{{ _("Modify Application") }} {{doc.app_name}} {% endblock %}
+
+{% block header %}  {% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/assets/app_center/editor_md/css/editormd.min.css">
+<style>
+#desc-editormd-view {
+  z-index: 8;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="ui segments">
+	<div class="ui segment">
+		<h5 class="ui  header">
+			Styled Tab Menu
+		</h5>
+	</div>
+	<div class="ui segment">
+		<div class="ui pointing secondary menu tabfour stackable">
+			<a class="item active" data-tab="description">{{_("Description")}}</a>
+			<a class="item" data-tab="comments">{{_("Comments")}}</a>
+			<a class="item" data-tab="issues">{{_("Issues")}}</a>
+		</div>
+		<div class="ui tab segment active" data-tab="description">
+			<div id="desc-editormd-view">
+			   <textarea style="display:none;" name="test-editormd-markdown-doc">{{doc.description or ""}}</textarea>
+			</div>
+		</div>
+		<div class="ui tab segment" data-tab="comments">
+			<div class="ui comments" style="padding-bottom:8px">
+
+		<div class="comment">
+			<a class="avatar">
+				<img src="img/avatar/people/Abraham.png" alt="image">
+			</a>
+			<div class="content">
+				<a class="author">Mavuto Oliver</a>
+				<div class="metadata">
+					<span class="date">Today at 5:42PM</span>
+				</div>
+				<div class="text">
+					I love Semantic!
+				</div>
+				<div class="actions">
+					<a>
+						<i class="reply icon"></i>
+					</a>
+					<a>
+						<i class="star icon"></i>
+					</a>
+					<a>
+						<i class="retweet icon"></i>
+					</a>
+					<a>
+						<i class="heart icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="comment">
+			<a class="avatar">
+				<img src="img/avatar/people/carol.png" alt="image">
+			</a>
+			<div class="content">
+				<a class="author">Sandy Gorman</a>
+				<div class="metadata">
+					<span class="date">Yesterday at 12:30AM</span>
+				</div>
+				<div class="text">
+					<p>I love semantic too!</p>
+				</div>
+				<div class="actions">
+					<a>
+						<i class="reply icon"></i>
+					</a>
+					<a>
+						<i class="star icon"></i>
+					</a>
+					<a>
+						<i class="retweet icon"></i>
+					</a>
+					<a>
+						<i class="heart icon"></i>
+					</a>
+				</div>
+			</div>
+			<div class="comments">
+				<div class="comment">
+					<a class="avatar">
+						<img src="img/avatar/people/Abraham.png" alt="image">
+					</a>
+					<div class="content">
+						<a class="author">Moana Yu</a>
+						<div class="metadata">
+							<span class="date">Just now</span>
+						</div>
+						<div class="text">
+							What is semantic :O
+						</div>
+						<div class="actions">
+							<a>
+								<i class="reply icon"></i>
+							</a>
+							<a>
+								<i class="star icon"></i>
+							</a>
+							<a>
+								<i class="retweet icon"></i>
+							</a>
+							<a>
+								<i class="heart icon"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="comment">
+			<a class="avatar">
+				<img src="img/avatar/people/deana.png" alt="image">
+			</a>
+			<div class="content">
+				<a class="author">Lei Putnam</a>
+				<div class="metadata">
+					<span class="date">5 days ago</span>
+				</div>
+				<div class="text">
+					Mavuto, its awesome. Thank you so much
+				</div>
+				<div class="actions">
+					<a>
+						<i class="reply icon"></i>
+					</a>
+					<a>
+						<i class="star icon"></i>
+					</a>
+					<a>
+						<i class="retweet icon"></i>
+					</a>
+					<a>
+						<i class="heart icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<form class="ui reply form">
+			<div class="field">
+				<textarea></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Reply
+			</div>
+		</form>
+	</div>
+		</div>
+		<div class="ui tab segment" data-tab="issues">
+			<div class="ui top attached tabular menu">
+				<a class="item active" data-tab="ten/a">3A</a>
+				<a class="item" data-tab="ten/b">3B</a>
+				<a class="item" data-tab="ten/c">3C</a>
+			</div>
+			<div class="ui bottom attached tab segment active" data-tab="ten/a">3A</div>
+			<div class="ui bottom attached tab segment" data-tab="ten/b">3B</div>
+			<div class="ui bottom attached tab segment" data-tab="ten/c">3C</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/marked.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/prettify.min.js"></script>
+
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/raphael.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/underscore.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/sequence-diagram.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/flowchart.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/lib/jquery.flowchart.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/editor_md/editormd.min.js"></script>
+<script>
+	{% include "templates/pages/app_detail.js" %}
+</script>
+{% endblock %}
+
+

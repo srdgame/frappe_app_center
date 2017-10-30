@@ -1,9 +1,10 @@
 function query_md(uri) {
 	$.get(uri, function (md) {
-		var testEditor = editormd("desc-editormd", {
+		var descEditor = editormd("desc-editormd", {
 			//width: "90%",
-			//height: 740,
+			height: 740,
 			path: '/assets/app_center/editor_md/lib/',
+			markdown : md,
 			codeFold : true,
 			//syncScrolling : false,
 			saveHTMLToTextarea : false,    // 保存 HTML 到 Textarea
@@ -48,7 +49,7 @@ function query_md(uri) {
 };
 
 $(document).ready(function() {
-	var testEditor = editormd("desc-editormd", {
+	var descEditor = editormd("desc-editormd", {
 		//width   : "90%",
 		height  : 640,
 		path    : "/assets/app_center/editor_md/lib/",

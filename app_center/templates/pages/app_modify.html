@@ -13,62 +13,70 @@
 
 {% block content %}
 <form class="ui segment app form" action="/api/method/app_center.appmgr.app_modify" method="post" accept-charset="utf-8">
-	<input value="{{doc.name}}" name="app" type="hidden">
-	<input value="{{doc.license_type}}" name="license_type" type="hidden">
-	<div class="required inline field">
-		<label>{{_("Application")}}</label>
-		<input value="{{doc.app_name}}" name="app_name" type="text" tabindex="0">
-	</div>
+	<div class="ui grid">
+		<div class="six wide column">
+			<input value="{{doc.name}}" name="app" type="hidden">
+			<input value="{{doc.license_type}}" name="license_type" type="hidden">
+			<div class="required inline field">
+				<label>{{_("Application")}}</label>
+				<input value="{{doc.app_name}}" name="app_name" type="text" tabindex="0">
+			</div>
 
-	<div class="two fields">
-		<div class="three wide required inline field">
-			<label>{{_("Category")}}</label>
-			<select class="ui search dropdown" name="category">
-      			<option value="">{{_("Select Category")}}</option>
-				{% for opt in categories %}
-				{% if opt == doc.category %}
-				<option value="{{opt}}" selected="">{{opt}}</option>
-				{% else %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endif %}
-				{% endfor %}
-			</select>
+			<div class="required inline field">
+				<label>{{_("Category")}}</label>
+				<select class="ui search dropdown" name="category">
+					<option value="">{{_("Select Category")}}</option>
+					{% for opt in categories %}
+					{% if opt == doc.category %}
+					<option value="{{opt}}" selected="">{{opt}}</option>
+					{% else %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+			<div class="required inline field">
+				<label>{{_("Protocol")}}</label>
+				<select class="ui search dropdown" name="protocol">
+					<option value="">{{_("Select Protocol")}}</option>
+					{% for opt in protocols %}
+					{% if opt == doc.protocol %}
+					<option value="{{opt}}" selected="">{{opt}}</option>
+					{% else %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+			<div class="required inline field">
+				<label>{{_("Device Supplier")}}</label>
+				<select class="ui search dropdown" name="device_supplier">
+					<option value="">{{_("Select Device Supplier")}}</option>
+					{% for opt in suppliers %}
+					{% if opt == doc.device_supplier %}
+					<option value="{{opt}}" selected="">{{opt}}</option>
+					{% else %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+			<div class="required inline field">
+				<label>{{_("Device Serial")}}</label>
+				<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text" value="{{doc.device_serial or ''}}">
+			</div>
 		</div>
-		<div class="three wide required inline field">
-			<label>{{_("Protocol")}}</label>
-			<select class="ui search dropdown" name="protocol">
-      			<option value="">{{_("Select Protocol")}}</option>
-				{% for opt in protocols %}
-				{% if opt == doc.protocol %}
-				<option value="{{opt}}" selected="">{{opt}}</option>
-				{% else %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endif %}
-				{% endfor %}
-			</select>
+		<div class="ten wide column">
+			<label>{{_("Icon")}} </label>
+			<div class="inline field">
+				<label for="icon-file" class="ui image button">
+					<img class="ui small bordered image" src="/assets/app_center/releases/{{doc.name}}/icon.png">
+					<input type="file" name="icon-file" id="icon-file" style="display: none">
+				</label>
+			</div>
 		</div>
 	</div>
-
-	<div class="two fields">
-		<div class="three wide required inline field">
-			<label>{{_("Device Supplier")}}</label>
-			<select class="ui search dropdown" name="device_supplier">
-      			<option value="">{{_("Select Device Supplier")}}</option>
-				{% for opt in suppliers %}
-				{% if opt == doc.device_supplier %}
-				<option value="{{opt}}" selected="">{{opt}}</option>
-				{% else %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endif %}
-				{% endfor %}
-			</select>
-		</div>
-		<div class="three wide required inline field">
-			<label>{{_("Device Serial")}}</label>
-			<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text" value="{{doc.device_serial or ''}}">
-		</div>
-	</div>
-
+	<div class="ui divider"></div>
 	<div class="field">
 		<label>{{_("Description")}} </label>
 		<div id="desc-editormd">

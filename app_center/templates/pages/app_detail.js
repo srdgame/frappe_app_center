@@ -2,6 +2,17 @@ $(document).ready(function() {
 	//Tab page tab trigger functions
 	$(".ui.tabular.menu .item").tab();
 
+	$(".ui.button.edit").click(function () {
+		window.location.href="/app_modify?app={{doc.name}}";
+	});
+
+	$(".ui.button.follow").click(function () {
+		//window.location.href="/app_modify?app={{doc.name}}";
+	});
+
+	$(".ui.button.fork").click(function () {
+		window.location.href="/app_fork?app={{doc.name}}";
+	});
 	var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {
 		htmlDecode      : "style,script,iframe",  // you can filter tags decode
 		emoji           : true,

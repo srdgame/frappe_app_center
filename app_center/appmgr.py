@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 
 def app_remove(app, version):
-	basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
+	basedir = get_files_path('app_center_files')
 	file_dir = os.path.join(basedir, app)
 
 	ext = frappe.get_value("IOT Application", app, "app_ext")
@@ -57,7 +57,6 @@ def app_upload():
 	fname = secure_filename(f.filename)
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
-		#basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
 		basedir = get_files_path('app_center_files')
 		# file_dir = os.path.join(basedir, owner)
 		# if not os.path.exists(file_dir):
@@ -105,7 +104,6 @@ def save_app_icon(app, f):
 	if ext not in ['png', 'PNG']:
 		throw(_("Application icon must be png file!"))
 
-	#basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
 	basedir = get_files_path('app_center_files')
 	file_dir = os.path.join(basedir, app)
 	if not os.path.exists(file_dir):

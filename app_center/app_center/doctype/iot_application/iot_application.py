@@ -41,6 +41,10 @@ class IOTApplication(Document):
 		if len(applist) > 100 and group == 'Admin':
 			throw(_("Application count limitation!"))
 
+	def on_trash(self):
+		# TODO: Remove all versions and application folder
+		pass
+
 
 def get_recently_apps(as_list=False):
 	"""Returns a count of incomplete todos"""

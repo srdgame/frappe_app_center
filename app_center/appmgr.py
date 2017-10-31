@@ -149,6 +149,16 @@ def app_modify():
 	device_serial = frappe.form_dict.device_serial
 	description = frappe.form_dict.description
 
+	try:
+		f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
+		if f:
+			fname = secure_filename(f.filename)
+			print(fname)
+		else:
+			print("Icon file missing..............")
+	except Exception as ex:
+		print(ex)
+
 	app = frappe.form_dict.app
 	doc = frappe.get_doc("IOT Application", app)
 	doc.set("app_name", app_name)

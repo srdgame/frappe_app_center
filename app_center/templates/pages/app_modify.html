@@ -12,7 +12,8 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment app form" action="/api/method/app_center.appmgr.app_modify" method="post" accept-charset="utf-8">
+<form class="ui segment app form" action="/api/method/app_center.appmgr.app_modify"
+	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
 	<div class="ui grid">
 		<div class="six wide column">
 			<input value="{{doc.name}}" name="app" type="hidden">
@@ -69,9 +70,9 @@
 		<div class="ten wide column">
 			<label>{{_("Icon")}} </label>
 			<div class="inline field">
-				<label for="icon-file" class="ui image button">
+				<label for="icon_file" class="ui image button">
 					<img class="ui small bordered image" src="/assets/app_center/releases/{{doc.name}}/icon.png">
-					<input type="file" name="icon-file" id="icon-file" style="display: none">
+					<input type="file" name="icon_file" id="icon_file" style="display: none">
 				</label>
 			</div>
 		</div>

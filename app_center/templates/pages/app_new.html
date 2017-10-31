@@ -12,62 +12,67 @@
 {% endblock %}
 
 {% block content %}
-<h3 class="ui top attached header">
-	{{_("New Application")}}
-</h3>
-<form class="ui attached segment app form" action="/api/method/app_center.appmgr.app_new" method="post" accept-charset="utf-8">
-	<div class="two fields">
-		<div class="three wide required inline field">
-			<label>{{_("Application Name")}}</label>
-			<input placeholder="{{_('Application Name')}}" name="app_name" type="text" tabindex="0">
-		</div>
-		<div class="three wide required inline field">
-			<label>{{_("License Type")}}</label>
-			<select class="ui search dropdown" name="license_type">
-				<option value="Open">{{_("Free")}}</option>
-				<option value="Private">{{_("Private")}}</option>
-				<option value="Close">{{_("Close")}}</option>
-			</select>
-		</div>
-    </div>
+<form class="ui app form" action="/api/method/app_center.appmgr.app_new"
+	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+	<div class="ui stackable four column grid">
+		<div class="column">
+			<div class="required inline field">
+				<label>{{_("Application Name")}}</label>
+				<input placeholder="{{_('Application Name')}}" name="app_name" type="text" tabindex="0">
+			</div>
+			<div class="required inline field">
+				<label>{{_("License Type")}}</label>
+				<select class="ui search dropdown" name="license_type">
+					<option value="Open">{{_("Free")}}</option>
+					<option value="Private">{{_("Private")}}</option>
+					<option value="Close">{{_("Close")}}</option>
+				</select>
+			</div>
 
-	<div class="two fields">
-		<div class="three wide required inline field">
-			<label>{{_("Category")}}</label>
-			<select class="ui search dropdown" name="category">
-      			<option value="">{{_("Select Category")}}</option>
-				{% for opt in categories %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endfor %}
-			</select>
+			<div class="required inline field">
+				<label>{{_("Category")}}</label>
+				<select class="ui search dropdown" name="category">
+					<option value="">{{_("Select Category")}}</option>
+					{% for opt in categories %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="required inline field">
+				<label>{{_("Protocol")}}</label>
+				<select class="ui search dropdown" name="protocol">
+					<option value="">{{_("Select Protocol")}}</option>
+					{% for opt in protocols %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="required inline field">
+				<label>{{_("Device Supplier")}}</label>
+				<select class="ui search dropdown" name="device_supplier">
+					<option value="">{{_("Select Device Supplier")}}</option>
+					{% for opt in suppliers %}
+					<option value="{{opt}}">{{opt}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="required inline field">
+				<label>{{_("Device Serial")}}</label>
+				<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text">
+			</div>
 		</div>
-		<div class="three wide required inline field">
-			<label>{{_("Protocol")}}</label>
-			<select class="ui search dropdown" name="protocol">
-      			<option value="">{{_("Select Protocol")}}</option>
-				{% for opt in protocols %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endfor %}
-			</select>
+		<div class="column">
+			<div class="inline field">
+				<label for="icon_file" class="ui image button">
+					<img class="ui small bordered image" src="blank">
+					<input type="file" name="icon_file" id="icon_file" style="display: none">
+				</label>
+			</div>
 		</div>
 	</div>
 
-	<div class="two fields">
-		<div class="three wide required inline field">
-			<label>{{_("Device Supplier")}}</label>
-			<select class="ui search dropdown" name="device_supplier">
-      			<option value="">{{_("Select Device Supplier")}}</option>
-				{% for opt in suppliers %}
-				<option value="{{opt}}">{{opt}}</option>
-				{% endfor %}
-			</select>
-		</div>
-		<div class="three wide required inline field">
-			<label>{{_("Device Serial")}}</label>
-			<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text">
-		</div>
-	</div>
-
+	<div class="ui divider"></div>
 	<div class="field">
 		<label>{{_("Description")}} </label>
 		<div id="desc-editormd">

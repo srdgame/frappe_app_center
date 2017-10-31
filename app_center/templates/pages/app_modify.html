@@ -12,10 +12,10 @@
 {% endblock %}
 
 {% block content %}
-<form class="ui segment app form" action="/api/method/app_center.appmgr.app_modify"
+<form class="ui app form" action="/api/method/app_center.appmgr.app_modify"
 	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
-	<div class="ui grid">
-		<div class="six wide column">
+	<div class="ui stackable four column grid">
+		<div class="column">
 			<input value="{{doc.name}}" name="app" type="hidden">
 			<input value="{{doc.license_type}}" name="license_type" type="hidden">
 			<div class="required inline field">
@@ -67,8 +67,7 @@
 				<input placeholder="{{_('Device Serial')}}" name="device_serial" type="text" value="{{doc.device_serial or ''}}">
 			</div>
 		</div>
-		<div class="ten wide column">
-			<label>{{_("Icon")}} </label>
+		<div class="column">
 			<div class="inline field">
 				<label for="icon_file" class="ui image button">
 					<img class="ui small bordered image" src="/assets/app_center/releases/{{doc.name}}/icon.png">
@@ -77,6 +76,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="ui divider"></div>
 	<div class="field">
 		<label>{{_("Description")}} </label>

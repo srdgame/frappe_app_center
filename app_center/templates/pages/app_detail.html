@@ -177,6 +177,36 @@
 			</div>
 			{% endfor %}
 		</div>
+
+		{% if frappe.user == doc.owner %}
+        <h3 class="ui top attached header">
+		  {{_('Upload new version')}}
+		</h3>
+		<form class="ui attached segment app form" action="/api/method/app_center.appmgr.app_upload"
+			  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+				<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+			<div class="required inline field">
+				<label>{{_("Version")}}</label>
+				<input placeholder="Application Name" name="version" type="text" tabindex="0">
+			</div>
+			<div class="hidden field">
+				<label>{{_("Comments")}} </label>
+				<textarea name="comments"></textarea>
+			</div>
+			<div class="field">
+				<label>{{_("Application Package")}} </label>
+				<input type="file" name="app_file"/>
+			</div>
+
+			<div class="ui tiny progress">
+				<div class="bar"></div>
+			</div>
+
+			<div class="ui primary submit button">{{_("Upload")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
@@ -192,6 +222,7 @@
 <script type="text/javascript" src="/assets/app_center/editor_md/editormd.min.js"></script>
 <script>
 	{% include "templates/pages/app_detail.js" %}
+	{% include "templates/pages/app_upload.js" %}
 </script>
 {% endblock %}
 

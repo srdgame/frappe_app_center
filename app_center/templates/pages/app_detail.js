@@ -5,11 +5,12 @@ $(document).ready(function() {
 	$(".ui.button.edit").click(function () {
 		window.location.href="/app_modify?app={{doc.name}}";
 	});
-
+	$(".ui.button.editor").click(function () {
+		window.location.href="/app_editor?app={{doc.name}}";
+	});
 	$(".ui.button.follow").click(function () {
 		//window.location.href="/app_modify?app={{doc.name}}";
 	});
-
 	$(".ui.button.fork").click(function () {
 		window.location.href="/app_fork?app={{doc.name}}";
 	});

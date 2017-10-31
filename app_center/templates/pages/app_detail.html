@@ -55,6 +55,7 @@
 				<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
 				{% if frappe.user == doc.owner %}
 				<button class="ui inverted icon button edit"><i class="edit icon"></i> Edit</button>
+				<button class="ui inverted icon button editor"><i class="terminal icon"></i> Online Editor</button>
 				{% else %}
 				<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
 				{% endif %}
@@ -68,6 +69,7 @@
 		<a class="item active" data-tab="description"><i class="large book icon"></i>{{_("Description")}}</a>
 		<a class="item" data-tab="comments"><i class="large comments icon"></i>{{_("Comments")}}</a>
 		<a class="item" data-tab="issues"><i class="large warning circle icon"></i>{{_("Issues")}}</a>
+		<a class="item" data-tab="releases"><i class="large tags icon"></i>{{_("Releases")}}</a>
 	</div>
 	<div class="ui tab basic segment active" data-tab="description">
 		<div id="desc-editormd-view">
@@ -145,6 +147,35 @@
 					<div class="description">Updated 34 mins ago</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="ui basic tab segment" data-tab="releases">
+		<div class="ui large comments" style="padding-bottom:8px">
+			{% for rel in releases %}
+			<div class="comment">
+				<div class="content">
+					<a class="author">Version: {{rel.version}}</a>
+					<div class="metadata">
+						<span class="date">{{rel.date}}</span>
+						<div class="rating">
+						  <i class="star icon"></i>
+						  5 Faves
+						</div>
+					</div>
+					<div class="text">
+						{{rel.comment}}
+					</div>
+					<div class="actions">
+						<a class="install">
+							<i class="download icon"></i>
+						</a>
+						<a class="fork">
+							<i class="fork icon"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
 		</div>
 	</div>
 </div>

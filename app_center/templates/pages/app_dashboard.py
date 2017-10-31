@@ -7,6 +7,14 @@ import frappe
 from frappe import throw, _
 
 
+def get_most_stars():
+	return frappe.get_list("IOT Application", fields="*", limit=5, order_by="app_name")
+
+
+def get_recently_updated():
+	return frappe.get_list("IOT Application", fields="*", limit=5, order_by="modified desc")
+
+
 def get_context(context):
 	if frappe.session.user == 'Guest':
 		frappe.local.flags.redirect_location = "/login"
@@ -25,3 +33,5 @@ def get_context(context):
 	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
 
 	context.filters = filters
+	context.most_stars = get_most_stars()
+	context.recently_updated = get_recently_updated()

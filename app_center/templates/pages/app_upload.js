@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	var status = $('.ui.form .ui.message');
 	var bar = $('.bar');
 
 	$('.ui.app.form').form({
@@ -10,25 +9,26 @@ $(document).ready(function() {
 		}
 	});
 
-	$('form').ajaxForm({
+	$('.ui.app.form').ajaxForm({
 		beforeSend: function() {
-			status.empty();
+			$('.ui.app.form').removeClass('success').removeClass('error');
 		},
 		uploadProgress: function(event, position, total, percentComplete) {
 			var percentVal = percentComplete + '%';
 			bar.width(percentVal);
-			status.text(percentVal);
 		},
-		success: function() {
-			var percentVal = '100%';
-			bar.width(percentVal);
-			status.text(percentVal);
+		success: function(response) {
+			$('.ui.app.form .ui.success.message').html(response.message);
+			$('.ui.app.form').addClass('success');
 		},
 		complete: function(xhr) {
-			status.html('<br>'+xhr.responseText);
 		},
 		error: function(xhr) {
-			status.html(xhr.responseText);
+			console.log('Upload Exception:' + xhr.responseText);
+			$('.ui.app.form .ui.error.message').html(xhr.responseText);
+			var _server_messages = JSON.parse(xhr.responseJSON._server_messages);
+			$('.ui.app.form .ui.error.message').html(_server_messages[0]);
+			$('.ui.app.form').addClass('error');
 		}
 	});
 });

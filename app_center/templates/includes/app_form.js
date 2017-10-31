@@ -20,7 +20,7 @@ $(document).ready(function() {
 			$('.ui.app.form .ui.success.message').html('Done!');
 			$('.ui.app.form').addClass('success');
 			setTimeout(function() {
-				//window.location.href = "/app_list";
+				window.location.href = "/app_list";
 			}, 2000);
 		},
 		complete: function(xhr) {

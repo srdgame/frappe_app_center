@@ -19,19 +19,6 @@ def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-def decode_input(form_dict, key):
-	val = form_dict.get(key)
-	if val:
-		return val.decode('utf-8')
-
-
-def decode_input_checkbox(form_dict, key):
-	val = form_dict.get(key)
-	if val:
-		return val.decode('utf-8') == 'on'
-	return False
-
-
 def app_remove(app, version):
 	basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
 	file_dir = os.path.join(basedir, app)
@@ -47,11 +34,11 @@ def app_upload():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	version = int(decode_input(frappe.form_dict, 'version'))
-	app = decode_input(frappe.form_dict, 'app')
-	app_name = decode_input(frappe.form_dict, 'app_name')
-	owner = decode_input(frappe.form_dict, 'owner') or frappe.session.user
-	beta = decode_input_checkbox(frappe.form_dict, 'beta')
+	version = int(frappe.form_dict.version)
+	app = frappe.form_dict.app
+	app_name = frappe.form_dict.app_name
+	owner = frappe.form_dict.owner or frappe.session.user
+	beta = frappe.form_dict.beta == 'on'
 
 	if not version:
 		throw(_("Application version not found!"))

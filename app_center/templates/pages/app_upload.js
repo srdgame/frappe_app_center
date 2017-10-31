@@ -1,6 +1,15 @@
 $(document).ready(function() {
 	var status = $('.ui.form .ui.message');
 	var bar = $('.bar');
+
+	$('.ui.app.form').form({
+		fields: {
+		  version : 'empty',
+		  comments : ['minLength[10]', 'empty'],
+		  terms : 'checked'
+		}
+	});
+
 	$('form').ajaxForm({
 		beforeSend: function() {
 			status.empty();

@@ -10,13 +10,13 @@
 {% block content %}
 <form class="ui segment app form" action="/api/method/app_center.appmgr.app_upload"
 	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
-	<div class="required inline field">
+	<div class="inline field">
 		<label>{{_("Application")}}</label>
 		<input value="{{doc.app}}" readonly="true" name="app" type="text">
 	</div>
-	<div class="required inline field">
+	<div class="inline field">
 		<label>{{_("Application Name")}}</label>
-		<input value="{{doc.app_name}}" readonly="true" name="appname" type="text">
+		<input value="{{doc.app_name}}" readonly="true" name="app_name" type="text">
 	</div>
 	<div class="required inline field">
 		<label>{{_("Version")}}</label>
@@ -28,7 +28,7 @@
 	</div>
 	<div class="field">
 		<label>{{_("Application Package")}} </label>
-		<input type="file" name="file"/>
+		<input type="file" name="app_file"/>
 	</div>
 
 	<div class="ui tiny progress">

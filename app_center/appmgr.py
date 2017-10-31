@@ -7,6 +7,7 @@ import frappe
 import os
 import requests
 from frappe import throw, msgprint, _
+from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
 
 
@@ -56,7 +57,8 @@ def app_upload():
 	fname = secure_filename(f.filename)
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
-		basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
+		#basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
+		basedir = get_files_path('app_center_files')
 		# file_dir = os.path.join(basedir, owner)
 		# if not os.path.exists(file_dir):
 		# 	os.makedirs(file_dir)
@@ -97,6 +99,20 @@ def app_upload():
 		throw(_("Application upload failed!"))
 
 
+def save_app_icon(app, f):
+	fname = secure_filename(f.filename)
+	ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
+	if ext not in ['png', 'PNG']:
+		throw(_("Application icon must be png file!"))
+
+	#basedir = frappe.db.get_single_value('App Center Settings', 'release_folder')
+	basedir = get_files_path('app_center_files')
+	file_dir = os.path.join(basedir, app)
+	if not os.path.exists(file_dir):
+		os.makedirs(file_dir)
+	f.save(os.path.join(file_dir, "icon.png"))  # 保存文件到upload目录
+
+
 @frappe.whitelist()
 def app_new():
 	if frappe.request.method != "POST":
@@ -121,6 +137,11 @@ def app_new():
 		"owner": owner,
 		"description": description,
 	}).insert()
+
+	f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
+	if f:
+		save_app_icon(doc.name, f)
+
 	return doc
 
 
@@ -136,16 +157,6 @@ def app_modify():
 	device_serial = frappe.form_dict.device_serial
 	description = frappe.form_dict.description
 
-	try:
-		f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
-		if f:
-			fname = secure_filename(f.filename)
-			print(fname)
-		else:
-			print("Icon file missing..............")
-	except Exception as ex:
-		print(ex)
-
 	app = frappe.form_dict.app
 	doc = frappe.get_doc("IOT Application", app)
 	doc.set("app_name", app_name)
@@ -155,6 +166,11 @@ def app_modify():
 	doc.set("device_serial", device_serial)
 	doc.set("description", description)
 	doc.save()
+
+	f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
+	if f:
+		save_app_icon(doc.name, f)
+
 	return doc
 
 

@@ -5,7 +5,7 @@ $(document).ready(function() {
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
 	}).resize();
 
-    var editor = ace.edit("editor_code");
+    var editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
     editor.session.setMode("ace/mode/javascript");
 

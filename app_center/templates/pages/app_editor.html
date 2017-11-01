@@ -15,9 +15,19 @@
 <div id="editor_container" role="main">
 	<div id="jstree_tree"></div>
 	<div id="editor_data">
-			<div class="content code" style="display:none;"><textarea id="editor_code" readonly="readonly"></textarea></div>
+			<div class="content code" style="display:none;">
+				<textarea id="editor_code" readonly="readonly"></textarea>
+				<pre id="editor">function foo(items) {
+					var i;
+					for (i = 0; i &lt; items.length; i++) {
+						alert("Ace Rocks " + items[i]);
+					}
+				}</pre>
+			</div>
 			<div class="content folder" style="display:none;"></div>
-			<div class="content image" style="display:none; position:relative;"><img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" /></div>
+			<div class="content image" style="display:none; position:relative;">
+				<img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" />
+			</div>
 			<div class="content default" style="text-align:center;">Select a file from the tree.</div>
 	</div>
 </div>

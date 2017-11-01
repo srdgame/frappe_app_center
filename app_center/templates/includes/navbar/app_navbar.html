@@ -7,6 +7,14 @@
 			<input placeholder="Search..." type="text">
 			<i class="search icon"></i>
 		</div>
+		{% if frappe.user == 'Guest' %}
+		<a href="/login" class="icon item" data-content="Login">
+			<i class="large sign in icon"></i>
+		</a>
+		<a href="http://www.symid.com" class="icon item">
+			<img src="/assets/app_center/img/logo.png" class="ui avatar image" alt="logo">
+		</a>
+		{% else %}
 		<div class="ui icon dropdown item" data-content="Select Language">
 			<i class="large world icon"></i>
 			<div tabindex="-1" class="menu transition hidden">
@@ -19,14 +27,6 @@
 				{% endif %}
 			</div>
 		</div>
-		{% if frappe.user == 'Guest' %}
-		<a href="/login" class="icon item" data-content="Login">
-			<i class="large sign in icon"></i>
-		</a>
-		<a href="http://www.symid.com" class="icon item">
-			<img src="/assets/img/logo.png" class="ui avatar image" alt="logo">
-		</a>
-		{% else %}
 		{% set avatar_path = '/assets/app_center/img/avatar/' + frappe.user + '.jpg' %}
 		<a class="icon item pointer" data-toggle="popup" data-content="#mail" data-position="bottom right">
 			<i class="mail icon"></i>

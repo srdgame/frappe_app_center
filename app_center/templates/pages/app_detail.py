@@ -34,15 +34,5 @@ def get_context(context):
 			"content": "Reminders that.",
 		}
 	]
-	context.releases = [
-		{
-			"version": 120,
-			"date": "one week ago",
-			"comment": "fixed ..xxxfaf ",
-		},
-		{
-			"version": 100,
-			"date": "one month ago",
-			"comment": "First release",
-		}
-	]
+
+	context.releases = frappe.db.get_values("IOT Application Version", fields="*", limit=10, order_by="version desc")

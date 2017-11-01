@@ -22,7 +22,7 @@ class IOTApplicationVersion(Document):
 		self.name = self.app + "." + str(self.version)
 
 	def on_trash(self):
-		from app_center.appmgr import app_remove
+		from app_center.appmgr import remove as app_remove
 		try:
 			app_remove(self.app, self.version)
 		except Exception as ex:

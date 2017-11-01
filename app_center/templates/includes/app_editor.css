@@ -1,0 +1,80 @@
+.ui.jstree {
+    float:left;
+    min-width:319px;
+    border-right:1px solid silver;
+    overflow:auto;
+    padding:0px 0;
+}
+
+.ui.jstree .folder {
+    background:url('/assets/app_center/jstree/file_sprite.png') right bottom no-repeat;
+}
+.ui.jstree .file {
+    background:url('/assets/app_center/jstree/file_sprite.png') 0 0 no-repeat;
+}
+.ui.jstree .file-pdf {
+    background-position: -32px 0
+}
+.ui.jstree .file-as {
+    background-position: -36px 0
+}
+.ui.jstree .file-c {
+    background-position: -72px -0px
+}
+.ui.jstree .file-iso {
+    background-position: -108px -0px
+}
+.ui.jstree .file-htm, .ui.jstree .file-html, .ui.jstree .file-xml, .ui.jstree .file-xsl {
+    background-position: -126px -0px
+}
+.ui.jstree .file-cf {
+    background-position: -162px -0px
+}
+.ui.jstree .file-cpp {
+    background-position: -216px -0px
+}
+.ui.jstree .file-cs {
+    background-position: -236px -0px
+}
+.ui.jstree .file-sql {
+    background-position: -272px -0px
+}
+.ui.jstree .file-xls, .ui.jstree .file-xlsx {
+    background-position: -362px -0px
+}
+.ui.jstree .file-h {
+    background-position: -488px -0px
+}
+.ui.jstree .file-crt, .ui.jstree .file-pem, .ui.jstree .file-cer {
+    background-position: -452px -18px
+}
+.ui.jstree .file-php {
+    background-position: -108px -18px
+}
+.ui.jstree .file-jpg, .ui.jstree .file-jpeg, .ui.jstree .file-png, .ui.jstree .file-gif, .ui.jstree .file-bmp {
+    background-position: -126px -18px
+}
+.ui.jstree .file-ppt, .ui.jstree .file-pptx {
+    background-position: -144px -18px
+}
+.ui.jstree .file-rb {
+    background-position: -180px -18px
+}
+.ui.jstree .file-text, .ui.jstree .file-txt, .ui.jstree .file-md, .ui.jstree .file-log, .ui.jstree .file-htaccess {
+    background-position: -254px -18px
+}
+.ui.jstree .file-doc, .ui.jstree .file-docx {
+    background-position: -362px -18px
+}
+.ui.jstree .file-zip, .ui.jstree .file-gz, .ui.jstree .file-tar, .ui.jstree .file-rar {
+    background-position: -416px -18px
+}
+.ui.jstree .file-js {
+    background-position: -434px -18px
+}
+.ui.jstree .file-css {
+    background-position: -144px -0px
+}
+.ui.jstree .file-fla {
+    background-position: -398px -0px
+}

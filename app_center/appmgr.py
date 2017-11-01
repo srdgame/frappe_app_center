@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import os
-import requests
+import json
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
@@ -20,7 +20,8 @@ def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-def app_remove(app, version):
+@frappe.whitelist()
+def remove(app, version):
 	basedir = get_files_path('app_center_files')
 	file_dir = os.path.join(basedir, app)
 
@@ -31,7 +32,7 @@ def app_remove(app, version):
 
 
 @frappe.whitelist()
-def app_upload():
+def upload():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
@@ -108,7 +109,7 @@ def save_app_icon(app, f):
 
 
 @frappe.whitelist()
-def app_new():
+def new():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
@@ -140,7 +141,7 @@ def app_new():
 
 
 @frappe.whitelist()
-def app_modify():
+def modify():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
@@ -169,7 +170,7 @@ def app_modify():
 
 
 @frappe.whitelist()
-def app_fork():
+def fork():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
@@ -193,3 +194,52 @@ def app_fork():
 		"description": doc.description,
 	}).insert()
 	return new_doc
+
+
+def fire_raw_content(content, status=200, content_type='text/html'):
+	"""
+	I am hack!!!
+	:param content:
+	:param content_type:
+	:return:
+	"""
+	frappe.response['http_status_code'] = status
+	frappe.response['filename'] = ''
+	frappe.response['filecontent'] = content
+	frappe.response['content_type'] = content_type
+	frappe.response['type'] = 'download'
+
+
+@frappe.whitelist()
+def editor():
+	user = frappe.session.user
+	app = frappe.form_dict.app
+	operation = frappe.form_dict.operation
+	id = frappe.form_dict.id
+	if operation == 'get_node':
+		nodes = [
+			{
+				"id": "/",
+				'text': 'root',
+				"icon": "folder",
+				"state": {
+					"opened": True,
+					"disabled": True
+				},
+				'children': [
+					{
+						"text": "New node",
+						"children": True,
+						"id": "New node",
+						"icon": "folder"
+					},
+					{
+						"text": "aa",
+						"children": True,
+						"id": "aa",
+						"icon": "folder"
+					}
+				],
+			}
+		]
+		fire_raw_content( json.dumps(nodes), 200, 'application/json' )

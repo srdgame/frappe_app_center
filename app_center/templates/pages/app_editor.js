@@ -1,10 +1,11 @@
 $(document).ready(function() {
+	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
 	$('.ui.jstree').jstree({
 		'core' : {
 			'data' : {
-				'url' : '?operation=get_node',
+				'url' : backend_url,
 				'data' : function (node) {
-					return { 'id' : node.id };
+					return { 'operation': 'get_node', 'id' : node.id };
 				}
 			},
 			'check_callback' : function(o, n, p, i, m) {
@@ -69,13 +70,13 @@ $(document).ready(function() {
 		'plugins' : ['state','dnd','sort','types','contextmenu','unique']
 	})
 	.on('delete_node.jstree', function (e, data) {
-		$.get('?operation=delete_node', { 'id' : data.node.id })
+		$.get(backend_url, { 'operation': 'delete_node', 'id' : data.node.id })
 			.fail(function () {
 				data.instance.refresh();
 			});
 	})
 	.on('create_node.jstree', function (e, data) {
-		$.get('?operation=create_node', { 'type' : data.node.type, 'id' : data.node.parent, 'text' : data.node.text })
+		$.get(backend_url, { 'operation': 'create_node', 'type' : data.node.type, 'id' : data.node.parent, 'text' : data.node.text })
 			.done(function (d) {
 				data.instance.set_id(data.node, d.id);
 			})
@@ -84,7 +85,7 @@ $(document).ready(function() {
 			});
 	})
 	.on('rename_node.jstree', function (e, data) {
-		$.get('?operation=rename_node', { 'id' : data.node.id, 'text' : data.text })
+		$.get(backend_url, { 'operation': 'rename_node', 'id' : data.node.id, 'text' : data.text })
 			.done(function (d) {
 				data.instance.set_id(data.node, d.id);
 			})
@@ -93,7 +94,7 @@ $(document).ready(function() {
 			});
 	})
 	.on('move_node.jstree', function (e, data) {
-		$.get('?operation=move_node', { 'id' : data.node.id, 'parent' : data.parent })
+		$.get(backend_url, { 'operation': 'move_node', 'id' : data.node.id, 'parent' : data.parent })
 			.done(function (d) {
 				//data.instance.load_node(data.parent);
 				data.instance.refresh();
@@ -103,7 +104,7 @@ $(document).ready(function() {
 			});
 	})
 	.on('copy_node.jstree', function (e, data) {
-		$.get('?operation=copy_node', { 'id' : data.original.id, 'parent' : data.parent })
+		$.get(backend_url, { 'operation': 'copy_node', 'id' : data.original.id, 'parent' : data.parent })
 			.done(function (d) {
 				//data.instance.load_node(data.parent);
 				data.instance.refresh();
@@ -114,7 +115,7 @@ $(document).ready(function() {
 	})
 	.on('changed.jstree', function (e, data) {
 		if(data && data.selected && data.selected.length) {
-			$.get('?operation=get_content&id=' + data.selected.join(':'), function (d) {
+			$.get(backend_url+'&operation=get_content&id=' + data.selected.join(':'), function (d) {
 				if(d && typeof d.type !== 'undefined') {
 					$('#data .content').hide();
 					switch(d.type) {

@@ -35,4 +35,4 @@ def get_context(context):
 		}
 	]
 
-	context.releases = frappe.db.get_values("IOT Application Version", fields="*", limit=10, order_by="version desc")
+	context.releases = frappe.db.get_all("IOT Application Version", fields="*", limit=10, order_by="version desc")

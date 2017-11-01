@@ -8,11 +8,11 @@ from frappe import throw, _
 
 
 def get_most_stars():
-	return frappe.db.get_values("IOT Application", fields="*", limit=5, order_by="app_name")
+	return frappe.db.get_all("IOT Application", fields="*", limit=5, order_by="app_name")
 
 
 def get_recently_updated():
-	return frappe.db.get_values("IOT Application", fields="*", limit=5, order_by="modified desc")
+	return frappe.db.get_all("IOT Application", fields="*", limit=5, order_by="modified desc")
 
 
 def get_context(context):

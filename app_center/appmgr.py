@@ -210,36 +210,104 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 	frappe.response['type'] = 'download'
 
 
+def get_app_file_path(app, fn):
+	basedir = get_files_path('app_center_files')
+	return os.path.join(basedir, app, fn)
+
+
+def list_nodes(app, sub_folder):
+	nodes = []
+	app_folder = get_app_file_path(app, sub_folder)
+	print(app_folder)
+	for root, dirs, files in os.walk(app_folder, topdown=False):
+		for name in dirs:
+			nodes.append({
+				"id": os.path.join(sub_folder, name),
+				"text": name,
+				"children": True,
+				"icon": "folder"
+			})
+		for name in files:
+			ext = name.rsplit('.', 1)[1].lower()  # 获取文件后缀
+			nodes.append({
+				"id": os.path.join(sub_folder, name),
+				"text": name,
+				"children": False,
+				"type": "file",
+				"icon": "file file-" + ext,
+			})
+	return nodes
+
+
+def read_text_file_content(fpath):
+	file_object = open(fpath)
+	try:
+		all_the_text = file_object.read()
+		return all_the_text
+	finally:
+		file_object.close()
+
+
+def read_binrary_file_url(app, fn):
+	basedir = '/files/app_center_files'
+	return os.path.join(basedir, app, fn)
+
+
+read_content_map = {
+	'text': read_text_file_content,
+	'txt': read_text_file_content,
+	'md': read_text_file_content,
+	'htaccess': read_text_file_content,
+	'log': read_text_file_content,
+	'sql': read_text_file_content,
+	'php': read_text_file_content,
+	'js': read_text_file_content,
+	'json': read_text_file_content,
+	'css': read_text_file_content,
+	'html': read_text_file_content,
+}
+
+
+def get_content(app, fn):
+	fpath = get_app_file_path(app, fn)
+	if os.path.isfile(fpath):
+		ext = fn.rsplit('.', 1)[1].lower()  # 获取文件后缀
+		read_fn = read_content_map.get(ext)
+		content = read_binrary_file_url(app, fn)
+		if read_fn:
+			content = read_fn(fpath)
+		return {
+			'type': ext,
+			'content': content
+		}
+
+
 @frappe.whitelist()
 def editor():
 	user = frappe.session.user
 	app = frappe.form_dict.app
+	app_name = frappe.get_value("IOT Application", app, "app_name")
 	operation = frappe.form_dict.operation
 	id = frappe.form_dict.id
+
 	if operation == 'get_node':
-		nodes = [
-			{
+		nodes = []
+		if id == '#':
+			nodes.append({
 				"id": "/",
-				'text': 'root',
+				'text': app_name,
 				"icon": "folder",
 				"state": {
 					"opened": True,
 					"disabled": True
 				},
-				'children': [
-					{
-						"text": "New node",
-						"children": True,
-						"id": "New node",
-						"icon": "folder"
-					},
-					{
-						"text": "aa",
-						"children": True,
-						"id": "aa",
-						"icon": "folder"
-					}
-				],
-			}
-		]
+				'children': list_nodes(app, "")
+			})
+		else:
+			nodes = list_nodes( app, id )
+
 		fire_raw_content( json.dumps(nodes), 200, 'application/json' )
+
+	if operation == 'get_content':
+		content = get_content(app, id)
+		fire_raw_content( json.dumps(content), 200, 'application/json' )

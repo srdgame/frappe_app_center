@@ -12,11 +12,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui jstree"></div>
+<div id="editor_container" role="main">
+	<div id="jstree_tree"></div>
+	<div id="editor_data">
+			<div class="content code" style="display:none;"><textarea id="editor_code" readonly="readonly"></textarea></div>
+			<div class="content folder" style="display:none;"></div>
+			<div class="content image" style="display:none; position:relative;"><img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" /></div>
+			<div class="content default" style="text-align:center;">Select a file from the tree.</div>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript" src="/assets/app_center/jstree/jstree.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/ace/ace.js" charset="utf-8"></script>
 <script>
 	{% include "templates/pages/app_editor.js" %}
 </script>

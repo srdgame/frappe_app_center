@@ -1,6 +1,16 @@
 $(document).ready(function() {
+
+	$(window).resize(function () {
+		var h = Math.max($(window).height() - 100, 420);
+		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
+	}).resize();
+
+    var editor = ace.edit("editor_code");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/javascript");
+
 	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
-	$('.ui.jstree').jstree({
+	$('#jstree_tree').jstree({
 		'core' : {
 			'data' : {
 				'url' : backend_url,
@@ -117,7 +127,7 @@ $(document).ready(function() {
 		if(data && data.selected && data.selected.length) {
 			$.get(backend_url+'&operation=get_content&id=' + data.selected.join(':'), function (d) {
 				if(d && typeof d.type !== 'undefined') {
-					$('#data .content').hide();
+					$('#editor_data .content').hide();
 					switch(d.type) {
 						case 'text':
 						case 'txt':
@@ -130,27 +140,27 @@ $(document).ready(function() {
 						case 'json':
 						case 'css':
 						case 'html':
-							$('#data .code').show();
-							$('#code').val(d.content);
+							$('#editor_data .code').show();
+							$('#editor_code').val(d.content);
 							break;
 						case 'png':
 						case 'jpg':
 						case 'jpeg':
 						case 'bmp':
 						case 'gif':
-							$('#data .image img').one('load', function () { $(this).css({'marginTop':'-' + $(this).height()/2 + 'px','marginLeft':'-' + $(this).width()/2 + 'px'}); }).attr('src',d.content);
-							$('#data .image').show();
+							$('#editor_data .image img').one('load', function () { $(this).css({'marginTop':'-' + $(this).height()/2 + 'px','marginLeft':'-' + $(this).width()/2 + 'px'}); }).attr('src',d.content);
+							$('#editor_data .image').show();
 							break;
 						default:
-							$('#data .default').html(d.content).show();
+							$('#editor_data .default').html(d.content).show();
 							break;
 					}
 				}
 			});
 		}
 		else {
-			$('#data .content').hide();
-			$('#data .default').html('Select a file from the tree.').show();
+			$('#editor_data .content').hide();
+			$('#editor_data .default').html('Select a file from the tree.').show();
 		}
 	});
 });

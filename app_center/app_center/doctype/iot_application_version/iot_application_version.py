@@ -13,7 +13,8 @@ class IOTApplicationVersion(Document):
 	def validate(self):
 		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')
 		if self.is_new():
-			max_version = frappe.db.sql("select max(version) from `tabIOT Application Version` where app=`{0}`".format(self.app))
+			sql = "select max(version) from `tabIOT Application Version` where app='{0}'".format(self.app)
+			max_version = frappe.db.sql(sql)[0][0]
 			if max_version > self.version:
 				throw(_("Version must be bigger than {0}").format(max_version))
 
@@ -21,7 +22,7 @@ class IOTApplicationVersion(Document):
 		self.name = self.app + "." + str(self.version)
 
 	def on_trash(self):
-		from app_center.api import app_remove
+		from app_center.appmgr import app_remove
 		try:
 			app_remove(self.app, self.version)
 		except Exception as ex:

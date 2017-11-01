@@ -52,12 +52,16 @@
 					<i class="mail icon"></i>
 				</button>
 				<div class="ui divider"></div>
-				<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
 				{% if frappe.user == doc.owner %}
 				<button class="ui inverted icon button edit"><i class="edit icon"></i> Edit</button>
+				{% if has_release %}
 				<button class="ui inverted icon button editor"><i class="terminal icon"></i> Online Editor</button>
+				{% endif %}
 				{% else %}
+				<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
+				{% if has_release %}
 				<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
+				{% endif %}
 				{% endif %}
 			</div>
 		</div>
@@ -169,9 +173,11 @@
 						<a class="install">
 							<i class="download icon"></i>
 						</a>
+						{% if frappe.user != doc.owner %}
 						<a class="fork">
 							<i class="fork icon"></i>
 						</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>

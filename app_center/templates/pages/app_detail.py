@@ -35,4 +35,5 @@ def get_context(context):
 		}
 	]
 
-	context.releases = frappe.db.get_all("IOT Application Version", fields="*", limit=10, order_by="version desc")
+	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
+	context.has_release = len(context.releases) > 0

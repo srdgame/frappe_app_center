@@ -39,7 +39,6 @@ def app_upload():
 	app = frappe.form_dict.app
 	app_name = frappe.form_dict.app_name
 	owner = frappe.form_dict.owner or frappe.session.user
-	beta = frappe.form_dict.beta == 'on'
 
 	if not version:
 		throw(_("Application version not found!"))
@@ -70,9 +69,6 @@ def app_upload():
 			throw(_("Appication file extension name incorrect!"))
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
-		# if beta:
-		# 	new_filename = "beta_" + new_filename
-		# print(new_filename)
 		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
 
 		data = {
@@ -81,10 +77,8 @@ def app_upload():
 			"app_name": app_name,
 			"version": version,
 			"owner": owner,
-			"beta": 0,
+			"beta": 1,
 		}
-		if beta:
-			data.update({"beta": 1})
 
 		try:
 			doc = frappe.get_doc(data).insert()

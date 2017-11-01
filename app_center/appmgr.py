@@ -39,6 +39,7 @@ def app_upload():
 	app = frappe.form_dict.app
 	app_name = frappe.form_dict.app_name
 	owner = frappe.form_dict.owner or frappe.session.user
+	comment = frappe.form_dict.comment or "Unknown comment"
 
 	if not version:
 		throw(_("Application version not found!"))
@@ -78,6 +79,7 @@ def app_upload():
 			"version": version,
 			"owner": owner,
 			"beta": 1,
+			"comment": comment,
 		}
 
 		try:

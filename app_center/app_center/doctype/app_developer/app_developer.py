@@ -9,4 +9,5 @@ from frappe.model.document import Document
 
 
 class AppDeveloper(Document):
-	pass
+	def after_insert(self):
+		frappe.utils.user.add_role(self.user, 'App User')

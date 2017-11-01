@@ -12,7 +12,7 @@
 	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
 	<div class="inline field">
 		<label>{{_("Application")}}</label>
-		<input value="{{doc.app}}" readonly="true" name="app" type="text">
+		<input value="{{doc.name}}" readonly="true" name="app" type="text">
 	</div>
 	<div class="inline field">
 		<label>{{_("Application Name")}}</label>
@@ -23,8 +23,8 @@
 		<input placeholder="Application Name" name="version" type="text" tabindex="0">
     </div>
 	<div class="hidden field">
-		<label>{{_("Comments")}} </label>
-		<textarea name="comments"></textarea>
+		<label>{{_("Comment")}} </label>
+		<textarea name="comment"></textarea>
 	</div>
 	<div class="field">
 		<label>{{_("Application Package")}} </label>

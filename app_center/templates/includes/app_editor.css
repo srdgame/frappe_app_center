@@ -16,13 +16,12 @@
 #editor_data {
     margin-left:320px;
 }
-#editor_data textarea {
+#editor_data #editor_code {
     margin:0;
     padding:0;
     height:100%;
     width:100%;
     border:0;
-    background:white;
     display:block;
     line-height:18px;
     resize:none;

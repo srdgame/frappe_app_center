@@ -5,9 +5,9 @@ $(document).ready(function() {
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
 	}).resize();
 
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/twilight");
-    editor.session.setMode("ace/mode/javascript");
+    var code_editor = ace.edit("editor_code");
+    code_editor.setTheme("ace/theme/twilight");
+    code_editor.session.setMode("ace/mode/javascript");
 
 	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
 	$('#jstree_tree').jstree({
@@ -140,7 +140,9 @@ $(document).ready(function() {
 						case 'json':
 						case 'css':
 						case 'html':
+						case 'lua':
 							$('#editor_data .code').show();
+							code_editor.session.doc.setValue(d.content);
 							$('#editor_code').val(d.content);
 							break;
 						case 'png':

@@ -24,6 +24,6 @@ def get_context(context):
 	if frappe.session.user != 'Administrator' and app_doc.owner != frappe.session.user:
 		raise frappe.PermissionError(_("You are not the owner of application {0}").format(app_doc.app_name))
 
-	context.no_cache = 0
+	context.no_cache = 1
 
 	context.doc = app_doc

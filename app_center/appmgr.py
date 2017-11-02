@@ -383,18 +383,24 @@ read_content_map = {
 }
 
 
-def editor_get_content(app, fn):
-	fpath = get_app_file_path(app, fn)
+def editor_get_content(app, node_id):
+	fpath = get_app_file_path(app, node_id)
 	if os.path.isfile(fpath):
-		ext = os.path.splitext(fn)[1].lower()  # 获取文件后缀
+		ext = os.path.splitext(node_id)[1].lower()  # 获取文件后缀
 		ext = "text" if ext == "" else ext[1:]
 		read_fn = read_content_map.get(ext)
-		content = read_binrary_file_url(app, fn)
+		content = read_binrary_file_url(app, node_id)
 		if read_fn:
 			content = read_fn(fpath)
 		return {
 			'type': ext,
 			'content': content
+		}
+
+	if os.path.isdir(fpath):
+		return {
+			'type': 'folder',
+			'content': node_id,
 		}
 
 

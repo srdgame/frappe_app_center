@@ -246,7 +246,6 @@ def editor_list_nodes(app, sub_folder):
 	else:
 		for name in os.listdir(app_folder):
 			if not name.startswith('.'):
-				print(os.path.join(app_folder, name))
 				if os.path.isdir(os.path.join(app_folder, name)):
 					nodes.append({
 						"id": os.path.join(sub_folder, name),
@@ -261,7 +260,7 @@ def editor_list_nodes(app, sub_folder):
 						"text": name,
 						"children": False,
 						"type": "file",
-						"icon": "file file-" + ext[1:],
+						"icon": "file" if ext == "" else "file file-" + ext[1:],
 					})
 	return nodes
 

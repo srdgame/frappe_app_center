@@ -98,3 +98,6 @@
 #jstree_tree .file-fla {
     background-position: -398px -0px
 }
+#jstree_tree .file-lua, #jstree_tree .file-py {
+    background-position: -398px -0px
+}

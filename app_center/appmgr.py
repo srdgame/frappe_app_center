@@ -211,7 +211,7 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 	frappe.response['type'] = 'download'
 
 
-def get_app_file_path(app, fn):
+def get_app_file_path(app, fn=""):
 	basedir = get_files_path('app_center_files')
 	path = os.path.join(basedir, app, fn)
 	if len(path) < (len(basedir) + len(app) + len(fn)):
@@ -227,15 +227,6 @@ def editor_list_nodes(app, sub_folder):
 		with os.scandir(app_folder) as it:
 			for entry in it:
 				if not entry.name.startswith('.'):
-					if entry.is_file():
-						ext = entry.name.rsplit('.', 1)[1].lower()  # 获取文件后缀
-						nodes.append({
-							"id": os.path.join(sub_folder, entry.name),
-							"text": entry.name,
-							"children": False,
-							"type": "file",
-							"icon": "file file-" + ext,
-						})
 					if entry.is_dir():
 						nodes.append({
 							"id": os.path.join(sub_folder, entry.name),
@@ -243,18 +234,19 @@ def editor_list_nodes(app, sub_folder):
 							"children": True,
 							"icon": "folder"
 						})
+					else:
+						ext = os.path.splitext(entry.name)[1].lower()  # 获取文件后缀
+						nodes.append({
+							"id": os.path.join(sub_folder, entry.name),
+							"text": entry.name,
+							"children": False,
+							"type": "file",
+							"icon": "file file-" + ext,
+						})
 	else:
 		for name in os.listdir(app_folder):
 			if not name.startswith('.'):
-				if os.path.isfile(os.path.join(app_folder, name)):
-					ext = name.rsplit('.', 1)[1].lower()  # 获取文件后缀
-					nodes.append({
-						"id": os.path.join(sub_folder, name),
-						"text": name,
-						"children": False,
-						"type": "file",
-						"icon": "file file-" + ext,
-					})
+				print(os.path.join(app_folder, name))
 				if os.path.isdir(os.path.join(app_folder, name)):
 					nodes.append({
 						"id": os.path.join(sub_folder, name),
@@ -262,42 +254,23 @@ def editor_list_nodes(app, sub_folder):
 						"children": True,
 						"icon": "folder"
 					})
+				else:
+					ext = os.path.splitext(name)[1].lower()  # 获取文件后缀
+					nodes.append({
+						"id": os.path.join(sub_folder, name),
+						"text": name,
+						"children": False,
+						"type": "file",
+						"icon": "file file-" + ext[1:],
+					})
 	return nodes
-
-
-def read_text_file_content(fpath):
-	file_object = open(fpath)
-	try:
-		all_the_text = file_object.read()
-		return all_the_text
-	finally:
-		file_object.close()
-
-
-def read_binrary_file_url(app, fn):
-	basedir = '/files/app_center_files'
-	return os.path.join(basedir, app, fn)
-
-
-read_content_map = {
-	'text': read_text_file_content,
-	'txt': read_text_file_content,
-	'md': read_text_file_content,
-	'htaccess': read_text_file_content,
-	'log': read_text_file_content,
-	'sql': read_text_file_content,
-	'php': read_text_file_content,
-	'js': read_text_file_content,
-	'json': read_text_file_content,
-	'css': read_text_file_content,
-	'html': read_text_file_content,
-	'lua': read_text_file_content,
-}
-
 
 def editor_get_node(app, node_id):
 	if node_id == '#':
 		app_name = frappe.get_value("IOT Application", app, "app_name")
+		app_folder = get_app_file_path(app)
+		if not os.path.exists(app_folder):
+			os.makedirs(app_folder)
 		return [{
 			"id": "/",
 			'text': app_name,
@@ -318,9 +291,13 @@ def editor_create_node(app, node_id, node_type, node_name):
 	if node_type == 'file':
 		node = open(fpath, 'a')
 		node.close()
+		ext = os.path.splitext(node_name)[1].lower()  # 获取文件后缀
+		if len(ext) > 0:
+			return {"id": fn, "icon": "file file-"+ext[1:]}
 	else:
 		if not os.path.exists(fpath):
 			os.makedirs(fpath)
+
 	return {"id": fn}
 
 
@@ -332,6 +309,10 @@ def editor_rename_node(app, node_id, new_name):
 			new_path = get_app_file_path(app, new_node_id)
 			if not os.access(new_path, os.R_OK):
 				os.rename(fpath, new_path)
+				if os.path.isfile(new_path):
+					ext = os.path.splitext(new_name)[1].lower()  # 获取文件后缀
+					if len(ext) > 0:
+						return {"id": new_node_id, "icon": "file file-"+ext[1:]}
 				return {"id": new_node_id}
 	except Exception:
 		pass
@@ -372,12 +353,42 @@ def editor_delete_node(app, node_id):
 	return {"status": "OK"}
 
 
+def read_text_file_content(fpath):
+	file_object = open(fpath)
+	try:
+		all_the_text = file_object.read()
+		return all_the_text
+	finally:
+		file_object.close()
+
+
+def read_binrary_file_url(app, fn):
+	basedir = '/files/app_center_files'
+	return os.path.join(basedir, app, fn)
+
+
+read_content_map = {
+	'text': read_text_file_content,
+	'txt': read_text_file_content,
+	'md': read_text_file_content,
+	'htaccess': read_text_file_content,
+	'log': read_text_file_content,
+	'sql': read_text_file_content,
+	'php': read_text_file_content,
+	'js': read_text_file_content,
+	'json': read_text_file_content,
+	'css': read_text_file_content,
+	'html': read_text_file_content,
+	'lua': read_text_file_content,
+}
+
+
 def editor_get_content(app, fn):
 	fpath = get_app_file_path(app, fn)
 	if os.path.isfile(fpath):
-		ext = fn.rsplit('.', 1)[1].lower()  # 获取文件后缀
+		ext = os.path.splitext(fn)[1].lower()  # 获取文件后缀
+		ext = "text" if ext == "" else ext[1:]
 		read_fn = read_content_map.get(ext)
-		print('get_content', ext, read_fn)
 		content = read_binrary_file_url(app, fn)
 		if read_fn:
 			content = read_fn(fpath)
@@ -411,6 +422,8 @@ def editor():
 		content = editor_move_node(app, node_id, dst)
 
 	if operation == 'delete_node':
+		if frappe.form_dict.id == "/":
+			throw(_("Cannot remove root folder"))
 		content = editor_delete_node(app, node_id)
 
 	if operation == 'copy_node':

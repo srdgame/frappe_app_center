@@ -96,6 +96,9 @@ $(document).ready(function() {
 		$.get(backend_url, { 'operation': 'create_node', 'type' : data.node.type, 'id' : data.node.parent, 'text' : data.node.text })
 			.done(function (d) {
 				data.instance.set_id(data.node, d.id);
+				if (d.icon) {
+					data.instance.set_icon(data.node, d.icon);
+				}
 			})
 			.fail(function () {
 				data.instance.refresh();
@@ -105,6 +108,9 @@ $(document).ready(function() {
 		$.get(backend_url, { 'operation': 'rename_node', 'id' : data.node.id, 'text' : data.text })
 			.done(function (d) {
 				data.instance.set_id(data.node, d.id);
+				if (d.icon) {
+					data.instance.set_icon(data.node, d.icon);
+				}
 			})
 			.fail(function () {
 				data.instance.refresh();
@@ -148,6 +154,7 @@ $(document).ready(function() {
 						case 'css':
 						case 'html':
 						case 'lua':
+						case 'py':
 							$('#editor_data .code').show();
 							code_editor.session.doc.setValue(d.content);
 							var mode = editorMode[d.type];

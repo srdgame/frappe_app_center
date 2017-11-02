@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import os
 import json
+import shutil
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
@@ -212,29 +213,55 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 
 def get_app_file_path(app, fn):
 	basedir = get_files_path('app_center_files')
-	return os.path.join(basedir, app, fn)
+	path = os.path.join(basedir, app, fn)
+	if len(path) < (len(basedir) + len(app) + len(fn)):
+		print(basedir, app, fn, path)
+		throw(_("EEEEEEEEEEEEEEEEEEEEEEE"))
+	return path
 
 
 def editor_list_nodes(app, sub_folder):
 	nodes = []
 	app_folder = get_app_file_path(app, sub_folder)
-	for root, dirs, files in os.walk(app_folder, topdown=False):
-		for name in dirs:
-			nodes.append({
-				"id": os.path.join(sub_folder, name),
-				"text": name,
-				"children": True,
-				"icon": "folder"
-			})
-		for name in files:
-			ext = name.rsplit('.', 1)[1].lower()  # 获取文件后缀
-			nodes.append({
-				"id": os.path.join(sub_folder, name),
-				"text": name,
-				"children": False,
-				"type": "file",
-				"icon": "file file-" + ext,
-			})
+	if hasattr(os, 'scandir'):
+		with os.scandir(app_folder) as it:
+			for entry in it:
+				if not entry.name.startswith('.'):
+					if entry.is_file():
+						ext = entry.name.rsplit('.', 1)[1].lower()  # 获取文件后缀
+						nodes.append({
+							"id": os.path.join(sub_folder, entry.name),
+							"text": entry.name,
+							"children": False,
+							"type": "file",
+							"icon": "file file-" + ext,
+						})
+					if entry.is_dir():
+						nodes.append({
+							"id": os.path.join(sub_folder, entry.name),
+							"text": entry.name,
+							"children": True,
+							"icon": "folder"
+						})
+	else:
+		for name in os.listdir(app_folder):
+			if not name.startswith('.'):
+				if os.path.isfile(os.path.join(app_folder, name)):
+					ext = name.rsplit('.', 1)[1].lower()  # 获取文件后缀
+					nodes.append({
+						"id": os.path.join(sub_folder, name),
+						"text": name,
+						"children": False,
+						"type": "file",
+						"icon": "file file-" + ext,
+					})
+				if os.path.isdir(os.path.join(app_folder, name)):
+					nodes.append({
+						"id": os.path.join(sub_folder, name),
+						"text": name,
+						"children": True,
+						"icon": "folder"
+					})
 	return nodes
 
 
@@ -285,8 +312,8 @@ def editor_get_node(app, node_id):
 		return editor_list_nodes(app, node_id)
 
 
-def editor_create_node(app, folder, node_type, node_name):
-	fn = os.path.join(folder, node_name)
+def editor_create_node(app, node_id, node_type, node_name):
+	fn = os.path.join(node_id, node_name)
 	fpath = get_app_file_path(app, fn)
 	if node_type == 'file':
 		node = open(fpath, 'a')
@@ -303,7 +330,7 @@ def editor_rename_node(app, node_id, new_name):
 		if new_name != os.path.basename(fpath):
 			new_node_id = os.path.join(os.path.dirname(node_id), new_name)
 			new_path = get_app_file_path(app, new_node_id)
-			if not os.access("myfile", os.R_OK):
+			if not os.access(new_path, os.R_OK):
 				os.rename(fpath, new_path)
 				return {"id": new_node_id}
 	except Exception:
@@ -313,14 +340,36 @@ def editor_rename_node(app, node_id, new_name):
 
 
 def editor_move_node(app, node_id, dst):
-	fn = os.path.basename(node_id)
-	new_node_id = os.path.join(dst, fn)
-	if node_id != new_node_id:
-		if not os.access("myfile", os.R_OK):
-			os.rename(get_app_file_path(app, node_id), get_app_file_path(app, new_node_id))
-			return {"id": new_node_id}
+	if os.path.dirname(node_id) != dst:
+		filename = os.path.basename(node_id)
+		src = get_app_file_path(app, node_id)
+		dst_folder = get_app_file_path(app, dst)
+		if os.path.isdir(dst_folder):
+			shutil.move(src, dst_folder)
+			return {"id": os.path.join(dst, filename)}
 
 	return {"id": node_id}
+
+
+def editor_copy_node(app, node_id, dst):
+	if os.path.dirname(node_id) != dst:
+		src = get_app_file_path(app, node_id)
+		filename = os.path.basename(node_id)
+		dst_folder = get_app_file_path(app, dst)
+		if os.path.isdir(src):
+			shutil.copytree(src, os.path.join(dst_folder, filename))
+		else:
+			shutil.copy(src, dst_folder)
+		return {"id": os.path.join(dst, filename)}
+
+
+def editor_delete_node(app, node_id):
+	fpath = get_app_file_path(app, node_id)
+	if os.path.isdir(fpath):
+		shutil.rmtree(fpath)
+	else:
+		os.remove(fpath)
+	return {"status": "OK"}
 
 
 def editor_get_content(app, fn):
@@ -342,7 +391,7 @@ def editor_get_content(app, fn):
 def editor():
 	app = frappe.form_dict.app
 	operation = frappe.form_dict.operation
-	node_id = frappe.form_dict.id
+	node_id = frappe.form_dict.id if frappe.form_dict.id != "/" else ""
 
 	content = None
 	if operation == 'get_node':
@@ -354,14 +403,22 @@ def editor():
 		content = editor_create_node(app, node_id, type, text)
 
 	if operation == 'rename_node':
+		text = frappe.form_dict.text
 		content = editor_rename_node(app, node_id, text)
 
 	if operation == 'move_node':
-		dst = frappe.form_dict.parent
+		dst = frappe.form_dict.parent if frappe.form_dict.parent != "/" else ""
 		content = editor_move_node(app, node_id, dst)
 
+	if operation == 'delete_node':
+		content = editor_delete_node(app, node_id)
+
+	if operation == 'copy_node':
+		dst = frappe.form_dict.parent if frappe.form_dict.parent != "/" else ""
+		content = editor_copy_node(app, node_id, dst)
+
 	if operation == 'get_content':
-		content = editor_get_content(app, id)
+		content = editor_get_content(app, node_id)
 
 	if content:
 		fire_raw_content( json.dumps(content), 200, 'application/json' )

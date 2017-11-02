@@ -215,10 +215,9 @@ def get_app_file_path(app, fn):
 	return os.path.join(basedir, app, fn)
 
 
-def list_nodes(app, sub_folder):
+def editor_list_nodes(app, sub_folder):
 	nodes = []
 	app_folder = get_app_file_path(app, sub_folder)
-	print(app_folder)
 	for root, dirs, files in os.walk(app_folder, topdown=False):
 		for name in dirs:
 			nodes.append({
@@ -265,14 +264,71 @@ read_content_map = {
 	'json': read_text_file_content,
 	'css': read_text_file_content,
 	'html': read_text_file_content,
+	'lua': read_text_file_content,
 }
 
 
-def get_content(app, fn):
+def editor_get_node(app, node_id):
+	if node_id == '#':
+		app_name = frappe.get_value("IOT Application", app, "app_name")
+		return [{
+			"id": "/",
+			'text': app_name,
+			"icon": "folder",
+			"state": {
+				"opened": True,
+				"disabled": True
+			},
+			'children': editor_list_nodes(app, "")
+		}]
+	else:
+		return editor_list_nodes(app, node_id)
+
+
+def editor_create_node(app, folder, node_type, node_name):
+	fn = os.path.join(folder, node_name)
+	fpath = get_app_file_path(app, fn)
+	if node_type == 'file':
+		node = open(fpath, 'a')
+		node.close()
+	else:
+		if not os.path.exists(fpath):
+			os.makedirs(fpath)
+	return {"id": fn}
+
+
+def editor_rename_node(app, node_id, new_name):
+	fpath = get_app_file_path(app, node_id)
+	try:
+		if new_name != os.path.basename(fpath):
+			new_node_id = os.path.join(os.path.dirname(node_id), new_name)
+			new_path = get_app_file_path(app, new_node_id)
+			if not os.access("myfile", os.R_OK):
+				os.rename(fpath, new_path)
+				return {"id": new_node_id}
+	except Exception:
+		pass
+
+	return {"id": node_id}
+
+
+def editor_move_node(app, node_id, dst):
+	fn = os.path.basename(node_id)
+	new_node_id = os.path.join(dst, fn)
+	if node_id != new_node_id:
+		if not os.access("myfile", os.R_OK):
+			os.rename(get_app_file_path(app, node_id), get_app_file_path(app, new_node_id))
+			return {"id": new_node_id}
+
+	return {"id": node_id}
+
+
+def editor_get_content(app, fn):
 	fpath = get_app_file_path(app, fn)
 	if os.path.isfile(fpath):
 		ext = fn.rsplit('.', 1)[1].lower()  # 获取文件后缀
 		read_fn = read_content_map.get(ext)
+		print('get_content', ext, read_fn)
 		content = read_binrary_file_url(app, fn)
 		if read_fn:
 			content = read_fn(fpath)
@@ -284,30 +340,28 @@ def get_content(app, fn):
 
 @frappe.whitelist()
 def editor():
-	user = frappe.session.user
 	app = frappe.form_dict.app
-	app_name = frappe.get_value("IOT Application", app, "app_name")
 	operation = frappe.form_dict.operation
-	id = frappe.form_dict.id
+	node_id = frappe.form_dict.id
 
+	content = None
 	if operation == 'get_node':
-		nodes = []
-		if id == '#':
-			nodes.append({
-				"id": "/",
-				'text': app_name,
-				"icon": "folder",
-				"state": {
-					"opened": True,
-					"disabled": True
-				},
-				'children': list_nodes(app, "")
-			})
-		else:
-			nodes = list_nodes( app, id )
+		content = editor_get_node(app, node_id)
 
-		fire_raw_content( json.dumps(nodes), 200, 'application/json' )
+	if operation == 'create_node':
+		type = frappe.form_dict.type
+		text = frappe.form_dict.text
+		content = editor_create_node(app, node_id, type, text)
+
+	if operation == 'rename_node':
+		content = editor_rename_node(app, node_id, text)
+
+	if operation == 'move_node':
+		dst = frappe.form_dict.parent
+		content = editor_move_node(app, node_id, dst)
 
 	if operation == 'get_content':
-		content = get_content(app, id)
+		content = editor_get_content(app, id)
+
+	if content:
 		fire_raw_content( json.dumps(content), 200, 'application/json' )

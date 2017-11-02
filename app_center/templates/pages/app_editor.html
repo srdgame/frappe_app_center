@@ -12,9 +12,34 @@
 {% endblock %}
 
 {% block content %}
-<div id="editor_container" role="main">
-	<div id="jstree_tree"></div>
-	<div id="editor_data">
+<div class="ui basic segments">
+	<div class="ui stackable two column grid">
+  		<div class="column" id="jstree_tree_menu">
+			<div class="ui small icon buttons">
+				<button class="ui basic button"><i class="refresh icon"></i></button>
+				<button class="ui basic button"><i class="file icon"></i></button>
+				<button class="ui basic button"><i class="save icon"></i></button>
+				<button class="ui basic button"><i class="upload icon"></i></button>
+				<button class="ui basic button"><i class="download icon"></i></button>
+			</div>
+		</div>
+  		<div class="column">
+			<div class="ui small icon buttons">
+				<button class="ui basic button"><i class="align left icon"></i></button>
+				<button class="ui basic button"><i class="align center icon"></i></button>
+				<button class="ui basic button"><i class="align right icon"></i></button>
+				<button class="ui basic button"><i class="align justify icon"></i></button>
+			</div>
+			<div class="ui small icon buttons">
+				<button class="ui basic button"><i class="bold icon"></i></button>
+				<button class="ui basic button"><i class="underline icon"></i></button>
+				<button class="ui basic button"><i class="text width icon"></i></button>
+			</div>
+		</div>
+	</div>
+	<div id="editor_container">
+		<div id="jstree_tree"></div>
+		<div id="editor_data">
 			<div class="content code" style="display:none;">
 				<div id="editor_code">function foo(items) {
 					var i;
@@ -28,6 +53,7 @@
 				<img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" />
 			</div>
 			<div class="content default" style="text-align:center;">Select a file from the tree.</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

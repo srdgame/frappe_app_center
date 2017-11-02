@@ -1,13 +1,20 @@
 $(document).ready(function() {
-
+	var editorMode = {
+		'txt': 'text',
+		'md': 'markdown',
+		'htaccess': 'text',
+		'log': 'text',
+		'js': 'javascript',
+	};
 	$(window).resize(function () {
-		var h = Math.max($(window).height() - 100, 420);
+		var h = Math.max($(window).height() - 130, 420);
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
+		$('#jstree_tree_menu').width($('#jstree_tree').width())
 	}).resize();
 
     var code_editor = ace.edit("editor_code");
-    code_editor.setTheme("ace/theme/twilight");
-    code_editor.session.setMode("ace/mode/javascript");
+    //code_editor.setTheme("ace/theme/twilight");
+    code_editor.session.setMode("ace/mode/lua");
 
 	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
 	$('#jstree_tree').jstree({
@@ -77,7 +84,7 @@ $(document).ready(function() {
 				return name + ' ' + counter;
 			}
 		},
-		'plugins' : ['state','dnd','sort','types','contextmenu','unique']
+		'plugins' : ['state','dnd','sort','types','contextmenu','unique',"wholerow"]
 	})
 	.on('delete_node.jstree', function (e, data) {
 		$.get(backend_url, { 'operation': 'delete_node', 'id' : data.node.id })
@@ -143,7 +150,11 @@ $(document).ready(function() {
 						case 'lua':
 							$('#editor_data .code').show();
 							code_editor.session.doc.setValue(d.content);
-							$('#editor_code').val(d.content);
+							var mode = editorMode[d.type];
+							if (!mode) {
+								mode = d.type;
+							}
+							code_editor.session.setMode("ace/mode/"+mode);
 							break;
 						case 'png':
 						case 'jpg':

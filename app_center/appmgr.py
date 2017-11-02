@@ -232,9 +232,10 @@ def editor_list_nodes(app, sub_folder):
 							"id": os.path.join(sub_folder, entry.name),
 							"text": entry.name,
 							"children": True,
+							"type": "folder",
 							"icon": "folder"
 						})
-					else:
+					if entry.is_file():
 						ext = os.path.splitext(entry.name)[1].lower()  # 获取文件后缀
 						nodes.append({
 							"id": os.path.join(sub_folder, entry.name),
@@ -251,9 +252,10 @@ def editor_list_nodes(app, sub_folder):
 						"id": os.path.join(sub_folder, name),
 						"text": name,
 						"children": True,
+						"type": "folder",
 						"icon": "folder"
 					})
-				else:
+				if os.path.isfile(os.path.join(app_folder, name)):
 					ext = os.path.splitext(name)[1].lower()  # 获取文件后缀
 					nodes.append({
 						"id": os.path.join(sub_folder, name),
@@ -273,6 +275,7 @@ def editor_get_node(app, node_id):
 		return [{
 			"id": "/",
 			'text': app_name,
+			"type": "folder",
 			"icon": "folder",
 			"state": {
 				"opened": True,
@@ -438,5 +441,5 @@ def editor():
 	if operation == 'get_content':
 		content = editor_get_content(app, node_id)
 
-	if content:
-		fire_raw_content( json.dumps(content), 200, 'application/json' )
+	if content is not None:
+		fire_raw_content(json.dumps(content), 200, 'application/json; charset=utf-8')

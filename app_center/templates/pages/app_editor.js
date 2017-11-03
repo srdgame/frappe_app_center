@@ -1,35 +1,3 @@
-editSnippets = function() {
-    var sp = env.split;
-    if (sp.getSplits() == 2) {
-        sp.setSplits(1);
-        return;
-    }
-    sp.setSplits(1);
-    sp.setSplits(2);
-    sp.setOrientation(sp.BESIDE);
-    var editor = sp.$editors[1];
-    var id = sp.$editors[0].session.$mode.$id || "";
-    var m = snippetManager.files[id];
-    if (!doclist["snippets/" + id]) {
-        var text = m.snippetText;
-        var s = doclist.initDoc(text, "", {});
-        s.setMode("ace/mode/snippets");
-        doclist["snippets/" + id] = s;
-    }
-    editor.on("blur", function() {
-        m.snippetText = editor.getValue();
-        snippetManager.unregister(m.snippets);
-        m.snippets = snippetManager.parseSnippetFile(m.snippetText, m.scope);
-        snippetManager.register(m.snippets);
-    });
-    sp.$editors[0].once("changeMode", function() {
-        sp.setSplits(1);
-    });
-    editor.setSession(doclist["snippets/" + id], 1);
-    editor.focus();
-};
-
-
 $(document).ready(function() {
 	$(window).resize(function () {
 		var h = Math.max($(window).height() - 130, 420);
@@ -172,7 +140,15 @@ $(document).ready(function() {
 					case 'jpeg':
 					case 'bmp':
 					case 'gif':
-						$('#editor_data .image img').one('load', function () { $(this).css({'marginTop':'-' + $(this).height()/2 + 'px','marginLeft':'-' + $(this).width()/2 + 'px'}); }).attr('src',d.content);
+						$('#editor_data .image img')
+							.one('load', function () {
+								$(this).css({
+									'marginTop':'-' + $(this).height()/2 + 'px',
+									'marginLeft':'-' + $(this).width()/2 + 'px'
+								});
+							})
+							.attr('src',d.content)
+						;
 						$('#editor_data .image').show();
 						break;
 					default:

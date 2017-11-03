@@ -16,21 +16,20 @@
 	<div class="ui stackable two column grid">
   		<div class="column" id="jstree_tree_menu">
 			<div class="ui small secondary menu toolbar">
-				<a class="popup icon item upload" data-content="Upload File Changes"><i class="cloud upload icon"></i></a>
-				<a class="popup icon item revert" data-content="Revert File Changes"><i class="ion-arrow-return-left icon"></i></a>
-				<a class="popup icon item folder" data-content="Create New Folder"><i class="folder icon"></i></a>
-				<a class="popup icon item file" data-content="Create New File"><i class="file icon"></i></a>
-				<a class="popup icon item rename" data-content="Rename Folder/File"><i class="write icon"></i></a>
-				<a class="popup icon item delete" data-content="Delete Folder/File"><i class="trash outline icon"></i></a>
+				<a class="disabled popup icon item upload" data-content="Upload Changes"><i class="cloud upload icon"></i></a>
+				<a class="popup icon item revert" data-content="Revert Changes"><i class="ion-arrow-return-left icon"></i></a>
+				<a class="popup icon item folder" data-content="Create Folder"><i class="folder icon"></i></a>
+				<a class="popup icon item file" data-content="Create File"><i class="file icon"></i></a>
+				<a class="popup icon item rename" data-content="Rename"><i class="write icon"></i></a>
+				<a class="popup icon item delete" data-content="Delete"><i class="trash outline icon"></i></a>
 		  	</div>
 		</div>
   		<div class="column" id="editor_menu">
 			<div class="ui small secondary menu toolbar">
-				<a class="popup icon item save" data-content="Save File Locally"><i class="save icon"></i></a>
-				<a class="popup icon item revert" data-content="Revert File Changes"><i class="ion-arrow-return-left icon"></i></a>
-				<a class="popup icon item load" data-content="Load Local Changed File"><i class="ion-arrow-return-right icon"></i></a>
+				<a class="popup icon item save" data-content="Save File"><i class="save icon"></i></a>
+				<a class="popup icon item download" data-content="Fetch File"><i class="download icon"></i></a>
 				<a class="popup icon item undo" data-content="Undo"><i class="undo icon"></i></a>
-				<a class="popup icon item repeat" data-content="Redo"><i class="repeat icon"></i></a>
+				<a class="popup icon item redo" data-content="Redo"><i class="repeat icon"></i></a>
 				<a class="popup icon item zoom" data-content="Font Zoom"><i class="zoom icon"></i></a>
 				<a class="popup icon item zoom_out" data-content="Font Zoom Out"><i class="zoom out icon"></i></a>
 				<div class="right menu">
@@ -58,10 +57,28 @@
 		</div>
 	</div>
 </div>
+
+<div class="ui mini revert_file modal">
+	<div class="header">
+		Fetch file from server
+	</div>
+	<div class="content">
+		<p>This will delete all local changes! Are you sure?</p>
+	</div>
+	<div class="actions">
+		<div class="ui negative button">
+			No
+		</div>
+		<div class="ui positive right labeled icon button">
+			Yes
+			<i class="checkmark icon"></i>
+		</div>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="/assets/app_center/jstree/jstree.js"></script>
+<script type="text/javascript" src="/assets/app_center/jstree/jstree.min.js"></script>
 <script type="text/javascript" src="/assets/app_center/ace/ace.js" charset="utf-8"></script>
 <script>
 	{% include "templates/pages/app_editor.js" %}

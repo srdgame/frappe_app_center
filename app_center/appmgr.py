@@ -412,9 +412,7 @@ def editor_get_content(app, node_id):
 
 
 def editor_set_content(app, node_id, text):
-	print(app, node_id, text)
 	fpath = get_app_file_path(app, node_id)
-	print(fpath)
 	if os.path.isfile(fpath):
 		file_object = open(fpath, "w")
 		file_object.write(text)

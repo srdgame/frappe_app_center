@@ -382,6 +382,12 @@ read_content_map = {
 	'css': read_text_file_content,
 	'html': read_text_file_content,
 	'lua': read_text_file_content,
+	'py': read_text_file_content,
+	'h': read_text_file_content,
+	'c': read_text_file_content,
+	'hpp': read_text_file_content,
+	'cpp': read_text_file_content,
+	'cxx': read_text_file_content,
 }
 
 
@@ -402,8 +408,18 @@ def editor_get_content(app, node_id):
 	if os.path.isdir(fpath):
 		return {
 			'type': 'folder',
-			'content': node_id,
 		}
+
+
+def editor_set_content(app, node_id, text):
+	print(app, node_id, text)
+	fpath = get_app_file_path(app, node_id)
+	print(fpath)
+	if os.path.isfile(fpath):
+		file_object = open(fpath, "w")
+		file_object.write(text)
+		file_object.close()
+		return {"status": "OK"}
 
 
 @frappe.whitelist()
@@ -440,6 +456,10 @@ def editor():
 
 	if operation == 'get_content':
 		content = editor_get_content(app, node_id)
+
+	if operation == 'set_content':
+		text = frappe.form_dict.text
+		content = editor_set_content(app, node_id, text)
 
 	if content is not None:
 		fire_raw_content(json.dumps(content), 200, 'application/json; charset=utf-8')

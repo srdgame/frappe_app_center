@@ -1,22 +1,130 @@
+editSnippets = function() {
+    var sp = env.split;
+    if (sp.getSplits() == 2) {
+        sp.setSplits(1);
+        return;
+    }
+    sp.setSplits(1);
+    sp.setSplits(2);
+    sp.setOrientation(sp.BESIDE);
+    var editor = sp.$editors[1];
+    var id = sp.$editors[0].session.$mode.$id || "";
+    var m = snippetManager.files[id];
+    if (!doclist["snippets/" + id]) {
+        var text = m.snippetText;
+        var s = doclist.initDoc(text, "", {});
+        s.setMode("ace/mode/snippets");
+        doclist["snippets/" + id] = s;
+    }
+    editor.on("blur", function() {
+        m.snippetText = editor.getValue();
+        snippetManager.unregister(m.snippets);
+        m.snippets = snippetManager.parseSnippetFile(m.snippetText, m.scope);
+        snippetManager.register(m.snippets);
+    });
+    sp.$editors[0].once("changeMode", function() {
+        sp.setSplits(1);
+    });
+    editor.setSession(doclist["snippets/" + id], 1);
+    editor.focus();
+};
+
+
 $(document).ready(function() {
-	var editorMode = {
-		'txt': 'text',
-		'md': 'markdown',
-		'htaccess': 'text',
-		'log': 'text',
-		'js': 'javascript',
-	};
 	$(window).resize(function () {
 		var h = Math.max($(window).height() - 130, 420);
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
 		$('#jstree_tree_menu').width($('#jstree_tree').width())
 	}).resize();
 
+
+	var editorMode = {
+		'txt': 'text',
+		'md': 'markdown',
+		'htaccess': 'text',
+		'log': 'text',
+		'js': 'javascript',
+		'py': 'python',
+		'c': 'c_cpp',
+		'cpp': 'c_cpp',
+		'cxx': 'c_cpp',
+		'h': 'c_cpp',
+		'hpp': 'c_cpp',
+	};
     var code_editor = ace.edit("editor_code");
     //code_editor.setTheme("ace/theme/twilight");
     code_editor.session.setMode("ace/mode/lua");
+    var local_storage_file = "{{ doc.name }}_saved_file:";
+    var doc_list = {};
+
+	var has_local_document = false;
+	var editor_title_btn = $('#editor_menu .disabled.item.title');
+    var refresh_editor_title = function() {
+		var session = code_editor.session;
+		editor_title_btn.html('<b>' + session.title + '</b>')
+		if (has_local_document) {
+			$('#/_anchor')
+		}
+	};
+
+	var commands = code_editor.commands;
+	commands.addCommand({
+		name: "save",
+		bindKey: {win: "Ctrl-S", mac: "Command-S"},
+		exec: function(arg) {
+			var session = code_editor.session;
+			var name = session.name;
+			localStorage.setItem(
+				local_storage_file + name,
+				session.getValue()
+			);
+			session.title = name + " *";
+			refresh_editor_title();
+			//code_editor.cmdLine.setValue("saved "+ name);
+		}
+	});
+	commands.addCommand({
+		name: "load",
+		bindKey: {win: "Ctrl-O", mac: "Command-O"},
+		exec: function(arg) {
+			var session = code_editor.session;
+			var name = session.name;
+			var value = localStorage.getItem(local_storage_file + name);
+			if (typeof value == "string") {
+				session.setValue(value);
+				//code_editor.cmdLine.setValue("loaded "+ name);
+			} else {
+				//code_editor.cmdLine.setValue("no previuos value saved for "+ name);
+			}
+		}
+	});
+	var editor_switch_document = function(doc_name, data) {
+		var mode = editorMode[data.type];
+		if (!mode) {
+			mode = data.type;
+		}
+		var s = doc_list[doc_name];
+		if (!s) {
+			var name = doc_name;
+			var value = localStorage.getItem(local_storage_file + name);
+			if (typeof value == "string") {
+				s = ace.createEditSession(value, "ace/mode/" + mode);
+				s.title = doc_name + " *";
+				//code_editor.cmdLine.setValue("loaded "+ name);
+			} else {
+				s = ace.createEditSession(data.content, "ace/mode/" + mode);
+				s.title = doc_name;
+			}
+			s.name = name;
+			doc_list[name] = s;
+		}
+		code_editor.setSession(s, 1);
+		code_editor.focus();
+		refresh_editor_title();
+	};
 
 	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
+	var selected_file = null;
 	$('#jstree_tree').jstree({
 		'core' : {
 			'data' : {
@@ -138,6 +246,15 @@ $(document).ready(function() {
 	})
 	.on('changed.jstree', function (e, data) {
 		if(data && data.selected && data.selected.length) {
+			var new_selected_file = data.selected.join(':');
+			if (selected_file == new_selected_file) {
+				$('#editor_data .code').show();
+				return;
+			} else {
+			}
+			if (data.node.type == 'default') {
+				return;
+			}
 			$.get(backend_url+'&operation=get_content&id=' + data.selected.join(':'), function (d) {
 				if(d && typeof d.type !== 'undefined') {
 					$('#editor_data .content').hide();
@@ -155,13 +272,14 @@ $(document).ready(function() {
 						case 'html':
 						case 'lua':
 						case 'py':
+						case 'c':
+						case 'cpp':
+						case 'cxx':
+						case 'h':
+						case 'hpp':
 							$('#editor_data .code').show();
-							code_editor.session.doc.setValue(d.content);
-							var mode = editorMode[d.type];
-							if (!mode) {
-								mode = d.type;
-							}
-							code_editor.session.setMode("ace/mode/"+mode);
+							selected_file = new_selected_file;
+							editor_switch_document(selected_file, d);
 							break;
 						case 'png':
 						case 'jpg':
@@ -182,5 +300,62 @@ $(document).ready(function() {
 			$('#editor_data .content').hide();
 			$('#editor_data .default').html('Select a file from the tree.').show();
 		}
+	});
+
+	var jstree_create_file = function() {
+		var ref = $('#jstree_tree').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		sel = ref.create_node(sel, {"type":"file"});
+		if(sel) {
+			ref.edit(sel);
+		}
+	};
+	var jstree_create_folder = function() {
+		var ref = $('#jstree_tree').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		sel = ref.create_node(sel, {"type":"default"});
+		if(sel) {
+			ref.edit(sel);
+		}
+	};
+	var jstree_rename = function() {
+		var ref = $('#jstree_tree').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		ref.edit(sel);
+	};
+	var jstree_delete = function() {
+		var ref = $('#jstree_tree').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		ref.delete_node(sel);
+	};
+
+	$('#jstree_tree_menu .item.file').click(jstree_create_file);
+	$('#jstree_tree_menu .item.folder').click(jstree_create_folder);
+	$('#jstree_tree_menu .item.rename').click(jstree_rename);
+	$('#jstree_tree_menu .item.delete').click(jstree_delete);
+
+	$('#editor_menu .item.save').click(function () {
+		// var backend_url = '/api/method/app_center.appmgr.editor';
+		// var args = {
+		// 	'app': '{{ doc.name }}',
+		// 	'operation': 'set_content',
+		// 	'id' : selected_file,
+		// 	'text' : code_editor.getValue()
+		// };
+		// $.post(backend_url, args)
+		// 	.done(function (d) {
+		// 		alert('Saved');
+		// 	})
+		// 	.fail(function () {
+		// 		alert('Save Failed!');
+		// 	});
+		code_editor.execCommand('save', {});
 	});
 });

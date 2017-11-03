@@ -15,26 +15,28 @@
 <div class="ui basic segments">
 	<div class="ui stackable two column grid">
   		<div class="column" id="jstree_tree_menu">
-			<div class="ui small icon buttons">
-				<button class="ui basic button"><i class="refresh icon"></i></button>
-				<button class="ui basic button"><i class="file icon"></i></button>
-				<button class="ui basic button"><i class="save icon"></i></button>
-				<button class="ui basic button"><i class="upload icon"></i></button>
-				<button class="ui basic button"><i class="download icon"></i></button>
-			</div>
+			<div class="ui small secondary menu toolbar">
+				<a class="popup icon item upload" data-content="Upload File Changes"><i class="cloud upload icon"></i></a>
+				<a class="popup icon item revert" data-content="Revert File Changes"><i class="ion-arrow-return-left icon"></i></a>
+				<a class="popup icon item folder" data-content="Create New Folder"><i class="folder icon"></i></a>
+				<a class="popup icon item file" data-content="Create New File"><i class="file icon"></i></a>
+				<a class="popup icon item rename" data-content="Rename Folder/File"><i class="write icon"></i></a>
+				<a class="popup icon item delete" data-content="Delete Folder/File"><i class="trash outline icon"></i></a>
+		  	</div>
 		</div>
-  		<div class="column">
-			<div class="ui small icon buttons">
-				<button class="ui basic button"><i class="align left icon"></i></button>
-				<button class="ui basic button"><i class="align center icon"></i></button>
-				<button class="ui basic button"><i class="align right icon"></i></button>
-				<button class="ui basic button"><i class="align justify icon"></i></button>
-			</div>
-			<div class="ui small icon buttons">
-				<button class="ui basic button"><i class="bold icon"></i></button>
-				<button class="ui basic button"><i class="underline icon"></i></button>
-				<button class="ui basic button"><i class="text width icon"></i></button>
-			</div>
+  		<div class="column" id="editor_menu">
+			<div class="ui small secondary menu toolbar">
+				<a class="popup icon item save" data-content="Save File Locally"><i class="save icon"></i></a>
+				<a class="popup icon item revert" data-content="Revert File Changes"><i class="ion-arrow-return-left icon"></i></a>
+				<a class="popup icon item load" data-content="Load Local Changed File"><i class="ion-arrow-return-right icon"></i></a>
+				<a class="popup icon item undo" data-content="Undo"><i class="undo icon"></i></a>
+				<a class="popup icon item repeat" data-content="Redo"><i class="repeat icon"></i></a>
+				<a class="popup icon item zoom" data-content="Font Zoom"><i class="zoom icon"></i></a>
+				<a class="popup icon item zoom_out" data-content="Font Zoom Out"><i class="zoom out icon"></i></a>
+				<div class="right menu">
+					<a class="disabled icon item title"><b>File Editor</b></a>
+				</div>
+		  	</div>
 		</div>
 	</div>
 	<div id="editor_container">

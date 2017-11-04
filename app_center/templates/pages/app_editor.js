@@ -107,6 +107,27 @@ $(document).ready(function() {
 		code_editor.setSession(s, 1);
 		code_editor.focus();
 	};
+	var editor_rename_document = function(doc_name, data) {
+		if (doc_name == data.id)
+			return;
+		var session = doc_list[doc_name];
+		if (session) {
+			session.name = data.id;
+			doc_list[data.id] = session;
+			doc_list[doc_name] = null;
+			var type = selected_file.split('.').pop();
+			var mode = editorMode[data.type];
+			if (!mode) {
+				mode = data.type;
+			}
+			session.setMode("ace/mode/" + mode);
+		}
+		var value = localStorage.getItem(local_storage_prefix + doc_name);
+		if (typeof value == 'string') {
+			localStorage.setItem(local_storage_prefix + data.id);
+			localStorage.removeItem(local_storage_prefix + doc_name);
+		}
+	};
 
 	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
 	var get_file_content = function(doc_name) {
@@ -248,10 +269,12 @@ $(document).ready(function() {
 	.on('rename_node.jstree', function (e, data) {
 		$.get(backend_url, { 'operation': 'rename_node', 'id' : data.node.id, 'text' : data.text })
 			.done(function (d) {
+				var doc_name = data.node.id;
 				data.instance.set_id(data.node, d.id);
 				if (d.icon) {
 					data.instance.set_icon(data.node, d.icon);
 				}
+				editor_rename_document(doc_name, d.id);
 			})
 			.fail(function () {
 				data.instance.refresh();

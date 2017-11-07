@@ -6,6 +6,31 @@ $(document).ready(function() {
 	}).resize();
 
 
+	$('.ui.new_tag.form').form({
+		fields: {
+			version : 'integer',
+			comment : ['minLength[10]', 'empty'],
+			terms : 'checked'
+		}
+	});
+	$('.ui.new_tag.form').ajaxForm({
+		beforeSend: function () {
+			$('.ui.new_tag.form').removeClass('success').removeClass('error');
+		},
+		success: function (response) {
+			$('.ui.new_tag.form .ui.success.message').html(response.message);
+			$('.ui.new_tag.form').addClass('success');
+			setTimeout(function () {
+				$('.ui.tag_application.modal').modal('hide');
+			}, 1000);
+		},
+		error: function(xhr) {
+			console.log('Upload Exception:' + xhr.responseText);
+			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
+			$('.ui.new_tag.form').addClass('error');
+		}
+	});
+
 	var editorMode = {
 		'txt': 'text',
 		'md': 'markdown',
@@ -394,8 +419,17 @@ $(document).ready(function() {
 			}
 		}
 	};
+	var tag_application = function() {
+		$('.ui.tag_application.modal')
+			.modal({
+				closable  : true
+			})
+			.modal('show')
+		;
+	};
 
 	$('#jstree_tree_menu .item.upload').click(upload_application);
+	$('#jstree_tree_menu .item.tag').click(tag_application);
 	$('#jstree_tree_menu .item.file').click(jstree_create_file);
 	$('#jstree_tree_menu .item.folder').click(jstree_create_folder);
 	$('#jstree_tree_menu .item.rename').click(jstree_rename);

@@ -3,9 +3,11 @@ $(document).ready(function() {
 
 	$('.ui.app.form').form({
 		fields: {
-		  version : 'empty',
-		  comments : ['minLength[10]', 'empty'],
-		  terms : 'checked'
+			app: 'empty',
+			app_name: 'empty',
+			version : 'integer',
+			comment : ['minLength[10]', 'empty'],
+			terms : 'checked'
 		}
 	});
 

@@ -7,6 +7,8 @@ import frappe
 import os
 import json
 import shutil
+import zipfile
+import traceback
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
@@ -21,10 +23,21 @@ def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
+def get_app_release_path(app):
+	basedir = get_files_path('app_center_files')
+	# file_dir = os.path.join(basedir, owner)
+	# if not os.path.exists(file_dir):
+	# 	os.makedirs(file_dir)
+	file_dir = os.path.join(basedir, app)
+	if not os.path.exists(file_dir):
+		os.makedirs(file_dir)
+
+	return file_dir
+
+
 @frappe.whitelist()
 def remove(app, version):
-	basedir = get_files_path('app_center_files')
-	file_dir = os.path.join(basedir, app)
+	file_dir = get_app_release_path(app)
 
 	ext = frappe.get_value("IOT Application", app, "app_ext")
 
@@ -59,13 +72,7 @@ def upload():
 	fname = secure_filename(f.filename)
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
-		basedir = get_files_path('app_center_files')
-		# file_dir = os.path.join(basedir, owner)
-		# if not os.path.exists(file_dir):
-		# 	os.makedirs(file_dir)
-		file_dir = os.path.join(basedir, app)
-		if not os.path.exists(file_dir):
-			os.makedirs(file_dir)
+		file_dir = get_app_release_path(app)
 
 		ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
 		if ext != frappe.get_value("IOT Application", app, "app_ext"):
@@ -79,14 +86,12 @@ def upload():
 			"app": app,
 			"app_name": app_name,
 			"version": version,
-			"owner": owner,
 			"beta": 1,
 			"comment": comment,
 		}
 
 		try:
 			doc = frappe.get_doc(data).insert()
-			doc.save()
 		except Exception as ex:
 			os.remove(os.path.join(file_dir, new_filename))
 			throw(_("Application version creation failed!"))
@@ -102,10 +107,7 @@ def save_app_icon(app, f):
 	if ext not in ['png', 'PNG']:
 		throw(_("Application icon must be png file!"))
 
-	basedir = get_files_path('app_center_files')
-	file_dir = os.path.join(basedir, app)
-	if not os.path.exists(file_dir):
-		os.makedirs(file_dir)
+	file_dir = get_app_release_path(app)
 	f.save(os.path.join(file_dir, "icon.png"))  # 保存文件到upload目录
 
 
@@ -211,7 +213,7 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 	frappe.response['type'] = 'download'
 
 
-def get_app_file_path(app, fn=""):
+def get_app_editor_file_path(app, fn=""):
 	basedir = get_files_path('app_center_files')
 	path = os.path.join(basedir, app, fn)
 	if len(path) < (len(basedir) + len(app) + len(fn)):
@@ -222,7 +224,7 @@ def get_app_file_path(app, fn=""):
 
 def editor_list_nodes(app, sub_folder):
 	nodes = []
-	app_folder = get_app_file_path(app, sub_folder)
+	app_folder = get_app_editor_file_path(app, sub_folder)
 	if hasattr(os, 'scandir'):
 		with os.scandir(app_folder) as it:
 			for entry in it:
@@ -269,7 +271,7 @@ def editor_list_nodes(app, sub_folder):
 def editor_get_node(app, node_id):
 	if node_id == '#':
 		app_name = frappe.get_value("IOT Application", app, "app_name")
-		app_folder = get_app_file_path(app)
+		app_folder = get_app_editor_file_path(app)
 		if not os.path.exists(app_folder):
 			os.makedirs(app_folder)
 		return [{
@@ -289,7 +291,7 @@ def editor_get_node(app, node_id):
 
 def editor_create_node(app, node_id, node_type, node_name):
 	fn = os.path.join(node_id, node_name)
-	fpath = get_app_file_path(app, fn)
+	fpath = get_app_editor_file_path(app, fn)
 	if node_type == 'file':
 		node = open(fpath, 'a')
 		node.close()
@@ -304,11 +306,11 @@ def editor_create_node(app, node_id, node_type, node_name):
 
 
 def editor_rename_node(app, node_id, new_name):
-	fpath = get_app_file_path(app, node_id)
+	fpath = get_app_editor_file_path(app, node_id)
 	try:
 		if new_name != os.path.basename(fpath):
 			new_node_id = os.path.join(os.path.dirname(node_id), new_name)
-			new_path = get_app_file_path(app, new_node_id)
+			new_path = get_app_editor_file_path(app, new_node_id)
 			if not os.access(new_path, os.R_OK):
 				os.rename(fpath, new_path)
 				if os.path.isfile(new_path):
@@ -325,8 +327,8 @@ def editor_rename_node(app, node_id, new_name):
 def editor_move_node(app, node_id, dst):
 	if os.path.dirname(node_id) != dst:
 		filename = os.path.basename(node_id)
-		src = get_app_file_path(app, node_id)
-		dst_folder = get_app_file_path(app, dst)
+		src = get_app_editor_file_path(app, node_id)
+		dst_folder = get_app_editor_file_path(app, dst)
 		if os.path.isdir(dst_folder):
 			shutil.move(src, dst_folder)
 			return {"id": os.path.join(dst, filename)}
@@ -336,9 +338,9 @@ def editor_move_node(app, node_id, dst):
 
 def editor_copy_node(app, node_id, dst):
 	if os.path.dirname(node_id) != dst:
-		src = get_app_file_path(app, node_id)
+		src = get_app_editor_file_path(app, node_id)
 		filename = os.path.basename(node_id)
-		dst_folder = get_app_file_path(app, dst)
+		dst_folder = get_app_editor_file_path(app, dst)
 		if os.path.isdir(src):
 			shutil.copytree(src, os.path.join(dst_folder, filename))
 		else:
@@ -347,7 +349,7 @@ def editor_copy_node(app, node_id, dst):
 
 
 def editor_delete_node(app, node_id):
-	fpath = get_app_file_path(app, node_id)
+	fpath = get_app_editor_file_path(app, node_id)
 	if os.path.isdir(fpath):
 		shutil.rmtree(fpath)
 	else:
@@ -392,7 +394,7 @@ read_content_map = {
 
 
 def editor_get_content(app, node_id):
-	fpath = get_app_file_path(app, node_id)
+	fpath = get_app_editor_file_path(app, node_id)
 	if os.path.isfile(fpath):
 		ext = os.path.splitext(node_id)[1].lower()  # 获取文件后缀
 		ext = "text" if ext == "" else ext[1:]
@@ -412,7 +414,7 @@ def editor_get_content(app, node_id):
 
 
 def editor_set_content(app, node_id, text):
-	fpath = get_app_file_path(app, node_id)
+	fpath = get_app_editor_file_path(app, node_id)
 	if os.path.isfile(fpath):
 		file_object = open(fpath, "w")
 		file_object.write(text)
@@ -461,3 +463,45 @@ def editor():
 
 	if content is not None:
 		fire_raw_content(json.dumps(content), 200, 'application/json; charset=utf-8')
+
+
+def zip_application(app, version):
+	app_dir = get_app_release_path(app)
+	app_file = os.path.join(app_dir, str(version) + '.zip')
+
+	if os.access(app_file, os.R_OK):
+		throw(_("Application version already exits!"))
+
+	f = zipfile.ZipFile(app_file, 'w', zipfile.ZIP_DEFLATED)
+	editor_dir = get_app_editor_file_path(app)
+	for root, dirs, files in os.walk(editor_dir):
+		for filename in files:
+			f.write(os.path.join(root, filename))
+	f.close()
+
+
+@frappe.whitelist()
+def editor_release():
+	app = frappe.form_dict.app
+	version = frappe.form_dict.version
+	comment = frappe.form_dict.comment
+	if not app or not version or not comment:
+		raise frappe.ValidationError
+
+	data = {
+		"doctype": "IOT Application Version",
+		"app": app,
+		"version": version,
+		"beta": 1,
+		"comment": comment,
+	}
+
+	try:
+		zip_application(app, version)
+		doc = frappe.get_doc(data).insert()
+	except Exception as ex:
+		frappe.logger(__name__).error(ex)
+		remove(app, version)
+		throw(_("Application version creation failed!"))
+
+	return _("Application upload success")

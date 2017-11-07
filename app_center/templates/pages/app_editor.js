@@ -21,8 +21,13 @@ $(document).ready(function() {
 		'hpp': 'c_cpp',
 	};
     var code_editor = ace.edit("editor_code");
-    //code_editor.setTheme("ace/theme/twilight");
+    code_editor.setTheme("ace/theme/tomorrow");
     code_editor.session.setMode("ace/mode/lua");
+    code_editor.setOptions({
+		enableBasicAutocompletion: true,
+		enableSnippets: true,
+		enableLiveAutocompletion: true
+	});
     var local_storage_prefix = cur_app + "_saved_file:";
     var doc_list = {};
 

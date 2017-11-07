@@ -514,3 +514,29 @@ def editor_release():
 		raise ex
 
 	return _("Application upload success")
+
+
+@frappe.whitelist()
+def editor_revert():
+	app = frappe.form_dict.app
+	version = frappe.form_dict.version
+	if not app or not version:
+		raise frappe.ValidationError
+
+	if not frappe.get_value("IOT Application Version", {"app": app, "version": version}, "name"):
+		throw(_("Version {0} does not exits!").format(version))
+
+	app_dir = get_app_release_path(app)
+	app_file = os.path.join(app_dir, str(version) + '.zip')
+
+	if not os.access(app_file, os.R_OK):
+		throw(_("Version {0}  release file does not exits!").format(version))
+
+	editor_dir = get_app_editor_file_path(app)
+	shutil.rmtree(editor_dir)
+	os.mkdir(editor_dir)
+	f = zipfile.ZipFile(app_file, 'r')
+	f.extractall(editor_dir)
+	f.close()
+
+	return _("Workspace revert success!")

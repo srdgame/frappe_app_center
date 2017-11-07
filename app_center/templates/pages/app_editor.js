@@ -5,6 +5,8 @@ $(document).ready(function() {
 		$('#jstree_tree_menu').width($('#jstree_tree').width())
 	}).resize();
 
+	var cur_app = "{{ doc.name }}";
+
 	var editorMode = {
 		'txt': 'text',
 		'md': 'markdown',
@@ -21,7 +23,7 @@ $(document).ready(function() {
     var code_editor = ace.edit("editor_code");
     //code_editor.setTheme("ace/theme/twilight");
     code_editor.session.setMode("ace/mode/lua");
-    var local_storage_prefix = "{{ doc.name }}_saved_file:";
+    var local_storage_prefix = cur_app + "_saved_file:";
     var doc_list = {};
 
 	var editor_title_item = $('#editor_menu .disabled.item.title').on('click', function() {
@@ -130,7 +132,7 @@ $(document).ready(function() {
 		}
 	};
 
-	var backend_url = '/api/method/app_center.appmgr.editor?app={{ doc.name }}';
+	var backend_url = '/api/method/app_center.appmgr.editor?app=' + cur_app;
 	var get_file_content = function(doc_name) {
 		$.get(backend_url+'&operation=get_content&id=' + doc_name, function (d) {
 			if(d && typeof d.type !== 'undefined') {
@@ -409,7 +411,7 @@ $(document).ready(function() {
 				localStorage.removeItem(local_storage_prefix + name);
 			}
 			setTimeout(function () {
-				window.location.reload();
+				window.location.href="/app_editor?app=" + cur_app;
 			}, 1000);
 		},
 		error: function(xhr) {
@@ -425,7 +427,7 @@ $(document).ready(function() {
 	var upload_application_file = function(name, content) {
 		var backend_url = '/api/method/app_center.appmgr.editor';
 		var args = {
-			'app': '{{ doc.name }}',
+			'app': cur_app,
 			'operation': 'set_content',
 			'id' : name,
 			'text' : content,

@@ -215,7 +215,7 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 
 def get_app_editor_file_path(app, fn=""):
 	basedir = get_files_path('app_center_files')
-	path = os.path.join(basedir, app, "editor", fn)
+	path = os.path.join(basedir, app, ".editor", fn)
 	if len(path) < (len(basedir) + len(app) + len(fn)):
 		print(basedir, app, fn, path)
 		throw(_("EEEEEEEEEEEEEEEEEEEEEEE"))
@@ -472,8 +472,14 @@ def zip_application(app, version):
 	if os.access(app_file, os.R_OK):
 		throw(_("Application version already exits!"))
 
-	f = zipfile.ZipFile(app_file, 'w', zipfile.ZIP_DEFLATED)
 	editor_dir = get_app_editor_file_path(app)
+	vf = open(os.path.join(editor_dir, "version"), 'w')
+	vf.write(str(version))
+	vf.write('\n')
+	vf.write("WEB_EDITOR")
+	vf.close()
+
+	f = zipfile.ZipFile(app_file, 'w', zipfile.ZIP_DEFLATED)
 	for root, dirs, files in os.walk(editor_dir):
 		for filename in files:
 			filename = os.path.join(root, filename)

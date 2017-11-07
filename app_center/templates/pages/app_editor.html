@@ -18,7 +18,7 @@
 			<div class="ui small secondary menu toolbar">
 				<a class="popup icon item tag" data-content="Upload Changes"><i class="tag icon"></i></a>
 				<a class="disabled popup icon item upload" data-content="Upload Changes"><i class="cloud upload icon"></i></a>
-				<!-- <a class="popup icon item revert" data-content="Revert Changes"><i class="ion-arrow-return-left icon"></i></a> -->
+				<a class="popup icon item revert" data-content="Revert To Specified Version"><i class="ion-arrow-return-left icon"></i></a>
 				<a class="popup icon item folder" data-content="Create Folder"><i class="folder icon"></i></a>
 				<a class="popup icon item file" data-content="Create File"><i class="file icon"></i></a>
 				<a class="popup icon item rename" data-content="Rename"><i class="write icon"></i></a>
@@ -57,8 +57,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 	</div>
 </div>
 
-<div class="ui tag_application modal">
-    <i class="close icon"></i>
+<div class="ui new_tag modal">
 	<div class="header">
 		{{_("Tag a new version")}}
 	</div>
@@ -67,11 +66,11 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>
-				<input id="tag_version" name="version" type="text" tabindex="0"/>
+				<input name="version" type="text" tabindex="0"/>
 			</div>
 			<div class="field">
 				<label>{{_("Comment")}}</label>
-				<textarea id="tag_comment" name="comment"></textarea>
+				<textarea name="comment"></textarea>
 			</div>
 			<div class="inline field">
 				<div class="ui checkbox">
@@ -80,6 +79,26 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 				</div>
 			</div>
 			<div class="ui primary submit button">{{_("Create")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
+
+<div class="ui mini revert_app modal">
+	<div class="header">
+		{{_("Revert editor workspace to")}}
+	</div>
+	<div class="content">
+		<form class="ui revert_app form" action="/api/method/app_center.appmgr.editor_revert" method="post" accept-charset="utf-8">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<label>{{_("Version")}}</label>
+				<input name="version" type="text" tabindex="0"/>
+			</div>
+			<div class="ui primary submit button">{{_("Revert")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
 			<div class="ui success message"></div>
 			<div class="ui error message"></div>
 		</form>

@@ -5,32 +5,6 @@ $(document).ready(function() {
 		$('#jstree_tree_menu').width($('#jstree_tree').width())
 	}).resize();
 
-
-	$('.ui.new_tag.form').form({
-		fields: {
-			version : 'integer',
-			comment : ['minLength[10]', 'empty'],
-			terms : 'checked'
-		}
-	});
-	$('.ui.new_tag.form').ajaxForm({
-		beforeSend: function () {
-			$('.ui.new_tag.form').removeClass('success').removeClass('error');
-		},
-		success: function (response) {
-			$('.ui.new_tag.form .ui.success.message').html(response.message);
-			$('.ui.new_tag.form').addClass('success');
-			setTimeout(function () {
-				$('.ui.tag_application.modal').modal('hide');
-			}, 1000);
-		},
-		error: function(xhr) {
-			console.log('Upload Exception:' + xhr.responseText);
-			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
-			$('.ui.new_tag.form').addClass('error');
-		}
-	});
-
 	var editorMode = {
 		'txt': 'text',
 		'md': 'markdown',
@@ -57,6 +31,8 @@ $(document).ready(function() {
 		var session = code_editor.getSession();
 		session.changed = true;
 		editor_title_item.html('<b>' + session.name + " ***" + '</b>');
+		$('#jstree_tree_menu .item.upload').removeClass('disabled');
+		$('#editor_menu .item.save').removeClass('disabled');
 	});
 	code_editor.on("blur", function() {
 		var session = code_editor.getSession();
@@ -385,6 +361,67 @@ $(document).ready(function() {
 		if(!sel.length) { return false; }
 		ref.delete_node(sel);
 	};
+
+
+
+	$('.ui.new_tag.form').form({
+		fields: {
+			version : 'integer',
+			comment : ['minLength[10]', 'empty'],
+			terms : 'checked'
+		}
+	});
+	$('.ui.new_tag.form').ajaxForm({
+		resetForm: true,
+		beforeSend: function () {
+			$('.ui.new_tag.form').removeClass('success').removeClass('error');
+		},
+		success: function (response) {
+			$('.ui.new_tag.form .ui.success.message').html(response.message);
+			$('.ui.new_tag.form').addClass('success');
+			setTimeout(function () {
+				$('.ui.tag_app.modal').modal('hide');
+			}, 1000);
+		},
+		error: function(xhr) {
+			console.log('Release Application Exception:' + xhr.responseText);
+			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
+			$('.ui.new_tag.form').addClass('error');
+		}
+	});
+	$('.ui.new_tag.form .cancel.button').click(function(){
+		$('.ui.new_tag.modal').modal('hide');
+	});
+
+	$('.ui.revert_app.form').form({
+		fields: {
+			version : 'integer',
+		}
+	});
+	$('.ui.revert_app.form').ajaxForm({
+		beforeSend: function () {
+			$('.ui.revert_app.form').removeClass('success').removeClass('error');
+		},
+		success: function (response) {
+			$('.ui.revert_app.form .ui.success.message').html(response.message);
+			$('.ui.revert_app.form').addClass('success');
+			for (var name in doc_list) {
+				localStorage.removeItem(local_storage_prefix + name);
+			}
+			setTimeout(function () {
+				window.location.reload();
+			}, 1000);
+		},
+		error: function(xhr) {
+			console.log('Revert Application Exception:' + xhr.responseText);
+			$('.ui.revert_app.form .ui.error.message').html(xhr.responseJSON.exc);
+			$('.ui.revert_app.form').addClass('error');
+		}
+	});
+	$('.ui.revert_app.form .cancel.button').click(function(){
+		$('.ui.revert_app.modal').modal('hide');
+	});
+
 	var upload_application_file = function(name, content) {
 		var backend_url = '/api/method/app_center.appmgr.editor';
 		var args = {
@@ -410,6 +447,14 @@ $(document).ready(function() {
 				alert("Upload Failed!");
 			});
 	};
+	var tag_application = function() {
+		$('.ui.new_tag.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	};
 	var upload_application = function() {
 		$('#jstree_tree_menu .item.upload').addClass('disabled');
 		for (var name in doc_list) {
@@ -419,17 +464,18 @@ $(document).ready(function() {
 			}
 		}
 	};
-	var tag_application = function() {
-		$('.ui.tag_application.modal')
+	var revert_application = function() {
+		$('.ui.revert_app.modal')
 			.modal({
-				closable  : true
+				closable  : false
 			})
 			.modal('show')
 		;
 	};
 
-	$('#jstree_tree_menu .item.upload').click(upload_application);
 	$('#jstree_tree_menu .item.tag').click(tag_application);
+	$('#jstree_tree_menu .item.upload').click(upload_application);
+	$('#jstree_tree_menu .item.revert').click(revert_application);
 	$('#jstree_tree_menu .item.file').click(jstree_create_file);
 	$('#jstree_tree_menu .item.folder').click(jstree_create_folder);
 	$('#jstree_tree_menu .item.rename').click(jstree_rename);

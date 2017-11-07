@@ -513,4 +513,16 @@ $(document).ready(function() {
 	$('#editor_menu .item.redo').click(function () {
 		code_editor.redo();
 	});
+
+	$('#editor_menu .item.zoom').click(function () {
+		var font_size = code_editor.getFontSize() + 1;
+		code_editor.setFontSize(font_size);
+	});
+	$('#editor_menu .item.zoom_out').click(function () {
+		var font_size = code_editor.getFontSize() - 1;
+		code_editor.setFontSize(font_size);
+	});
+	$('#editor_menu .item.align_justify').click(function () {
+		//code_editor.indent();
+	});
 });

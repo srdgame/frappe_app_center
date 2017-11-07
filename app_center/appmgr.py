@@ -215,7 +215,7 @@ def fire_raw_content(content, status=200, content_type='text/html'):
 
 def get_app_editor_file_path(app, fn=""):
 	basedir = get_files_path('app_center_files')
-	path = os.path.join(basedir, app, fn)
+	path = os.path.join(basedir, app, "editor", fn)
 	if len(path) < (len(basedir) + len(app) + len(fn)):
 		print(basedir, app, fn, path)
 		throw(_("EEEEEEEEEEEEEEEEEEEEEEE"))
@@ -476,7 +476,9 @@ def zip_application(app, version):
 	editor_dir = get_app_editor_file_path(app)
 	for root, dirs, files in os.walk(editor_dir):
 		for filename in files:
-			f.write(os.path.join(root, filename))
+			filename = os.path.join(root, filename)
+			arcname = filename[len(editor_dir):]
+			f.write(filename, arcname)
 	f.close()
 
 
@@ -496,12 +498,13 @@ def editor_release():
 		"comment": comment,
 	}
 
+	zip_application(app, version)
+
 	try:
-		zip_application(app, version)
 		doc = frappe.get_doc(data).insert()
 	except Exception as ex:
 		frappe.logger(__name__).error(ex)
 		remove(app, version)
-		throw(_("Application version creation failed!"))
+		raise ex
 
 	return _("Application upload success")

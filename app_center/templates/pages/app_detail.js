@@ -77,6 +77,18 @@ $(document).ready(function() {
 			delete_app_form.addClass('error');
 		}
 	});
+
+	$(".ui.button.upload").click(function () {
+		$('.ui.upload_version.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	});
+	$('.ui.app.form .cancel.button').click(function(){
+		$('.ui.upload_version.modal').modal('hide');
+	});
 {% endif %}
 
 	var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {

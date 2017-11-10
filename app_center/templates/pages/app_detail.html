@@ -162,6 +162,9 @@
 		</div>
 	</div>
 	<div class="ui basic tab segment" data-tab="releases">
+		{% if frappe.user == doc.owner %}
+		<button class="ui icon teal button upload"><i class="cloud upload icon"></i> {{_("Upload New Version")}}</button>
+		{% endif %}
 		<div class="ui large comments" style="padding-bottom:8px">
 			{% for rel in releases %}
 			<div class="comment">
@@ -191,37 +194,6 @@
 			</div>
 			{% endfor %}
 		</div>
-
-		{% if frappe.user == doc.owner %}
-        <h3 class="ui top attached header">
-		  {{_('Upload new version')}}
-		</h3>
-		<form class="ui attached segment app form" action="/api/method/app_center.appmgr.upload"
-			  method="post" accept-charset="utf-8" enctype="multipart/form-data">
-			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
-			<input value="{{doc.app_name}}" readonly="true" name="app_name" type="hidden">
-			<div class="required inline field">
-				<label>{{_("Version")}}</label>
-				<input placeholder="Application Name" name="version" type="text" tabindex="0">
-			</div>
-			<div class="hidden field">
-				<label>{{_("Comments")}} </label>
-				<textarea name="comments"></textarea>
-			</div>
-			<div class="field">
-				<label>{{_("Application Package")}} </label>
-				<input type="file" name="app_file"/>
-			</div>
-
-			<div class="ui tiny progress">
-				<div class="bar"></div>
-			</div>
-
-			<div class="ui primary submit button">{{_("Upload")}}</div>
-			<div class="ui success message"></div>
-			<div class="ui error message"></div>
-		</form>
-		{% endif %}
 	</div>
 </div>
 
@@ -249,6 +221,40 @@
 	</div>
 </div>
 {% else %}
+<div class="ui upload_version modal">
+	<div class="header">
+		  {{_('Upload new version')}}
+	</div>
+	<div class="content">
+		<form class="ui attached segment app form" action="/api/method/app_center.appmgr.upload"
+			  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<input value="{{doc.app_name}}" readonly="true" name="app_name" type="hidden">
+			<div class="required inline field">
+				<label>{{_("Version")}}</label>
+				<input placeholder="Application Name" name="version" type="text" tabindex="0">
+			</div>
+			<div class="hidden field">
+				<label>{{_("Comments")}} </label>
+				<textarea name="comments"></textarea>
+			</div>
+			<div class="field">
+				<label>{{_("Application Package")}} </label>
+				<input type="file" name="app_file"/>
+			</div>
+
+			<div class="ui tiny teal progress">
+				<div class="bar"></div>
+			</div>
+
+			<div class="ui primary submit button">{{_("Upload")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
+
 <div class="ui mini delete_app warning modal">
 	<div class="header">
 		{{_("Warning!")}}

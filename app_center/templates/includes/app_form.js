@@ -13,6 +13,7 @@ $(document).ready(function() {
 	});
 
 	$('.ui.app.form').ajaxForm({
+		dataType: 'json',
 		beforeSend: function() {
 		},
 		success: function(response) {

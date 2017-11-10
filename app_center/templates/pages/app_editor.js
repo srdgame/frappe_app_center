@@ -381,6 +381,7 @@ $(document).ready(function() {
 		}
 	});
 	$('.ui.new_tag.form').ajaxForm({
+		dataType: 'json',
 		resetForm: true,
 		beforeSend: function () {
 			$('.ui.new_tag.form').removeClass('success').removeClass('error');
@@ -393,6 +394,7 @@ $(document).ready(function() {
 			}, 1000);
 		},
 		error: function(xhr) {
+			$('.ui.new_tag.form .ui.error.message').html(xhr.responseText);
 			console.log('Release Application Exception:' + xhr.responseText);
 			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
 			$('.ui.new_tag.form').addClass('error');
@@ -408,6 +410,7 @@ $(document).ready(function() {
 		}
 	});
 	$('.ui.revert_app.form').ajaxForm({
+		dataType: 'json',
 		beforeSend: function () {
 			$('.ui.revert_app.form').removeClass('success').removeClass('error');
 		},
@@ -422,6 +425,7 @@ $(document).ready(function() {
 			}, 1000);
 		},
 		error: function(xhr) {
+			$('.ui.revert_app.form .ui.error.message').html(xhr.responseText);
 			console.log('Revert Application Exception:' + xhr.responseText);
 			$('.ui.revert_app.form .ui.error.message').html(xhr.responseJSON.exc);
 			$('.ui.revert_app.form').addClass('error');

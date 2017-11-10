@@ -22,9 +22,9 @@ class IOTApplicationVersion(Document):
 		self.name = self.app + "." + str(self.version)
 
 	def on_trash(self):
-		from app_center.appmgr import remove as app_remove
+		from app_center.appmgr import remove_version_file
 		try:
-			app_remove(self.app, self.version)
+			remove_version_file(self.app, self.version)
 		except Exception as ex:
 			frappe.logger(__name__).error(ex.message)
 

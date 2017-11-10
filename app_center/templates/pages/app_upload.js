@@ -12,6 +12,7 @@ $(document).ready(function() {
 	});
 
 	$('.ui.app.form').ajaxForm({
+		dataType: 'json',
 		beforeSend: function() {
 			$('.ui.app.form').removeClass('success').removeClass('error');
 		},

@@ -42,8 +42,28 @@ class IOTApplication(Document):
 			throw(_("Application count limitation!"))
 
 	def on_trash(self):
-		# TODO: Remove all versions and application folder
-		pass
+		from app_center.appmgr import remove_app_folder
+		try:
+			remove_app_folder(self.app)
+		except Exception as ex:
+			frappe.logger(__name__).error(ex.message)
+
+	def fork(self, by_user, version):
+		data = {
+			"doctype": "IOT Application",
+			"app_name": self.app_name + "." + str(version),
+			"owner": by_user,
+			"license_type": self.license_type,
+			"fork_from": self.name,
+			"fork_version": version,
+			"description": self.description,
+			"category": self.category,
+			"device_supplier": self.device_supplier,
+			"device_serial": self.device_serial,
+			"protocol": self.protocol,
+			"app_ext": self.app_ext,
+		}
+		return frappe.get_doc(data).insert()
 
 
 def get_recently_apps(as_list=False):

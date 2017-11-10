@@ -116,3 +116,14 @@ body {
   padding-top: 10%;
   background-color: #80b6e6;
 }
+
+/* My own -Dirk */
+.ui.modal .header {
+  background-color: #80b6e6;
+}
+.ui.modal .content {
+  background-color: #ECECEC;
+}
+#desc-editormd-view {
+  background-color: #F0F0F0;
+}

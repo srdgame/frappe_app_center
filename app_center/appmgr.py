@@ -9,6 +9,7 @@ import json
 import shutil
 import zipfile
 import traceback
+import time
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
@@ -25,9 +26,6 @@ def allowed_file(filename):
 
 def get_app_release_path(app):
 	basedir = get_files_path('app_center_files')
-	# file_dir = os.path.join(basedir, owner)
-	# if not os.path.exists(file_dir):
-	# 	os.makedirs(file_dir)
 	file_dir = os.path.join(basedir, app)
 	if not os.path.exists(file_dir):
 		os.makedirs(file_dir)
@@ -35,14 +33,21 @@ def get_app_release_path(app):
 	return file_dir
 
 
-@frappe.whitelist()
-def remove(app, version):
+def get_app_release_filepath(app, version):
 	file_dir = get_app_release_path(app)
-
 	ext = frappe.get_value("IOT Application", app, "app_ext")
+	filename = str(version) + '.' + ext
+	return os.path.join(file_dir, filename)
 
-	filename = str(version) + '.' + ext  # 修改了上传的文件名
-	os.remove(os.path.join(file_dir, filename))
+
+@frappe.whitelist()
+def remove_version_file(app, version):
+	os.remove(get_app_release_filepath(app, version))
+
+
+@frappe.whitelist()
+def remove_app_folder(app):
+	shutil.rmtree(get_app_release_path(app))
 
 
 @frappe.whitelist()
@@ -172,6 +177,31 @@ def modify():
 	return doc
 
 
+def copy_app_release_file(from_app, to_app, version):
+	from_file = get_app_release_filepath(from_app, version)
+	to_file = get_app_release_filepath(to_app, version)
+	shutil.copy(from_file, to_file)
+
+
+def copy_app_icon_file(from_app, to_app):
+	from_icon = os.path.join(get_app_release_path(from_app), "icon.png")
+	to_icon = os.path.join(get_app_release_path(to_app), "icon.png")
+	shutil.copy(from_icon, to_icon)
+
+
+def copy_forked_app_files(from_app, to_app, version):
+	time.sleep(3)
+	frappe.get_doc({
+		"doctype": "IOT Application Version",
+		"app": to_app,
+		"version": version,
+		"comment": frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "comment"),
+		"beta": frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "beta")
+	}).insert()
+	copy_app_release_file(from_app, to_app, version)
+	copy_app_icon_file(from_app, to_app)
+
+
 @frappe.whitelist()
 def fork():
 	if frappe.request.method != "POST":
@@ -180,23 +210,14 @@ def fork():
 	version = int(frappe.form_dict.version)
 	app = frappe.form_dict.app
 	if not frappe.get_value('IOT Application Version', {"app": app, "version": version}, "name"):
-		throw(_("Application version does not exists!"))
+		throw(_("Application version {0} does not exists!").format(version))
 
 	doc = frappe.get_doc("IOT Application", app)
-	owner = frappe.session.user
+	forked_doc = doc.fork(frappe.session.user, version)
 
-	new_doc = frappe.get_doc({
-		"doctype": "IOT Application",
-		"app_name": doc.app_name + "." + version,
-		"license_type": doc.license_type,
-		"category": doc.category,
-		"protocol": doc.protocol,
-		"device_supplier": doc.device_supplier,
-		"device_serial": doc.device_serial,
-		"owner": owner,
-		"description": doc.description,
-	}).insert()
-	return new_doc
+	copy_forked_app_files(app, forked_doc.name, version)
+
+	return forked_doc.name
 
 
 def fire_raw_content(content, status=200, content_type='text/html'):

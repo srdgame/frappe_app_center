@@ -49,6 +49,8 @@ class IOTApplication(Document):
 			frappe.logger(__name__).error(ex.message)
 
 	def fork(self, by_user, version):
+		if frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version}, "name"):
+			throw(_("You have already forked {0} version {1}").format(self.app_name, version))
 		data = {
 			"doctype": "IOT Application",
 			"app_name": self.app_name + "." + str(version),

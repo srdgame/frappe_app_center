@@ -190,7 +190,6 @@ def copy_app_icon_file(from_app, to_app):
 
 
 def copy_forked_app_files(from_app, to_app, version):
-	time.sleep(3)
 	frappe.get_doc({
 		"doctype": "IOT Application Version",
 		"app": to_app,

@@ -63,6 +63,9 @@
 				<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
 				{% endif %}
 				{% endif %}
+				{% if doc.fork_from %}
+				<button class="ui inverted icon button fork_from"><i class="ion-pull-request icon"></i> {{_("Go Master")}}</button>
+				{% endif %}
 			</div>
 		</div>
 	</div>

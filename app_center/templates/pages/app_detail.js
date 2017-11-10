@@ -13,6 +13,9 @@ $(document).ready(function() {
 	});
 
 
+	$('.ui.button.fork_from').click(function(){
+		window.location.href = "/app_detail?app={{doc.fork_from}}";
+	});
 	$(".ui.button.fork").click(function () {
 		$('.ui.fork_app.modal')
 			.modal({

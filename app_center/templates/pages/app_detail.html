@@ -53,18 +53,23 @@
 				</button>
 				<div class="ui divider"></div>
 				{% if frappe.user == doc.owner %}
-				<button class="ui inverted icon button edit"><i class="edit icon"></i> Edit</button>
-				{% if has_release %}
-				<button class="ui inverted icon button editor"><i class="terminal icon"></i> Online Editor</button>
-				{% endif %}
+					<button class="ui inverted icon button edit"><i class="edit icon"></i> Edit</button>
+					{% if has_release %}
+						<button class="ui inverted icon button editor"><i class="terminal icon"></i> Online Editor</button>
+					{% endif %}
 				{% else %}
-				<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
-				{% if has_release %}
-				<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
+					<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
+					{% if has_release %}
+						<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
+					{% endif %}
 				{% endif %}
-				{% endif %}
+
 				{% if doc.fork_from %}
 				<button class="ui inverted icon button fork_from"><i class="ion-pull-request icon"></i> {{_("Go Master")}}</button>
+				{% endif %}
+
+				{% if frappe.user == doc.owner %}
+				<button class="ui inverted yellow icon button delete"><i class="trash icon"></i> {{_("Delete")}}</button>
 				{% endif %}
 			</div>
 		</div>
@@ -237,6 +242,24 @@
 				</select>
 			</div>
 			<div class="ui primary submit button">{{_("Fork")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
+{% else %}
+<div class="ui mini delete_app warning modal">
+	<div class="header">
+		{{_("Warning!")}}
+	</div>
+	<div class="content">
+		<form class="ui delete_app form" action="/api/method/app_center.appmgr.delete" method="post" accept-charset="utf-8" accept="application/json">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<label>{{_("Are you sure to delete this application? This will fire request to administrators!")}}</label>
+			</div>
+			<div class="ui red submit button">{{_("Delete")}}</div>
 			<div class="ui cancel button">{{_("Cancel")}}</div>
 			<div class="ui success message"></div>
 			<div class="ui error message"></div>

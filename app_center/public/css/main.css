@@ -121,6 +121,9 @@ body {
 .ui.modal .header {
   background-color: #80b6e6;
 }
+.ui.warning.modal .header {
+  background-color: #e6c656;
+}
 .ui.modal .content {
   background-color: #ECECEC;
 }

@@ -11,11 +11,11 @@ $(document).ready(function() {
 	$(".ui.button.follow").click(function () {
 		//window.location.href="/app_modify?app={{doc.name}}";
 	});
-
-
 	$('.ui.button.fork_from').click(function(){
 		window.location.href = "/app_detail?app={{doc.fork_from}}";
 	});
+
+{% if frappe.user != doc.owner %}
 	$(".ui.button.fork").click(function () {
 		$('.ui.fork_app.modal')
 			.modal({
@@ -46,6 +46,38 @@ $(document).ready(function() {
 			fork_app_form.addClass('error');
 		}
 	});
+{% else %}
+	$(".ui.button.delete").click(function () {
+		$('.ui.delete_app.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	});
+	$('.ui.delete_app.form .cancel.button').click(function(){
+		$('.ui.delete_app.modal').modal('hide');
+	});
+
+	var delete_app_form = $('.ui.delete_app.form');
+	delete_app_form.form({fields: { version : 'integer' }	});
+	delete_app_form.ajaxForm({
+		dataType: 'json',
+		success: function (response) {
+			delete_app_form.find('.ui.success.message').html("Fork application successfully!");
+			delete_app_form.addClass('success');
+			setTimeout(function () {
+				window.location.href="/app_detail?app=" + response.message;
+			}, 3000);
+		},
+		error: function(xhr) {
+			delete_app_form.find('.ui.error.message').html(xhr.responseText);
+			console.log('Fork Application Exception:' + xhr.responseText);
+			delete_app_form.find('.ui.error.message').html(xhr.responseJSON.exc);
+			delete_app_form.addClass('error');
+		}
+	});
+{% endif %}
 
 	var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {
 		htmlDecode      : "style,script,iframe",  // you can filter tags decode

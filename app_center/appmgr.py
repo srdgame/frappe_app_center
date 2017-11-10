@@ -136,7 +136,7 @@ def new():
 		"description": description,
 	}).insert()
 
-	f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
+	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
 	if f:
 		save_app_icon(doc.name, f)
 
@@ -165,7 +165,7 @@ def modify():
 	doc.set("description", description)
 	doc.save()
 
-	f = frappe.request.files['icon_file']  # 从表单的file字段获取文件，app_file为该表单的name值
+	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
 	if f:
 		save_app_icon(doc.name, f)
 
@@ -540,3 +540,11 @@ def editor_revert():
 	f.close()
 
 	return _("Workspace revert success!")
+
+
+@frappe.whitelist()
+def ping():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	return _("pong")

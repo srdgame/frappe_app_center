@@ -19,9 +19,10 @@ $(document).ready(function() {
 			var action = $('.ui.form .ui.submit.button').text();
 			$('.ui.app.form .ui.success.message').html('Done!');
 			$('.ui.app.form').addClass('success');
-			setTimeout(function() {
-				window.location.href = "/app_list";
-			}, 2000);
+			if( typeof on_app_form_success === 'function' ){
+				//存在且是function
+				on_app_form_success();
+			}
 		},
 		complete: function(xhr) {
 		},

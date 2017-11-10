@@ -101,7 +101,12 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>
-				<input name="version" type="text" tabindex="0"/>
+				<select class="ui search dropdown" name="version">
+					<option value="">{{_("Version")}}</option>
+					{% for rel in releases %}
+					<option value="{{rel.version}}">{{rel.version}}</option>
+					{% endfor %}
+				</select>
 			</div>
 			<div class="ui primary submit button">{{_("Revert")}}</div>
 			<div class="ui cancel button">{{_("Cancel")}}</div>

@@ -27,3 +27,4 @@ def get_context(context):
 	context.no_cache = 1
 
 	context.doc = app_doc
+	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")

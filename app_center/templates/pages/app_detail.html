@@ -216,6 +216,32 @@
 		{% endif %}
 	</div>
 </div>
+
+{% if frappe.user != doc.owner %}
+<div class="ui mini fork_app modal">
+	<div class="header">
+		{{_("Fork this application from")}}
+	</div>
+	<div class="content">
+		<form class="ui revert_app form" action="/api/method/app_center.appmgr.editor_revert" method="post" accept-charset="utf-8">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<select class="ui search dropdown" name="version">
+					<option value="">{{_("Version")}}</option>
+					{% for rel in releases %}
+					<option value="{{rel.version}}">{{rel.version}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="ui primary submit button">{{_("Fork")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block script %}

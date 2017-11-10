@@ -369,8 +369,6 @@ $(document).ready(function() {
 		ref.delete_node(sel);
 	};
 
-
-
 	$('.ui.new_tag.form').form({
 		fields: {
 			version : 'integer',

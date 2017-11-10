@@ -38,6 +38,7 @@ $(document).ready(function() {
 		var session = code_editor.getSession();
 		session.changed = true;
 		editor_title_item.html('<b>' + session.name + " ***" + '</b>');
+		editor_title_item.removeClass('modified').addClass('modified');
 		$('#jstree_tree_menu .item.upload').removeClass('disabled');
 		$('#editor_menu .item.save').removeClass('disabled');
 	});
@@ -50,8 +51,10 @@ $(document).ready(function() {
 	code_editor.on("changeSession", function(e) {
 		var session = code_editor.getSession();
 		var title = session.name;
+		editor_title_item.removeClass('modified');
 		if (session.changed) {
-			title = title + ' *'
+			title = title + ' *';
+			editor_title_item.addClass('modified');
 		}
 		editor_title_item.html('<b>' + title + '</b>');
 		if (session.changed) {
@@ -74,6 +77,7 @@ $(document).ready(function() {
 				session.getValue()
 			);
 			session.changed = true;
+			editor_title_item.removeClass('modified').addClass('modified');
 			editor_title_item.html('<b>' + session.name + " *" + '</b>');
 			//code_editor.cmdLine.setValue("saved "+ name);
 		}
@@ -441,6 +445,7 @@ $(document).ready(function() {
 				session.changed = false;
 				localStorage.removeItem(local_storage_prefix + name);
 				if (code_editor.getSession() == session) {
+					editor_title_item.removeClass('modified');
 					editor_title_item.html('<b>' + session.name + '</b>');
 				}
 			})

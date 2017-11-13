@@ -12,14 +12,15 @@ $(document).ready(function() {
 	;
 	$('.ui.comment.form').form({
 		fields: {
-		  comment : ['minLength[15]', 'empty']
+			comment : ['minLength[15]', 'empty']
 		}
 	});
 
 	$('.ui.review.form, .ui.issue.form').form({
 		fields: {
-		  title : ['minLength[6]', 'empty'],
-		  content : ['minLength[50]', 'empty']
+			priority: 'empty',
+			title : ['minLength[6]', 'empty'],
+			content : ['minLength[50]', 'empty']
 		}
 	});
 
@@ -126,6 +127,7 @@ $(document).ready(function() {
 
 	$('.ui.review.form, .ui.comment.form, .ui.issue.form').ajaxForm({
 		dataType: 'json',
+		resetForm: true,
 		beforeSend: function() {
 		},
 		success: function(response, status, xhr, form) {

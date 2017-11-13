@@ -207,33 +207,29 @@
 			</div>
 		</h5>
 		<div class="ui relaxed divided list">
+			{% for iss in issues %}
 			<div class="item">
-				<i class="large alarm middle aligned icon"></i>
+				<i class="large alarm {{ 'red' if iss.priority =='High' else 'orange' if iss.priority=='Middle' else ''}} middle aligned icon"></i>
 				<div class="content">
-					<a class="header">You Have No Notification</a>
-					<div class="description">Updated 10 mins ago</div>
+					<a class="header">{{iss.title}}</a>
+					<div class="description">{{iss.owner}} - {{ frappe.utils.pretty_date(iss.modified) }}</div>
 				</div>
 			</div>
-			<div class="item">
-				<i class="large alarm red middle aligned icon"></i>
-				<div class="content">
-					<a class="header">You Have Two New Notification</a>
-					<div class="description">Updated 22 mins ago</div>
-				</div>
-			</div>
-			<div class="item">
-				<i class="large alarm green middle aligned icon"></i>
-				<div class="content">
-					<a class="header">You Have Five New Notification</a>
-					<div class="description">Updated 34 mins ago</div>
-				</div>
-			</div>
+			{% endfor %}
 		</div>
 		{% if frappe.user != 'Guest' %}
 		<div class="ui divider"></div>
 		<form class="ui issue form" action="/api/method/app_center.appmgr.add_issue"
 			  method="post" accept-charset="utf-8" enctype="application/json">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<div class="inline field">
+				<select class="ui dropdown" name="priority">
+					<option value="">{{_("Priority")}}</option>
+					<option value="High">{{_("High")}}</option>
+					<option value="Middle">{{_("Middle")}}</option>
+					<option value="Low">{{_("Low")}}</option>
+				</select>
+			</div>
 			<div class="field">
 				<input placeholder="{{_('Title')}}" name="title" type="text" tabindex="0">
 			</div>

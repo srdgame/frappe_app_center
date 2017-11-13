@@ -32,4 +32,6 @@ def get_context(context):
 
 	doc = frappe.get_doc('IOT Application Issue', name)
 
-	context.doc = doc
+	context.doc = frappe.get_doc('IOT Application', doc.app)
+	context.issue = doc
+	context.has_release = frappe.get_value("IOT Application Version", {"app": doc.app})

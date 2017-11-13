@@ -34,10 +34,13 @@ def get_context(context):
 	if not app:
 		raise frappe.DoesNotExistError(_("Application not specified"))
 
+	tab = frappe.form_dict.tab or "description"
+
 	doc = frappe.get_doc("IOT Application", app)
 
 	context.no_cache = 0
 
+	context.tab = tab
 	context.doc = doc
 	context.comments = get_comments()
 	context.reviews = get_reviews()

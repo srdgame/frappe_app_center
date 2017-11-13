@@ -1,82 +1,170 @@
 {% extends "templates/apc_base.html" %}
 
+{% block title %}{{ _("Application") }} {{doc.app_name}} {% endblock %}
+
+{% block header %}  {% endblock %}
+
+{% block style %}
+<style>
+{% include "templates/includes/app_detail.css" %}
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="column">
-        <h2 class="ui top attached header">
-		  {{_('Your Applications')}}
-		</h2>
-		<div class="ui attached segment">
-            <div class="ui items">
-				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
-					<i class="filter icon"></i>
-					{% if filters.category %}
-					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
-					{% else %}
-					<span class="text">{{_("Category Filter")}}</span>
-					{% endif %}
-					<div class="menu">
-						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category  == item else ''}}" value="{{item}}">
-							<i class="ui green empty circular label"></i>{{_(item)}}
+<div class="ui equal width left aligned padded grid stackable">
+	<div class="sixteen wide tablet sixteen wide computer column profileheader row no-padding">
+		<div class="column  left floated">
+			<div class="ui items">
+				<div class="item">
+					<a class="ui small circular image">
+                        <img src="/files/app_center_files/{{doc.name}}/icon.png" alt="icon">
+						<i class="circle mini red icon avt" data-content="Offline" data-variation="inverted redli"></i>
+					</a>
+					<div class="middle aligned content hiddenui">
+						<div class="header">
+							<i class="like icon"></i>
+							{{doc.app_name}}
 						</div>
-						{% endfor %}
+						<div class="meta">
+							<i class="user icon"></i>{{doc.owner}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
+							<i class="fork icon"></i>{{_(doc.protocol)}}, <i class="puzzle icon"></i>{{_(doc.device_supplier)}}, {{_(doc.device_serial)}}
+						</div>
 					</div>
 				</div>
-                <button class="ui app-clean icon button">
-                    <i class="trash icon"></i>
-                </button>
-                <button class="ui app-refresh icon button">
-                    <i class="refresh icon"></i>
-                </button>
-                <button class="ui app-add icon button">
-                    <i class="add icon"></i>
-                </button>
-                <div class="ui right floated buttons">
-                    <button class="ui button"><i class="chevron left icon"></i></button>
-                    <button class="ui button"><i class="chevron right icon"></i></button>
-                </div>
+			</div>
+		</div>
+		<div class="column hiddenui">
+			<div class="description right aligned">
+				<button class="ui circular facebook icon button">
+					<i class="facebook icon"></i>
+				</button>
+				<button class="ui circular twitter icon button">
+					<i class="twitter icon"></i>
+				</button>
+				<button class="ui circular linkedin icon button">
+					<i class="linkedin icon"></i>
+				</button>
+				<button class="ui circular google plus icon button">
+					<i class="google plus icon"></i>
+				</button>
+				<button class="ui circular mail blue icon button">
+					<i class="mail icon"></i>
+				</button>
+				<div class="ui divider"></div>
+				{% if frappe.user == doc.owner %}
+					<button class="ui inverted icon button edit"><i class="edit icon"></i> Edit</button>
+					{% if has_release %}
+						<button class="ui inverted icon button editor"><i class="terminal icon"></i> Online Editor</button>
+					{% endif %}
+				{% else %}
+					<button class="ui inverted icon button follow"><i class="rss icon"></i> Follow</button>
+					{% if has_release %}
+						<button class="ui inverted icon button fork"><i class="fork icon"></i> Fork</button>
+					{% endif %}
+				{% endif %}
 
-                {% for app in apps %}
-                <div class="ui divider"></div>
-                <div class="item">
-                    <a class="ui tiny circular image" href="/app_detail?app={{app.name}}">
-                        <img src="/files/app_center_files/{{app.name}}/icon.png" alt="label-image">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
-                        <div class="description">
-                            <p>
-                                <a class="ui label">{{_(app.category)}}</a>
-                                <a class="ui label">{{_(app.protocol)}}</a>
-                                <a class="ui label">{{_(app.device_supplier)}}</a>
-                                <a class="ui label">{{_(app.device_serial)}}</a> -
-                                {% if app.license_type == 'Open' %}
-                                <a class="ui teal mini label">{{_("Free")}}</a>
-                                {% endif %}
-                                {% if app.license_type == 'Private' %}
-                                <a class="ui orange mini label">{{_("Private")}}</a>
-                                {% endif %}
-                                {% if app.license_type == 'Close' %}
-                                <a class="ui red mini label">{{_("Closed")}}</a>
-                                {% endif %}
-                                <button class="ui right floated tiny teal app-upload button" app="{{app.name}}"> Upload New </button>
-                                <button class="ui right floated tiny yellow app-modify button" app="{{app.name}}"> Modify </button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                <div class="ui divider"></div>
-            </div>
-        </div>
-    </div>
+				{% if doc.fork_from %}
+				<button class="ui inverted icon button fork_from"><i class="ion-pull-request icon"></i> {{_("Go Master")}}</button>
+				{% endif %}
+
+				{% if frappe.user == doc.owner %}
+				<button class="ui inverted yellow icon button delete"><i class="trash icon"></i> {{_("Delete")}}</button>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 </div>
+
+<div class="ui basic segment">
+	<div class="ui pointing secondary tabular menu stackable">
+		<a class="item" href="/app_detail?app={{doc.name}}"><i class="large book icon"></i>{{_("Description")}}</a>
+		<a class="item" href="/app_detail?app={{doc.name}}&tab=reviews"><i class="large talk icon"></i>{{_("Reviews")}}</a>
+		<a class="item" href="/app_detail?app={{doc.name}}&tab=comments"><i class="large comments icon"></i>{{_("Comments")}}</a>
+		<a class="item active" href="/app_detail?app={{doc.name}}&tab=issues"><i class="large warning circle icon"></i>{{_("Issues")}}</a>
+		<a class="item" href="/app_detail?app={{doc.name}}&tab=releases"><i class="large tags icon"></i>{{_("Releases")}}</a>
+	</div>
+	<div class="ui tab basic segment active" data-tab="issue">
+		<div class="ui large feed">
+			<div class="event">
+				<div class="label">
+      				<img src="/assets/app_center/img/avatar/{{issue.owner}}.jpg">
+				</div>
+				<div class="content">
+					<div class="summary">
+						{{issue.title}}
+						<div class="date">
+							{{ frappe.utils.pretty_date(issue.modified) }}
+						</div>
+					</div>
+					<div class="extra text">
+						{{issue.content}}
+					</div>
+					<div class="meta">
+						<i class="{{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} alarm icon"></i>
+						<a class="like">
+							<i class="like icon"></i> 11 Likes
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui comments" style="padding-bottom:8px">
+			{% for comm in issue.comments %}
+			<div class="comment">
+				<a class="avatar">
+					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
+				</a>
+				<div class="content">
+					<a class="author">{{comm.owner}}</a>
+					<div class="metadata">
+						<span class="date">{{ frappe.utils.pretty_date(comm.modified) }}</span>
+					</div>
+					<div class="text">
+						{{comm.comment}}
+					</div>
+					<div class="actions">
+						<a class="reply" data-comment="{{comm.name}}">
+							<i class="reply icon"></i>
+						</a>
+						<a class="star">
+							<i class="star icon"></i>
+						</a>
+						<a class="retweet">
+							<i class="retweet icon"></i>
+						</a>
+						<a class="heart">
+							<i class="heart icon"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		{% if frappe.user != 'Guest' %}
+		<div class="ui divider"></div>
+		<form class="ui comment form" action="/api/method/app_center.appmgr.add_issue_comment"
+			  method="post" accept-charset="utf-8" enctype="application/json">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<textarea name="comment" placeholder="{{_('Your comment')}}"></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Comment
+			</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+		{% endif %}
+	</div>
+</div>
+
+
 {% endblock %}
 
 {% block script %}
 <script>
-	{% include "templates/pages/app_list.js" %}
+	{% include "templates/pages/app_issue.js" %}
 </script>
 {% endblock %}
+
+

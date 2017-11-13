@@ -1,4 +1,17 @@
 $(document).ready(function() {
+	$('.ui.comment.form').form({
+		fields: {
+		  comment : ['minLength[15]', 'empty']
+		}
+	});
+
+	$('.ui.review.form, .ui.issue.form').form({
+		fields: {
+		  title : ['minLength[6]', 'empty'],
+		  content : ['minLength[50]', 'empty']
+		}
+	});
+
 	//Tab page tab trigger functions
 	$(".ui.tabular.menu .item").tab();
 
@@ -98,5 +111,25 @@ $(document).ready(function() {
 		tex             : true,  // 默认不解析
 		flowChart       : true,  // 默认不解析
 		sequenceDiagram : true,  // 默认不解析
+	});
+
+	$('.ui.review.form, .ui.comment.form').ajaxForm({
+		dataType: 'json',
+		beforeSend: function() {
+		},
+		success: function(response) {
+			$(this).find('.ui.success.message').html('Done!');
+			$(this).addClass('success');
+			window.location.href = "#"
+		},
+		complete: function(xhr) {
+		},
+		error: function(xhr) {
+			console.log('Form Exception:' + xhr.responseText);
+			$(this).find('.ui.error.message').html(xhr.responseText);
+			var _server_messages = JSON.parse(xhr.responseJSON._server_messages);
+			$(this).find('.ui.error.message').html(_server_messages[0]);
+			$(this).addClass('error');
+		}
 	});
 });

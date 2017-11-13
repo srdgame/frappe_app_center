@@ -1,0 +1,82 @@
+{% extends "templates/apc_base.html" %}
+
+
+{% block content %}
+<div class="row">
+    <div class="column">
+        <h2 class="ui top attached header">
+		  {{_('Your Applications')}}
+		</h2>
+		<div class="ui attached segment">
+            <div class="ui items">
+				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
+					<i class="filter icon"></i>
+					{% if filters.category %}
+					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
+					{% else %}
+					<span class="text">{{_("Category Filter")}}</span>
+					{% endif %}
+					<div class="menu">
+						{% for item in categories %}
+						<div class="item {{ 'active selected' if filters.category  == item else ''}}" value="{{item}}">
+							<i class="ui green empty circular label"></i>{{_(item)}}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+                <button class="ui app-clean icon button">
+                    <i class="trash icon"></i>
+                </button>
+                <button class="ui app-refresh icon button">
+                    <i class="refresh icon"></i>
+                </button>
+                <button class="ui app-add icon button">
+                    <i class="add icon"></i>
+                </button>
+                <div class="ui right floated buttons">
+                    <button class="ui button"><i class="chevron left icon"></i></button>
+                    <button class="ui button"><i class="chevron right icon"></i></button>
+                </div>
+
+                {% for app in apps %}
+                <div class="ui divider"></div>
+                <div class="item">
+                    <a class="ui tiny circular image" href="/app_detail?app={{app.name}}">
+                        <img src="/files/app_center_files/{{app.name}}/icon.png" alt="label-image">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
+                        <div class="description">
+                            <p>
+                                <a class="ui label">{{_(app.category)}}</a>
+                                <a class="ui label">{{_(app.protocol)}}</a>
+                                <a class="ui label">{{_(app.device_supplier)}}</a>
+                                <a class="ui label">{{_(app.device_serial)}}</a> -
+                                {% if app.license_type == 'Open' %}
+                                <a class="ui teal mini label">{{_("Free")}}</a>
+                                {% endif %}
+                                {% if app.license_type == 'Private' %}
+                                <a class="ui orange mini label">{{_("Private")}}</a>
+                                {% endif %}
+                                {% if app.license_type == 'Close' %}
+                                <a class="ui red mini label">{{_("Closed")}}</a>
+                                {% endif %}
+                                <button class="ui right floated tiny teal app-upload button" app="{{app.name}}"> Upload New </button>
+                                <button class="ui right floated tiny yellow app-modify button" app="{{app.name}}"> Modify </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="ui divider"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	{% include "templates/pages/app_list.js" %}
+</script>
+{% endblock %}

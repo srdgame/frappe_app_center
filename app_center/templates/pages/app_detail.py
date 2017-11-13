@@ -7,6 +7,20 @@ import frappe
 from frappe import throw, _
 
 
+def get_comments():
+	return frappe.db.get_all("IOT Application Comment",
+								fields=["name", "comment", "owner", "modified", "reply_to"],
+								limit=20,
+								order_by="modified desc")
+
+
+def get_reviews():
+	return frappe.db.get_all("IOT Application Review",
+								fields=["name", "content", "owner", "modified"],
+								limit=20,
+								order_by="modified desc")
+
+
 def get_context(context):
 	app = frappe.form_dict.app
 	if not app:
@@ -17,23 +31,7 @@ def get_context(context):
 	context.no_cache = 0
 
 	context.doc = doc
-	context.comments = [
-		{
-			"author": "Administrator",
-			"date": "2 days ago",
-			"content": "The hours, minutes and seconds stand as visible reminders that your effort put them all there.",
-		},
-		{
-			"author": "cch",
-			"date": "3 days ago",
-			"content": "Adfwccqqwe.",
-		},
-		{
-			"author": "dirk",
-			"date": "4 days ago",
-			"content": "Reminders that.",
-		}
-	]
+	context.comments = get_comments()
 
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 	context.has_release = len(context.releases) > 0

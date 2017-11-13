@@ -1,6 +1,6 @@
 {% extends "templates/apc_base.html" %}
 
-{% block title %}{{ _("Modify Application") }} {{doc.app_name}} {% endblock %}
+{% block title %}{{ _("Application") }} {{doc.app_name}} {% endblock %}
 
 {% block header %}  {% endblock %}
 
@@ -79,6 +79,7 @@
 <div class="ui basic segment">
 	<div class="ui pointing secondary tabular menu stackable">
 		<a class="item active" data-tab="description"><i class="large book icon"></i>{{_("Description")}}</a>
+		<a class="item" data-tab="reviews"><i class="large talk icon"></i>{{_("Reviews")}}</a>
 		<a class="item" data-tab="comments"><i class="large comments icon"></i>{{_("Comments")}}</a>
 		<a class="item" data-tab="issues"><i class="large warning circle icon"></i>{{_("Issues")}}</a>
 		<a class="item" data-tab="releases"><i class="large tags icon"></i>{{_("Releases")}}</a>
@@ -88,23 +89,23 @@
 		   <textarea style="display:none;" name="test-editormd-markdown-doc">{{doc.description or ""}}</textarea>
 		</div>
 	</div>
-	<div class="ui tab basic segment" data-tab="comments">
+	<div class="ui tab basic segment" data-tab="reviews">
 		<div class="ui comments" style="padding-bottom:8px">
-			{% for comm in comments %}
+			{% for rev in reviews %}
 			<div class="comment">
 				<a class="avatar">
 					<img src="img/avatar/people/Abraham.png" alt="image">
 				</a>
 				<div class="content">
-					<a class="author">{{comm.author}}</a>
+					<a class="author">{{rev.owner}}</a>
 					<div class="metadata">
-						<span class="date">{{comm.date}}</span>
+						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
 					</div>
 					<div class="text">
-						{{comm.content}}
+						{{rev.content}}
 					</div>
 					<div class="actions">
-						<a class="reply">
+						<a class="reply" data-comment="{{comm.name}}">
 							<i class="reply icon"></i>
 						</a>
 						<a class="star">
@@ -121,14 +122,74 @@
 			</div>
 			{% endfor %}
 		</div>
-		<form class="ui reply form">
+		{% if frappe.user != 'Guest' %}
+		<div class="ui divider"></div>
+		<form class="ui review form" action="/api/method/app_center.appmgr.review" method="post" accept-charset="utf-8">
+			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
 			<div class="field">
-				<textarea></textarea>
+				<input placeholder="{{_('Title')}}" name="title" type="text" tabindex="0">
+			</div>
+			<div class="field">
+				<textarea name="content" placeholder="{{_('Review content')}}"></textarea>
 			</div>
 			<div class="ui blue labeled submit icon button">
-				<i class="icon edit"></i> Add Reply
+				<i class="icon edit"></i> Add Review
 			</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
 		</form>
+		{% endif %}
+	</div>
+	<div class="ui tab basic segment" data-tab="comments">
+		<div class="ui comments" style="padding-bottom:8px">
+			{% for comm in comments %}
+			<div class="comment">
+				<a class="avatar">
+					<img src="img/avatar/people/Abraham.png" alt="image">
+				</a>
+				<div class="content">
+					<a class="author">{{comm.owner}}</a>
+					<div class="metadata">
+						<span class="date">{{ frappe.utils.pretty_date(comm.modified) }}</span>
+					</div>
+					<div class="text">
+						{{comm.comment}}
+					</div>
+					<div class="actions">
+						<a class="reply" data-comment="{{comm.name}}">
+							<i class="reply icon"></i>
+						</a>
+						<a class="star">
+							<i class="star icon"></i>
+						</a>
+						<a class="retweet">
+							<i class="retweet icon"></i>
+						</a>
+						<a class="heart">
+							<i class="heart icon"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		{% if frappe.user != 'Guest' %}
+		<div class="ui divider"></div>
+		<form class="ui comment form" action="/api/method/app_center.appmgr.comment" method="post" accept-charset="utf-8">
+			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<input value="" placeholder="{{_('Reply to')}}" readonly="true" name="reply_to" type="text">
+			</div>
+			<div class="field">
+				<textarea name="comment" placeholder="{{_('Your comment')}}"></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Comment
+			</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+		{% endif %}
 	</div>
 	<div class="ui basic tab segment" data-tab="issues">
 		<h5 class="ui header">
@@ -160,6 +221,23 @@
 				</div>
 			</div>
 		</div>
+		{% if frappe.user != 'Guest' %}
+		<div class="ui divider"></div>
+		<form class="ui issue form" action="/api/method/app_center.appmgr.issue" method="post" accept-charset="utf-8">
+			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+			<div class="field">
+				<input placeholder="{{_('Title')}}" name="title" type="text" tabindex="0">
+			</div>
+			<div class="field">
+				<textarea name="content" placeholder="{{_('Issue content')}}"></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Issue
+			</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+		{% endif %}
 	</div>
 	<div class="ui basic tab segment" data-tab="releases">
 		{% if frappe.user == doc.owner %}
@@ -203,7 +281,7 @@
 		{{_("Fork this application from")}}
 	</div>
 	<div class="content">
-		<form class="ui fork_app form" action="/api/method/app_center.appmgr.fork" method="post" accept-charset="utf-8" accept="application/json">
+		<form class="ui fork_app form" action="/api/method/app_center.appmgr.fork" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<select class="ui search dropdown" name="version">

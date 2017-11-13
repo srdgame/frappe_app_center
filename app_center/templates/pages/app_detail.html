@@ -211,7 +211,7 @@
 			<div class="item">
 				<i class="large alarm {{ 'red' if iss.priority =='High' else 'orange' if iss.priority=='Middle' else ''}} middle aligned icon"></i>
 				<div class="content">
-					<a class="header">{{iss.title}}</a>
+					<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title}}</a>
 					<div class="description">{{iss.owner}} - {{ frappe.utils.pretty_date(iss.modified) }}</div>
 				</div>
 			</div>

@@ -26,10 +26,10 @@ def get_context(context):
 
 	context.no_cache = 1
 
-	issue = frappe.form_dict.issue
-	if not issue:
+	name = frappe.form_dict.name
+	if not name:
 		raise frappe.PermissionError(_("Application issue is missing!"))
 
-	doc = frappe.get_doc('IOT Application Issue', issue)
+	doc = frappe.get_doc('IOT Application Issue', name)
 
 	context.doc = doc

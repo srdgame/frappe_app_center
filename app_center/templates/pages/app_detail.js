@@ -1,4 +1,15 @@
 $(document).ready(function() {
+	$('.ui.review.form .ui.star.rating')
+		.rating({
+			onRate: function(value) {
+				var id = $(this).data('for');
+				$('#'+id).val(value);
+			}
+		})
+	;
+	$('.comment .content .metadata .ui.star.rating')
+	  .rating('disable')
+	;
 	$('.ui.comment.form').form({
 		fields: {
 		  comment : ['minLength[15]', 'empty']
@@ -53,10 +64,10 @@ $(document).ready(function() {
 			}, 3000);
 		},
 		error: function(xhr) {
+			fork_app_form.addClass('error');
 			fork_app_form.find('.ui.error.message').html(xhr.responseText);
 			console.log('Fork Application Exception:' + xhr.responseText);
 			fork_app_form.find('.ui.error.message').html(xhr.responseJSON.exc);
-			fork_app_form.addClass('error');
 		}
 	});
 {% else %}
@@ -84,10 +95,10 @@ $(document).ready(function() {
 			}, 3000);
 		},
 		error: function(xhr) {
+			delete_app_form.addClass('error');
 			delete_app_form.find('.ui.error.message').html(xhr.responseText);
 			console.log('Fork Application Exception:' + xhr.responseText);
 			delete_app_form.find('.ui.error.message').html(xhr.responseJSON.exc);
-			delete_app_form.addClass('error');
 		}
 	});
 
@@ -113,23 +124,28 @@ $(document).ready(function() {
 		sequenceDiagram : true,  // 默认不解析
 	});
 
-	$('.ui.review.form, .ui.comment.form').ajaxForm({
+	$('.ui.review.form, .ui.comment.form, .ui.issue.form').ajaxForm({
 		dataType: 'json',
 		beforeSend: function() {
 		},
-		success: function(response) {
-			$(this).find('.ui.success.message').html('Done!');
-			$(this).addClass('success');
+		success: function(response, status, xhr, form) {
+			form.find('.ui.success.message').html('Done!');
+			form.addClass('success');
 			window.location.href = "#"
 		},
 		complete: function(xhr) {
 		},
-		error: function(xhr) {
+		error: function(xhr, status, error, form) {
 			console.log('Form Exception:' + xhr.responseText);
-			$(this).find('.ui.error.message').html(xhr.responseText);
-			var _server_messages = JSON.parse(xhr.responseJSON._server_messages);
-			$(this).find('.ui.error.message').html(_server_messages[0]);
-			$(this).addClass('error');
+			form.addClass('error');
+			form.find('.ui.error.message').html(xhr.responseText);
+			if (xhr.responseJSON._server_messages) {
+				var _server_messages = JSON.parse(xhr.responseJSON._server_messages);
+				form.find('.ui.error.message').html(_server_messages[0]);
+			} else {
+				var exc = JSON.parse(xhr.responseJSON.exc);
+				form.find('.ui.error.message').html(exc);
+			}
 		}
 	});
 });

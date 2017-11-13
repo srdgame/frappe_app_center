@@ -94,18 +94,19 @@
 			{% for rev in reviews %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="img/avatar/people/Abraham.png" alt="image">
+					<img src="/assets/app_center/img/avatar/{{rev.owner}}.jpg" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{rev.owner}}</a>
 					<div class="metadata">
+						<span class="ui mini star rating" data-rating="{{rev.star}}" data-max-rating="5" data-for="star"></span>
 						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
 					</div>
 					<div class="text">
 						{{rev.content}}
 					</div>
 					<div class="actions">
-						<a class="reply" data-comment="{{comm.name}}">
+						<a class="reply" data-comment="{{rev.name}}">
 							<i class="reply icon"></i>
 						</a>
 						<a class="star">
@@ -124,13 +125,19 @@
 		</div>
 		{% if frappe.user != 'Guest' %}
 		<div class="ui divider"></div>
-		<form class="ui review form" action="/api/method/app_center.appmgr.review" method="post" accept-charset="utf-8">
-			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+		<form class="ui review form" action="/api/method/app_center.appmgr.add_review"
+			  method="post" accept-charset="utf-8" enctype="application/json">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<input placeholder="{{_('Title')}}" name="title" type="text" tabindex="0">
 			</div>
 			<div class="field">
 				<textarea name="content" placeholder="{{_('Review content')}}"></textarea>
+			</div>
+			<div class="inline field">
+				<label>{{_("Star")}}</label>
+				<div class="ui star rating" data-rating="4" data-max-rating="5" data-for="star"></div>
+				<input type="hidden" name="star" id="star" value="4" style="display: none">
 			</div>
 			<div class="ui blue labeled submit icon button">
 				<i class="icon edit"></i> Add Review
@@ -145,7 +152,7 @@
 			{% for comm in comments %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="img/avatar/people/Abraham.png" alt="image">
+					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{comm.owner}}</a>
@@ -175,8 +182,9 @@
 		</div>
 		{% if frappe.user != 'Guest' %}
 		<div class="ui divider"></div>
-		<form class="ui comment form" action="/api/method/app_center.appmgr.comment" method="post" accept-charset="utf-8">
-			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+		<form class="ui comment form" action="/api/method/app_center.appmgr.add_comment"
+			  method="post" accept-charset="utf-8" enctype="application/json">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<input value="" placeholder="{{_('Reply to')}}" readonly="true" name="reply_to" type="text">
 			</div>
@@ -223,8 +231,9 @@
 		</div>
 		{% if frappe.user != 'Guest' %}
 		<div class="ui divider"></div>
-		<form class="ui issue form" action="/api/method/app_center.appmgr.issue" method="post" accept-charset="utf-8">
-			<input value="{{doc.app}}" readonly="true" name="app" type="hidden">
+		<form class="ui issue form" action="/api/method/app_center.appmgr.add_issue"
+			  method="post" accept-charset="utf-8" enctype="application/json">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<input placeholder="{{_('Title')}}" name="title" type="text" tabindex="0">
 			</div>
@@ -338,7 +347,7 @@
 		{{_("Warning!")}}
 	</div>
 	<div class="content">
-		<form class="ui delete_app form" action="/api/method/app_center.appmgr.delete" method="post" accept-charset="utf-8" accept="application/json">
+		<form class="ui delete_app form" action="/api/method/app_center.appmgr.delete" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Are you sure to delete this application? This will fire request to administrators!")}}</label>
@@ -363,6 +372,7 @@
 <script type="text/javascript" src="/assets/app_center/editor_md/lib/flowchart.min.js"></script>
 <script type="text/javascript" src="/assets/app_center/editor_md/lib/jquery.flowchart.min.js"></script>
 <script type="text/javascript" src="/assets/app_center/editor_md/editormd.min.js"></script>
+<script type="text/javascript" src="/assets/app_center/js/rating.js"></script>
 <script>
 	{% include "templates/pages/app_detail.js" %}
 	{% include "templates/pages/app_upload.js" %}

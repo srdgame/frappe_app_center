@@ -141,7 +141,7 @@ $(document).ready(function() {
 		}
 	};
 
-	var backend_url = '/api/method/app_center.appmgr.editor?app=' + cur_app;
+	var backend_url = '/api/method/app_center.app_editor.editor?app=' + cur_app;
 	var get_file_content = function(doc_name) {
 		$.get(backend_url+'&operation=get_content&id=' + doc_name, function (d) {
 			if(d && typeof d.type !== 'undefined') {
@@ -394,10 +394,10 @@ $(document).ready(function() {
 			}, 1000);
 		},
 		error: function(xhr) {
+			$('.ui.new_tag.form').addClass('error');
 			$('.ui.new_tag.form .ui.error.message').html(xhr.responseText);
 			console.log('Release Application Exception:' + xhr.responseText);
 			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
-			$('.ui.new_tag.form').addClass('error');
 		}
 	});
 	$('.ui.new_tag.form .cancel.button').click(function(){
@@ -425,10 +425,10 @@ $(document).ready(function() {
 			}, 1000);
 		},
 		error: function(xhr) {
+			$('.ui.revert_app.form').addClass('error');
 			$('.ui.revert_app.form .ui.error.message').html(xhr.responseText);
 			console.log('Revert Application Exception:' + xhr.responseText);
 			$('.ui.revert_app.form .ui.error.message').html(xhr.responseJSON.exc);
-			$('.ui.revert_app.form').addClass('error');
 		}
 	});
 	$('.ui.revert_app.form .cancel.button').click(function(){
@@ -436,7 +436,7 @@ $(document).ready(function() {
 	});
 
 	var upload_application_file = function(name, content) {
-		var backend_url = '/api/method/app_center.appmgr.editor';
+		var backend_url = '/api/method/app_center.app_editor.editor';
 		var args = {
 			'app': cur_app,
 			'operation': 'set_content',

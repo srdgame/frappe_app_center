@@ -29,10 +29,10 @@ $(document).ready(function() {
 		},
 		error: function(xhr) {
 			console.log('Upload Exception:' + xhr.responseText);
+			$('.ui.app.form').addClass('error');
 			$('.ui.app.form .ui.error.message').html(xhr.responseText);
 			var _server_messages = JSON.parse(xhr.responseJSON._server_messages);
 			$('.ui.app.form .ui.error.message').html(_server_messages[0]);
-			$('.ui.app.form').addClass('error');
 		}
 	});
 });

@@ -16,7 +16,15 @@ def get_comments():
 
 def get_reviews():
 	return frappe.db.get_all("IOT Application Review",
-								fields=["name", "content", "owner", "modified"],
+								fields=["name", "star", "title", "content", "owner", "modified"],
+								limit=20,
+								order_by="modified desc")
+
+
+def get_issues():
+	return frappe.db.get_all("IOT Application Issue",
+								fields=["name", "priority", "title", "content", "owner", "modified"],
+								filters={"status": "Open"},
 								limit=20,
 								order_by="modified desc")
 
@@ -32,6 +40,8 @@ def get_context(context):
 
 	context.doc = doc
 	context.comments = get_comments()
+	context.reviews = get_reviews()
+	context.issues = get_issues()
 
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 	context.has_release = len(context.releases) > 0

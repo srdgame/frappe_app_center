@@ -185,4 +185,14 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+
+	$(".ui.feed .event .content .meta .delete").click(function () {
+		$('.ui.delete_confirm.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	});
 });

@@ -205,7 +205,9 @@ $(document).ready(function() {
 							window.location.href="/app_detail?app={{doc.name}}&tab=" + type + "s";
 						},
 						error: function (xhr, status, error ) {
-							console.log(xhr.responseJSON);
+							console.log(xhr.responseText);
+							$('.ui.comment.form').addClass('error');
+							$('.ui.comment.form .ui.error.message').html(xhr.responseJSON);
 						}
 					});
 				}
@@ -240,7 +242,9 @@ $(document).ready(function() {
 							}
 						},
 						error: function (xhr, status, error ) {
-							console.log(xhr.responseJSON);
+							console.log(xhr.responseText);
+							$('.ui.comment.form').addClass('error');
+							$('.ui.comment.form .ui.error.message').html(xhr.responseJSON);
 						}
 					});
 				}

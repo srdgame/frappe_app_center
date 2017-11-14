@@ -240,9 +240,10 @@ def add_review_comment():
 		throw(_("Request Method Must be POST!"))
 
 	review = frappe.form_dict.review
-	comment = frappe.form_dict.comment
+	comment = frappe.form_dict.comment.replace('\n', '<br />')
 	doc = frappe.get_doc("IOT Application Review", review)
 	doc.append("comments", {"comment": comment})
+	doc.save()
 
 	return _("Review comment added!")
 
@@ -258,6 +259,7 @@ def remove_review_comment():
 	for comm in doc.comments:
 		if comm.name == comment:
 			doc.remove(comm)
+			doc.save()
 			return _("Review comment added!")
 
 	return _("Review comment not found!")
@@ -269,7 +271,7 @@ def add_comment():
 		throw(_("Request Method Must be POST!"))
 
 	app = frappe.form_dict.app
-	comment = frappe.form_dict.comment
+	comment = frappe.form_dict.comment.replace('\n', '<br />')
 	reply_to = frappe.form_dict.reply_to
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Comment",
@@ -307,7 +309,7 @@ def add_issue_comment():
 		throw(_("Request Method Must be POST!"))
 
 	issue = frappe.form_dict.issue
-	comment = frappe.form_dict.comment
+	comment = frappe.form_dict.comment.replace('\n', '<br />')
 	doc = frappe.get_doc("IOT Application Issue", issue)
 	doc.append("comments", {"comment": comment})
 	doc.save()

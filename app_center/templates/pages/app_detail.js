@@ -161,8 +161,13 @@ $(document).ready(function() {
 		success: function(response, status, xhr, form) {
 			form.find('.ui.success.message').html('Done!');
 			form.addClass('success');
+			var tab = $(".ui.tabular.menu .active.item").data("tab");
 			setTimeout(function() {
-				window.location.reload(false);
+				if (tab && tab != 'undefined') {
+					window.location.href = window.location.pathname + "?app={{doc.name}}&tab=" + tab;
+				} else {
+					window.location.reload(false);
+				}
 			}, 1000);
 		},
 		complete: function(xhr) {

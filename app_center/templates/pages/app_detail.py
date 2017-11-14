@@ -7,15 +7,19 @@ import frappe
 from frappe import throw, _
 
 
-def get_comments():
-	return frappe.db.get_all("IOT Application Comment",
+def get_comments(app):
+	comments = frappe.db.get_all("IOT Application Comment",
+								filters={"app": app},
 								fields=["name", "comment", "owner", "modified", "reply_to"],
 								limit=20,
 								order_by="modified desc")
+	comments.reverse()
+	return comments
 
 
-def get_reviews():
+def get_reviews(app):
 	reviews = frappe.db.get_all("IOT Application Review",
+								filters={"app": app},
 								fields=["name", "star", "title", "content", "owner", "modified"],
 								limit=20,
 								order_by="modified desc")
@@ -27,12 +31,16 @@ def get_reviews():
 	return reviews
 
 
-def get_issues():
+def get_issues(app):
 	return frappe.db.get_all("IOT Application Issue",
 								fields=["name", "priority", "title", "content", "owner", "modified"],
-								filters={"status": "Open"},
+								filters={"status": "Open", "app": app},
 								limit=20,
 								order_by="modified desc")
+
+
+def get_releases(app):
+	return frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 
 
 def get_context(context):
@@ -48,9 +56,9 @@ def get_context(context):
 
 	context.tab = tab
 	context.doc = doc
-	context.comments = get_comments()
-	context.reviews = get_reviews()
-	context.issues = get_issues()
+	context.comments = get_comments(app)
+	context.reviews = get_reviews(app)
+	context.issues = get_issues(app)
 
-	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
+	context.releases =get_releases(app)
 	context.has_release = len(context.releases) > 0

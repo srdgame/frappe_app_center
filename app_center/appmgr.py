@@ -235,9 +235,39 @@ def add_review():
 
 
 @frappe.whitelist()
+def add_review_comment():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	review = frappe.form_dict.review
+	comment = frappe.form_dict.comment
+	doc = frappe.get_doc("IOT Application Review", review)
+	doc.append("comments", {"comment": comment})
+
+	return _("Review comment added!")
+
+
+@frappe.whitelist()
+def remove_review_comment():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	review = frappe.form_dict.review
+	comment = frappe.form_dict.comment
+	doc = frappe.get_doc("IOT Application Review", review)
+	for comm in doc.comments:
+		if comm.name == comment:
+			doc.remove(comm)
+			return _("Review comment added!")
+
+	return _("Review comment not found!")
+
+
+@frappe.whitelist()
 def add_comment():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
+
 	app = frappe.form_dict.app
 	comment = frappe.form_dict.comment
 	reply_to = frappe.form_dict.reply_to
@@ -255,6 +285,7 @@ def add_comment():
 def add_issue():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
+
 	app = frappe.form_dict.app
 	title = frappe.form_dict.title
 	priority = frappe.form_dict.priority
@@ -268,6 +299,37 @@ def add_issue():
 	}).insert()
 
 	return _("Issue added!")
+
+
+@frappe.whitelist()
+def add_issue_comment():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	issue = frappe.form_dict.issue
+	comment = frappe.form_dict.comment
+	doc = frappe.get_doc("IOT Application Issue", issue)
+	doc.append("comments", {"comment": comment})
+	doc.save()
+
+	return _("Issue comment added!")
+
+
+@frappe.whitelist()
+def remove_issue_comment():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	issue = frappe.form_dict.issue
+	comment = frappe.form_dict.comment
+	doc = frappe.get_doc("IOT Application Issue", issue)
+	for comm in doc.comments:
+		if comm.name == comment:
+			doc.remove(comm)
+			doc.save()
+			return _("Issue comment added!")
+
+	return _("Issue comment not found!")
 
 
 @frappe.whitelist()

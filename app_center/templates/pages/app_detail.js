@@ -115,25 +115,30 @@ $(document).ready(function() {
 		$('.ui.upload_version.modal').modal('hide');
 	});
 {% endif %}
-
-	var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {
-		htmlDecode      : "style,script,iframe",  // you can filter tags decode
-		emoji           : true,
-		taskList        : true,
-		tex             : true,  // 默认不解析
-		flowChart       : true,  // 默认不解析
-		sequenceDiagram : true,  // 默认不解析
-	});
+	var descEditormdViewObj = $('#desc-editormd-view');
+	if (descEditormdViewObj.length > 0) {
+		var descEditormdView = editormd.markdownToHTML("desc-editormd-view", {
+			htmlDecode: "style,script,iframe",  // you can filter tags decode
+			emoji: true,
+			taskList: true,
+			tex: true,  // 默认不解析
+			flowChart: true,  // 默认不解析
+			sequenceDiagram: true,  // 默认不解析
+		});
+	}
 
 	$('.ui.review.form, .ui.comment.form, .ui.issue.form').ajaxForm({
 		dataType: 'json',
 		resetForm: true,
 		beforeSend: function() {
+			console.log('Ajax Form Before Send!');
 		},
 		success: function(response, status, xhr, form) {
 			form.find('.ui.success.message').html('Done!');
 			form.addClass('success');
-			window.location.href = "#"
+			setTimeout(function() {
+				window.location.reload(false);
+			}, 1000);
 		},
 		complete: function(xhr) {
 		},

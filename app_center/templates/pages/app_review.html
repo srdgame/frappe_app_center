@@ -86,34 +86,28 @@
 	<div class="ui tab basic segment active" data-tab="issue">
 		<div class="ui large feed">
 			<div class="event">
-				<div class="large label">
-      				<img src="/assets/app_center/img/avatar/{{issue.owner}}.jpg">
+				<div class="label">
+      				<img src="/assets/app_center/img/avatar/{{review.owner}}.jpg">
 				</div>
 				<div class="content">
 					<div class="summary">
-						{{issue.title}}
+						{{review.title}}
 						<div class="date">
-						<i class="{{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} alarm icon"></i>
-							{{ frappe.utils.pretty_date(issue.modified) }}
+							{{ frappe.utils.pretty_date(review.modified) }}
 						</div>
 					</div>
 					<div class="extra text">
-						{{issue.content}}
+						{{review.content}}
 					</div>
 					<div class="meta">
-						<a class="close">
-							<i class="checkmark box icon"></i> Fixed
-						</a>
-						<a class="close">
-							<i class="inverted remove icon"></i> Fixed
-						</a>
+						<span class="ui mini star rating" data-rating="{{review.star}}" data-max-rating="5"></span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="ui divider"></div>
 		<div class="ui comments" style="padding-bottom:8px">
-			{% for comm in issue.comments %}
+			{% for comm in review.comments %}
 			<div class="comment">
 				<a class="avatar">
 					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
@@ -148,7 +142,7 @@
 		<div class="ui divider"></div>
 		<form class="ui comment form" action="/api/method/app_center.appmgr.add_issue_comment"
 			  method="post" accept-charset="utf-8" enctype="application/json">
-			<input value="{{issue.name}}" readonly="true" name="issue" type="hidden">
+			<input value="{{review.name}}" readonly="true" name="review" type="hidden">
 			<div class="field">
 				<textarea name="comment" placeholder="{{_('Your comment')}}"></textarea>
 			</div>

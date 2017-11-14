@@ -23,3 +23,7 @@
 #desc-editormd-view {
   z-index: 8;
 }
+
+.ui.feed .event .content .extra.text {
+    max-width: 100%;
+}

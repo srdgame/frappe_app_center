@@ -99,25 +99,14 @@
 				<div class="content">
 					<a class="author">{{rev.owner}}</a>
 					<div class="metadata">
-						<span class="ui mini star rating" data-rating="{{rev.star}}" data-max-rating="5" data-for="star"></span>
+						<span class="ui mini star rating" data-rating="{{rev.star}}" data-max-rating="5"></span>
 						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
 					</div>
 					<div class="text">
-						{{rev.content}}
+						{{rev.title}}
 					</div>
 					<div class="actions">
-						<a class="reply" data-comment="{{rev.name}}">
-							<i class="reply icon"></i>
-						</a>
-						<a class="star">
-							<i class="star icon"></i>
-						</a>
-						<a class="retweet">
-							<i class="retweet icon"></i>
-						</a>
-						<a class="heart">
-							<i class="heart icon"></i>
-						</a>
+						<a class="reply" href="/app_review?name={{rev.name}}"><i class="talk icon"></i>Comments</a>
 					</div>
 				</div>
 			</div>

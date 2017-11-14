@@ -195,15 +195,19 @@ $(document).ready(function() {
 				closable  : false,
 				onApprove : function() {
 					var url = "/api/method/app_center.appmgr.remove_" + type;
-					$.post(url, {"name": name})
-						.done(function (d) {
-							console.log(d);
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: {"name": name},
+						dataType: "json",
+						success: function (data, status, xhr) {
+							console.log(data);
 							window.location.href="/app_detail?app={{doc.name}}&tab=" + type + "s";
-						})
-						.fail(function (d) {
-							console.log(d);
-						})
-					;
+						},
+						error: function (xhr, status, error ) {
+							console.log(xhr.responseJSON);
+						}
+					});
 				}
 			})
 			.modal('show')
@@ -218,20 +222,27 @@ $(document).ready(function() {
 			.modal({
 				closable  : false,
 				onApprove : function() {
-					var url = "/api/method/app_center.appmgr.remove_" + type + "_comment";
-					$.post(url,	{"parent": parent, "name": name})
-						.done(function (d) {
-							console.log(d);
+					var url = "/api/method/app_center.appmgr.remove_comment";
+					if (type && type != 'undefined') {
+						url = "/api/method/app_center.appmgr.remove_" + type + "_comment";
+					}
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: {"parent": parent, "name": name},
+						dataType: "json",
+						success: function (data, status, xhr) {
+							console.log(data);
 							if (tab && tab != 'undefined') {
 								window.location.href = window.location.pathname + "?app={{doc.name}}&tab=" + tab;
 							} else {
 								window.location.reload(false);
 							}
-						})
-						.fail(function (d) {
-							console.log(d);
-						})
-					;
+						},
+						error: function (xhr, status, error ) {
+							console.log(xhr.responseJSON);
+						}
+					});
 				}
 			})
 			.modal('show')

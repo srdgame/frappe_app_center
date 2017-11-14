@@ -222,7 +222,7 @@ def add_review():
 	app = frappe.form_dict.app
 	star = frappe.form_dict.star
 	title = frappe.form_dict.title
-	content = frappe.form_dict.content
+	content = frappe.form_dict.content.replace('\n', '<br />')
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Review",
 		"app": app,
@@ -291,7 +291,7 @@ def add_issue():
 	app = frappe.form_dict.app
 	title = frappe.form_dict.title
 	priority = frappe.form_dict.priority
-	content = frappe.form_dict.content
+	content = frappe.form_dict.content.replace('\n', '<br />')
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Issue",
 		"app": app,

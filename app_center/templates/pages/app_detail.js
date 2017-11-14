@@ -194,9 +194,16 @@ $(document).ready(function() {
 			.modal({
 				closable  : false,
 				onApprove : function() {
-					$.post("/api/method/app_center.appmgr.remove_" + type, {"name": name}, function(data) {
-						console.log(data);
-					});
+					var url = "/api/method/app_center.appmgr.remove_" + type;
+					$.post(url, {"name": name})
+						.done(function (d) {
+							console.log(d);
+							window.location.href="/app_detail?app={{doc.name}}&tab=" + type + "s";
+						})
+						.fail(function (d) {
+							console.log(d);
+						})
+					;
 				}
 			})
 			.modal('show')
@@ -206,16 +213,25 @@ $(document).ready(function() {
 		var name = $(this).data("name");
 		var type = $(this).data("type");
 		var parent = $(this).data("parent");
+		var tab = $(".ui.tabular.menu .active.item").data("tab");
 		$('.ui.delete_comment.modal')
 			.modal({
 				closable  : false,
 				onApprove : function() {
-					$.post("/api/method/app_center.appmgr.remove_" + type + "_comment",
-						{"parent": parent, "name": name},
-						function(data) {
-							console.log(data);
-						}
-					);
+					var url = "/api/method/app_center.appmgr.remove_" + type + "_comment";
+					$.post(url,	{"parent": parent, "name": name})
+						.done(function (d) {
+							console.log(d);
+							if (tab && tab != 'undefined') {
+								window.location.href = window.location.pathname + "?app={{doc.name}}&tab=" + tab;
+							} else {
+								window.location.reload(false);
+							}
+						})
+						.fail(function (d) {
+							console.log(d);
+						})
+					;
 				}
 			})
 			.modal('show')

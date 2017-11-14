@@ -271,7 +271,7 @@ def remove_review_comment():
 		if comm.name == name:
 			doc.remove(comm)
 			doc.save()
-			return _("Review comment added!")
+			return _("Review comment removed!")
 
 	return _("Review comment not found!")
 
@@ -302,7 +302,7 @@ def remove_comment():
 	name = frappe.form_dict.name
 	frappe.delete_doc("IOT Application Comment", name)
 
-	return _("Comment added!")
+	return _("Comment removed!")
 
 
 @frappe.whitelist()
@@ -333,7 +333,7 @@ def remove_issue():
 	name = frappe.form_dict.name
 	frappe.delete_doc("IOT Application Issue", name)
 
-	return _("Review deleted!")
+	return _("Issue removed!")
 
 
 @frappe.whitelist()
@@ -362,7 +362,7 @@ def remove_issue_comment():
 		if comm.name == name:
 			doc.remove(comm)
 			doc.save()
-			return _("Issue comment added!")
+			return _("Issue comment removed!")
 
 	return _("Issue comment not found!")
 

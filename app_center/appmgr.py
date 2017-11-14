@@ -333,6 +333,23 @@ def remove_issue_comment():
 
 
 @frappe.whitelist()
+def fix_issue():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	issue = frappe.form_dict.issue
+	action = frappe.form_dict.action
+	comment = "Action: " + action + "\r\n" + frappe.form_dict.comment
+
+	doc = frappe.get_doc("IOT Application Issue", issue)
+	doc.status = action
+	doc.append("comments", {"comment": comment})
+	doc.save()
+
+	return _("Issue fixed!")
+
+
+@frappe.whitelist()
 def ping():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))

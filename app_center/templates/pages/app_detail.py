@@ -15,10 +15,16 @@ def get_comments():
 
 
 def get_reviews():
-	return frappe.db.get_all("IOT Application Review",
+	reviews = frappe.db.get_all("IOT Application Review",
 								fields=["name", "star", "title", "content", "owner", "modified"],
 								limit=20,
 								order_by="modified desc")
+
+	for rev in reviews:
+		if len(rev.content) > 64:
+			rev.content = rev.content[1:64]
+
+	return reviews
 
 
 def get_issues():

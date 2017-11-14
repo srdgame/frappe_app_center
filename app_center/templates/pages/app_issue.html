@@ -93,21 +93,24 @@
 					<div class="summary">
 						{{issue.title}}
 						<div class="date">
-						<i class="{{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} alarm icon"></i>
+						<i class="ui {{'orange' if issue.status =='Open' else 'green' if issue.status=='Fixed' else 'red'}} label">{{issue.status}}</i>
+						<i class="ui {{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} label">{{issue.priority}}</i>
 							{{ frappe.utils.pretty_date(issue.modified) }}
 						</div>
 					</div>
 					<div class="extra text">
 						{{issue.content}}
 					</div>
+					{% if doc.owner == frappe.user %}
 					<div class="meta">
-						<a class="close">
+						<a class="fix">
 							<i class="check square icon"></i> Fixed
 						</a>
-						<a class="close">
+						<a class="invalid">
 							<i class="alarm mute icon"></i> Fixed
 						</a>
 					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -163,12 +166,39 @@
 </div>
 
 
+<div class="ui issue_action modal">
+	<i class="close icon"></i>
+	<div class="header"></div>
+	<div class="content">
+		<form class="ui issue_action comment form" action="/api/method/app_center.appmgr.fix_issue"
+			  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+			<input value="{{issue.name}}" readonly="true" name="issue" type="hidden">
+			<input value="" readonly="true" name="action" type="hidden">
+			<div class="field">
+				<label>{{_("Comment")}} </label>
+				<textarea name="comment"></textarea>
+			</div>
+			<div class="ui primary submit button">{{_("Submit")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}
+
 <script>
 	{% include "templates/pages/app_detail.js" %}
 </script>
+
+{% if frappe.user == issue.owner %}
+<script>
+	$(document).ready(function() {
+	});
+</script>
+{% endif %}
+
 {% endblock %}
 
 

@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$('.ui.review.form, .ui.issue.form').form({
 		fields: {
 			priority: 'empty',
-			title : ['minLength[6]', 'empty'],
+			title : ['minLength[15]', 'empty'],
 			content : ['minLength[50]', 'empty']
 		}
 	});
@@ -113,6 +113,28 @@ $(document).ready(function() {
 	});
 	$('.ui.app.form .cancel.button').click(function(){
 		$('.ui.upload_version.modal').modal('hide');
+	});
+
+	// For issue detail page
+	$('.ui.feed .event .meta .fix').click(function () {
+		$('.ui.issue_action.comment.form input[name="action"]').val("Closed");
+		$('.ui.issue_action.modal .header').html('{{_("Issue fixed")}}');
+		$('.ui.issue_action.modal')
+			.modal({
+				closable: true
+			})
+			.modal('show')
+		;
+	});
+	$('.ui.feed .event .meta .invalid').click(function () {
+		$('.ui.issue_action.comment.form input[name="action"]').val("Invalid");
+		$('.ui.issue_action.modal .header').html('{{_("Invalid issue")}}');
+		$('.ui.issue_action.modal')
+			.modal({
+				closable: true
+			})
+			.modal('show')
+		;
 	});
 {% endif %}
 	var descEditormdViewObj = $('#desc-editormd-view');

@@ -10,6 +10,9 @@ $(document).ready(function() {
 	$('.comment .content .metadata .ui.star.rating')
 	  .rating('disable')
 	;
+	$('.ui.feed .event .ui.star.rating')
+	  .rating('disable')
+	;
 	$('.ui.comment.form').form({
 		fields: {
 			comment : ['minLength[15]', 'empty']

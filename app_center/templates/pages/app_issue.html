@@ -95,22 +95,24 @@
 						<div class="date">
 						<i class="ui {{'orange' if issue.status =='Open' else 'green' if issue.status=='Fixed' else 'red'}} label">{{issue.status}}</i>
 						<i class="ui {{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} label">{{issue.priority}}</i>
-							{{ frappe.utils.pretty_date(issue.modified) }}
 						</div>
 					</div>
 					<div class="extra text">
 						{{issue.content}}
 					</div>
-					{% if doc.owner == frappe.user %}
 					<div class="meta">
+					{% if doc.owner == frappe.user and issue.status == 'Open' %}
 						<a class="fix">
 							<i class="check square icon"></i> Fixed
 						</a>
 						<a class="invalid">
 							<i class="alarm mute icon"></i> Fixed
 						</a>
-					</div>
 					{% endif %}
+						<i class="date">
+							{{_("Modified")}} {{ frappe.utils.pretty_date(issue.modified) }}
+						</i>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -93,6 +93,7 @@
 					<div class="summary">
 						{{review.title}}
 						<div class="date">
+							<span class="ui mini star rating" data-rating="{{review.star}}" data-max-rating="5"></span>
 							{{ frappe.utils.pretty_date(review.modified) }}
 						</div>
 					</div>
@@ -100,7 +101,9 @@
 						{{review.content}}
 					</div>
 					<div class="meta">
-						<span class="ui mini star rating" data-rating="{{review.star}}" data-max-rating="5"></span>
+						<a class="reply" data-review="{{review.name}}">
+							<i class="reply icon"></i>
+						</a>
 					</div>
 				</div>
 			</div>

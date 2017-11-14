@@ -188,11 +188,37 @@ $(document).ready(function() {
 
 
 	$(".ui.feed .event .content .meta .delete").click(function () {
+		var name = $(this).data("name");
+		var type = $(this).data("type");
 		$('.ui.delete_confirm.modal')
 			.modal({
-				closable  : false
+				closable  : false,
+				onApprove : function() {
+					$.post("/api/method/app_center.appmgr.remove_" + type, {"name": name}, function(data) {
+						console.log(data);
+					});
+				}
 			})
 			.modal('show')
 		;
 	});
+	$('.ui.comments .comment .content .actions .delete').click(function() {
+		var name = $(this).data("name");
+		var type = $(this).data("type");
+		var parent = $(this).data("parent");
+		$('.ui.delete_comment.modal')
+			.modal({
+				closable  : false,
+				onApprove : function() {
+					$.post("/api/method/app_center.appmgr.remove_" + type + "_comment",
+						{"parent": parent, "name": name},
+						function(data) {
+							console.log(data);
+						}
+					);
+				}
+			})
+			.modal('show')
+		;
+	})
 });

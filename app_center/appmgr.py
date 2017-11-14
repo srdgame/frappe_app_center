@@ -235,6 +235,17 @@ def add_review():
 
 
 @frappe.whitelist()
+def remove_review():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	name = frappe.form_dict.name
+	frappe.delete_doc("IOT Application Review", name)
+
+	return _("Review deleted!")
+
+
+@frappe.whitelist()
 def add_review_comment():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
@@ -253,11 +264,11 @@ def remove_review_comment():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	review = frappe.form_dict.review
-	comment = frappe.form_dict.comment
-	doc = frappe.get_doc("IOT Application Review", review)
+	parent = frappe.form_dict.parent
+	name = frappe.form_dict.name
+	doc = frappe.get_doc("IOT Application Review", parent)
 	for comm in doc.comments:
-		if comm.name == comment:
+		if comm.name == name:
 			doc.remove(comm)
 			doc.save()
 			return _("Review comment added!")
@@ -284,6 +295,17 @@ def add_comment():
 
 
 @frappe.whitelist()
+def remove_comment():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	name = frappe.form_dict.name
+	frappe.delete_doc("IOT Application Comment", name)
+
+	return _("Comment added!")
+
+
+@frappe.whitelist()
 def add_issue():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
@@ -301,6 +323,17 @@ def add_issue():
 	}).insert()
 
 	return _("Issue added!")
+
+
+@frappe.whitelist()
+def remove_issue():
+	if frappe.request.method != "POST":
+		throw(_("Request Method Must be POST!"))
+
+	name = frappe.form_dict.name
+	frappe.delete_doc("IOT Application Issue", name)
+
+	return _("Review deleted!")
 
 
 @frappe.whitelist()
@@ -322,11 +355,11 @@ def remove_issue_comment():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
-	issue = frappe.form_dict.issue
-	comment = frappe.form_dict.comment
-	doc = frappe.get_doc("IOT Application Issue", issue)
+	parent = frappe.form_dict.parent
+	name = frappe.form_dict.name
+	doc = frappe.get_doc("IOT Application Issue", parent)
 	for comm in doc.comments:
-		if comm.name == comment:
+		if comm.name == name:
 			doc.remove(comm)
 			doc.save()
 			return _("Issue comment added!")

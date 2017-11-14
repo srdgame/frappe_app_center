@@ -27,7 +27,7 @@
 							{{doc.app_name}}
 						</div>
 						<div class="meta">
-							<i class="user icon"></i>{{doc.owner}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
+							<i class="user icon"></i>{{doc.owner if frappe.user != doc.owner else _("Me")}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
 							<i class="fork icon"></i>{{_(doc.protocol)}}, <i class="puzzle icon"></i>{{_(doc.device_supplier)}}, {{_(doc.device_serial)}}
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 					<img src="/assets/app_center/img/avatar/{{rev.owner}}.jpg" alt="image">
 				</a>
 				<div class="content">
-					<a class="author">{{rev.owner}}</a>
+					<a class="author">{{rev.owner if frappe.user != rev.owner else _("Me")}}</a>
 					<div class="metadata">
 						<span class="ui mini star rating" data-rating="{{rev.star}}" data-max-rating="5"></span>
 						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
@@ -146,7 +146,7 @@
 					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
 				</a>
 				<div class="content">
-					<a class="author">{{comm.owner}}</a>
+					<a class="author">{{comm.owner if frappe.user != comm.owner else _("Me")}}</a>
 					<div class="metadata">
 						<span class="date">{{ frappe.utils.pretty_date(comm.modified) }}</span>
 					</div>
@@ -154,7 +154,7 @@
 						{{comm.comment}}
 					</div>
 					<div class="actions">
-						<a class="reply" data-comment="{{comm.name}}">
+						<a class="reply" data-name="{{comm.name}}">
 							<i class="reply icon"></i>
 						</a>
 						<a class="star">
@@ -203,7 +203,7 @@
 				<i class="large alarm {{ 'red' if iss.priority =='High' else 'yellow' if iss.priority=='Middle' else 'olive'}} middle aligned icon"></i>
 				<div class="content">
 					<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title}}</a>
-					<div class="description">{{iss.owner}} - {{ frappe.utils.pretty_date(iss.modified) }}</div>
+					<div class="description">{{iss.owner if frappe.user != iss.owner else _("Me")}} - {{ frappe.utils.pretty_date(iss.modified) }}</div>
 				</div>
 			</div>
 			{% endfor %}

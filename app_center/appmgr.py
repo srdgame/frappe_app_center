@@ -222,7 +222,7 @@ def add_review():
 	app = frappe.form_dict.app
 	star = frappe.form_dict.star
 	title = frappe.form_dict.title
-	content = frappe.form_dict.content.replace('\n', '<br />')
+	content = frappe.form_dict.content.replace('\n', '<br>')
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Review",
 		"app": app,
@@ -240,7 +240,7 @@ def add_review_comment():
 		throw(_("Request Method Must be POST!"))
 
 	review = frappe.form_dict.review
-	comment = frappe.form_dict.comment.replace('\n', '<br />')
+	comment = frappe.form_dict.comment.replace('\n', '<br>')
 	doc = frappe.get_doc("IOT Application Review", review)
 	doc.append("comments", {"comment": comment})
 	doc.save()
@@ -271,7 +271,7 @@ def add_comment():
 		throw(_("Request Method Must be POST!"))
 
 	app = frappe.form_dict.app
-	comment = frappe.form_dict.comment.replace('\n', '<br />')
+	comment = frappe.form_dict.comment.replace('\n', '<br>')
 	reply_to = frappe.form_dict.reply_to
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Comment",
@@ -291,7 +291,7 @@ def add_issue():
 	app = frappe.form_dict.app
 	title = frappe.form_dict.title
 	priority = frappe.form_dict.priority
-	content = frappe.form_dict.content.replace('\n', '<br />')
+	content = frappe.form_dict.content.replace('\n', '<br>')
 	doc = frappe.get_doc({
 		"doctype": "IOT Application Issue",
 		"app": app,
@@ -309,7 +309,7 @@ def add_issue_comment():
 		throw(_("Request Method Must be POST!"))
 
 	issue = frappe.form_dict.issue
-	comment = frappe.form_dict.comment.replace('\n', '<br />')
+	comment = frappe.form_dict.comment.replace('\n', '<br>')
 	doc = frappe.get_doc("IOT Application Issue", issue)
 	doc.append("comments", {"comment": comment})
 	doc.save()

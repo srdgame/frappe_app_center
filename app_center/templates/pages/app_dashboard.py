@@ -8,7 +8,7 @@ from frappe import throw, _
 
 
 def get_most_stars():
-	return frappe.db.get_all("IOT Application", fields="*", limit=5, order_by="app_name")
+	return frappe.db.get_all("IOT Application", fields="*", limit=5, order_by="star desc")
 
 
 def get_recently_updated():

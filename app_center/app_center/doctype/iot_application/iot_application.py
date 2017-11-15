@@ -73,7 +73,7 @@ class IOTApplication(Document):
 
 	def update_star(self):
 		sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
-		star = frappe.db.sql(sql)[0][0]
+		star = int(float(frappe.db.sql(sql)[0][0]) + 0.3)
 		self.set("star", star)
 		self.save()
 

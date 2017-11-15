@@ -17,8 +17,7 @@
   		<div class="column" id="jstree_tree_menu">
 			<div class="ui small secondary menu toolbar">
 				{% if device_link %}
-				<a class="popup icon item apply" data-content="Apply changes to {{device_link}}"><i class="rocket icon"></i>
-				</a>
+				<a class="popup icon item apply" data-content="Pack and install to {{device_link}}"><i class="rocket icon"></i></a>
 				{% else %}
 				<a class="popup icon item tag" data-content="Upload Changes"><i class="tag icon"></i></a>
 				{% endif %}
@@ -100,7 +99,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 {% if device_link %}
 <div class="ui apply_device modal">
 	<div class="header">
-		{{_("Tag a new version and apply to device")}} {{device_link}}
+		{{_("Pack changes and install to")}} {{device_link}}
 	</div>
 	<div class="content">
 		<form class="ui apply_device form" action="/api/method/app_center.editor.editor_apply" method="post" accept-charset="utf-8">

@@ -127,6 +127,15 @@
 				<label>{{_("Comments")}} </label>
 				<textarea name="comments"></textarea>
 			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<input name="terms" tabindex="0" class="hidden" type="checkbox">
+					<label>
+						{{_("I agree to the terms and conditions")}}
+						<a href="/app_license"><i class="ui linkify icon"></i></a>
+					</label>
+				</div>
+			</div>
 			<div class="field">
 				<label>{{_("Application Package")}} </label>
 				<input type="file" name="app_file"/>

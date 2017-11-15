@@ -114,7 +114,7 @@ $(document).ready(function() {
 			.modal('show')
 		;
 	});
-	$('.ui.app.form .cancel.button').click(function(){
+	$('.ui.upload_app.form .cancel.button').click(function(){
 		$('.ui.upload_version.modal').modal('hide');
 	});
 

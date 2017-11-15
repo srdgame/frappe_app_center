@@ -357,6 +357,23 @@ def editor_revert():
 
 
 @frappe.whitelist()
+def editor_apply():
+	from iot.iot.device_api import send_action
+	device = frappe.form_dict.device
+	inst = frappe.form_dict.inst
+	app = frappe.form_dict.app
+	if not app or not inst or not device:
+		raise frappe.ValidationError
+
+	editor_release()
+	data = {
+		"inst": inst,
+		"name": app
+	}
+	return send_action("app", action="upgrade", device=device, data=data)
+
+
+@frappe.whitelist()
 def ping():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))

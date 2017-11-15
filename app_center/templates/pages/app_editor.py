@@ -17,6 +17,7 @@ def get_context(context):
 		raise frappe.DoesNotExistError(_("Application not specified"))
 
 	device_link = frappe.form_dict.device
+	app_inst = frappe.form_dict.app_inst
 	version_want = int(frappe.form_dict.version)
 
 	app_doc = frappe.get_doc("IOT Application", app)
@@ -31,6 +32,7 @@ def get_context(context):
 
 	context.doc = app_doc
 	context.device_link = device_link
+	context.app_inst = app_inst
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 
 	context.version_want = version_want

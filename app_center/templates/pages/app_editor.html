@@ -106,6 +106,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		<form class="ui apply_device form" action="/api/method/app_center.app_editor.editor_apply" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<input value="{{device_link}}" readonly="true" name="device" type="hidden">
+			<input value="{{app_inst}}" readonly="true" name="inst" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>
 				<input value="{{version_want + 1}}" readonly="true" name="version" type="text" tabindex="0"/>

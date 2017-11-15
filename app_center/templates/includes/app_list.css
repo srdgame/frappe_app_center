@@ -1,0 +1,7 @@
+
+.ui.items>.item .meta {
+    display: inline-block;
+    margin-left: .5em;
+    color: rgba(0,0,0,.4);
+    font-size: .875em;
+}

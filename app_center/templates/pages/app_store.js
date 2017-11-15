@@ -7,6 +7,10 @@ function jsonToQueryString(json) {
 };
 
 $(document).ready(function() {
+	$('.ui.items .item .content .meta .ui.star.rating')
+	  .rating('disable')
+	;
+
 	$('.ui.app-refresh.button').click(function () {
 		var query_data = {}
 		var category = $('#category_filter .menu .item.selected').attr("value");

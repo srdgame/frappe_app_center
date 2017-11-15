@@ -6,13 +6,34 @@ function jsonToQueryString(json) {
         }).join('&');
 };
 
+function on_upload_app_form_success() {
+	setTimeout(function () {
+		$('.ui.upload_version.modal').modal('hide');
+	}, 1000);
+};
+
 $(document).ready(function() {
-	$('.ui.app-upload.button').click(function () {
-		var app = $(this).attr("app");
-		window.location.href="/app_upload?app="+app;
+	$('.ui.items .item .content .meta .ui.star.rating')
+	  .rating('disable')
+	;
+	$('.ui.items .item .content .extra .upload').click(function () {
+		var app = $(this).data("name");
+		var upload_form = $('.ui.upload_version.modal .ui.upload_app.form');
+		upload_form.resetForm();
+		upload_form.find('input[name="app"]').val(app);
+		$('.ui.upload_version.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
 	});
-	$('.ui.app-modify.button').click(function () {
-		var app = $(this).attr("app");
+	$('.ui.upload_version.modal .ui.upload_app.form .cancel.button').click(function(){
+		$('.ui.upload_version.modal').modal('hide');
+	});
+
+	$('.ui.items .item .content .extra .modify').click(function () {
+		var app = $(this).data("name");
 		window.location.href="/app_modify?app="+app;
 	});
 	$('.ui.app-add.button').click(function () {

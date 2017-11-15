@@ -1,5 +1,14 @@
 {% extends "templates/apc_base.html" %}
 
+{% block title %}{{ _("Your applications") }} {% endblock %}
+
+{% block header %}  {% endblock %}
+
+{% block style %}
+<style>
+{% include "templates/includes/app_list.css" %}
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -41,31 +50,59 @@
                 {% for app in apps %}
                 <div class="ui divider"></div>
                 <div class="item">
-                    <a class="ui tiny circular image" href="/app_detail?app={{app.name}}">
+                    <a class="ui tiny image" href="/app_detail?app={{app.name}}">
                         <img src="/files/app_center_files/{{app.name}}/icon.png" alt="label-image">
                     </a>
                     <div class="content">
                         <a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
-                        <div class="description">
-                            <p>
-                                <a class="ui label">{{_(app.category)}}</a>
-                                <a class="ui label">{{_(app.protocol)}}</a>
-                                <a class="ui label">{{_(app.device_supplier)}}</a>
-                                <a class="ui label">{{_(app.device_serial)}}</a> -
-                                {% if app.license_type == 'Open' %}
-                                <a class="ui teal mini label">{{_("Free")}}</a>
-                                {% endif %}
-                                {% if app.license_type == 'Private' %}
-                                <a class="ui orange mini label">{{_("Private")}}</a>
-                                {% endif %}
-                                {% if app.license_type == 'Close' %}
-                                <a class="ui red mini label">{{_("Closed")}}</a>
-                                {% endif %}
-                                <button class="ui right floated tiny teal app-upload button" app="{{app.name}}"> Upload New </button>
-                                <button class="ui right floated tiny yellow app-modify button" app="{{app.name}}"> Modify </button>
-                            </p>
-                        </div>
-                    </div>
+						<div class="meta">
+							<span class="ui mini star rating" data-rating="{{app.star or 3}}" data-max-rating="5"></span>
+							<span class="date">{{ frappe.utils.pretty_date(app.modified) }}</span>
+						</div>
+						<div class="description">
+							<div class="ui small tag labels">
+								<a class="ui label">{{_(app.category)}}</a>
+								<a class="ui label">{{_(app.protocol)}}</a>
+								<a class="ui label">{{_(app.device_supplier)}}</a>
+								<a class="ui label">{{_(app.device_serial)}}</a>
+								{% if app.license_type == 'Open' %}
+								<a class="ui label">{{_("Free")}}</a>
+								{% endif %}
+								{% if app.license_type == 'Private' %}
+								<a class="ui label">{{_("Private")}}</a>
+								{% endif %}
+								{% if app.license_type == 'Close' %}
+								<a class="ui label">{{_("Closed")}}</a>
+								{% endif %}
+							</div>
+						</div>
+						<div class="extra">
+							<a class="comment" data-name="{{app.name}}">
+								<i class="talk icon"></i>
+							</a>
+							{% if frappe.user == app.owner %}
+							<a class="retweet" data-name="{{app.name}}">
+								<i class="retweet icon"></i>
+							</a>
+							<a class="upload" data-name="{{app.name}}">
+								<i class="cloud upload icon"></i>
+							</a>
+							<a class="modify" data-name="{{app.name}}">
+								<i class="edit icon"></i>
+							</a>
+							{% else %}
+							<a class="star" data-name="{{app.name}}">
+								<i class="star icon"></i>
+							</a>
+							<a class="retweet" data-name="{{app.name}}">
+								<i class="retweet icon"></i>
+							</a>
+							<a class="heart" data-name="{{app.name}}">
+								<i class="heart icon"></i>
+							</a>
+							{% endif %}
+						</div>
+					</div>
                 </div>
                 {% endfor %}
                 <div class="ui divider"></div>
@@ -73,10 +110,44 @@
         </div>
     </div>
 </div>
+
+<div class="ui upload_version modal">
+	<div class="header">
+		  {{_('Upload new version')}}
+	</div>
+	<div class="content">
+		<form class="ui upload_app form" action="/api/method/app_center.appmgr.upload"
+			  method="post" accept-charset="utf-8" enctype="multipart/form-data">
+			<input value="" readonly="true" name="app" type="hidden">
+			<div class="required inline field">
+				<label>{{_("Version")}}</label>
+				<input placeholder="Application Name" name="version" type="text" tabindex="0">
+			</div>
+			<div class="hidden field">
+				<label>{{_("Comments")}} </label>
+				<textarea name="comments"></textarea>
+			</div>
+			<div class="field">
+				<label>{{_("Application Package")}} </label>
+				<input type="file" name="app_file"/>
+			</div>
+
+			<div class="ui tiny teal progress">
+				<div class="bar"></div>
+			</div>
+
+			<div class="ui primary submit button">{{_("Upload")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}
 <script>
 	{% include "templates/pages/app_list.js" %}
+	{% include "templates/pages/app_upload.js" %}
 </script>
 {% endblock %}

@@ -53,14 +53,12 @@ def upload():
 
 	version = int(frappe.form_dict.version)
 	app = frappe.form_dict.app
-	app_name = frappe.form_dict.app_name
-	owner = frappe.form_dict.owner or frappe.session.user
 	comment = frappe.form_dict.comment or "Unknown comment"
 
 	if not version:
 		throw(_("Application version not found!"))
 
-	if not app or not app_name:
+	if not app:
 		throw(_("Application name not found!"))
 
 	if not frappe.request.files:
@@ -77,6 +75,7 @@ def upload():
 
 		ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
 		if ext != frappe.get_value("IOT Application", app, "app_ext"):
+			print(ext, frappe.get_value("IOT Application", app, "app_ext"))
 			throw(_("Appication file extension name incorrect!"))
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
@@ -85,7 +84,6 @@ def upload():
 		data = {
 			"doctype": "IOT Application Version",
 			"app": app,
-			"app_name": app_name,
 			"version": version,
 			"beta": 1,
 			"comment": comment,

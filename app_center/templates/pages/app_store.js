@@ -10,6 +10,14 @@ $(document).ready(function() {
 	$('.ui.items .item .content .meta .ui.star.rating')
 	  .rating('disable')
 	;
+	$('.ui.items .item .content .extra .upload').click(function () {
+		var app = $(this).data("name");
+		window.location.href="/app_upload?app="+app;
+	});
+	$('.ui.items .item .content .extra .modify').click(function () {
+		var app = $(this).data("name");
+		window.location.href="/app_modify?app="+app;
+	});
 
 	$('.ui.app-refresh.button').click(function () {
 		var query_data = {}

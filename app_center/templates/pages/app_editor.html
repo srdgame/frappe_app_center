@@ -16,7 +16,12 @@
 	<div class="ui stackable two column grid">
   		<div class="column" id="jstree_tree_menu">
 			<div class="ui small secondary menu toolbar">
+				{% if device_link %}
+				<a class="popup icon item apply" data-content="Apply changes to {{device_link}}"><i class="rocket icon"></i>
+				</a>
+				{% else %}
 				<a class="popup icon item tag" data-content="Upload Changes"><i class="tag icon"></i></a>
+				{% endif %}
 				<a class="disabled popup icon item upload" data-content="Upload Changes"><i class="cloud upload icon"></i></a>
 				<a class="popup icon item revert" data-content="Revert To Specified Version"><i class="ion-arrow-return-left icon"></i></a>
 				<a class="popup icon item folder" data-content="Create Folder"><i class="folder icon"></i></a>
@@ -92,6 +97,38 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 	</div>
 </div>
 
+{% if device_link %}
+<div class="ui apply_device modal">
+	<div class="header">
+		{{_("Tag a new version and apply to device")}} {{device_link}}
+	</div>
+	<div class="content">
+		<form class="ui apply_device form" action="/api/method/app_center.app_editor.editor_apply" method="post" accept-charset="utf-8">
+			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
+			<input value="{{device_link}}" readonly="true" name="device" type="hidden">
+			<div class="field">
+				<label>{{_("Version")}}</label>
+				<input value="{{version_want + 1}}" readonly="true" name="version" type="text" tabindex="0"/>
+			</div>
+			<div class="field">
+				<label>{{_("Comment")}}</label>
+				<textarea name="comment"></textarea>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<input name="terms" tabindex="0" class="hidden" type="checkbox">
+					<label>I agree to the terms and conditions</label>
+				</div>
+			</div>
+			<div class="ui primary submit button">{{_("Apply")}}</div>
+			<div class="ui cancel button">{{_("Cancel")}}</div>
+			<div class="ui success message"></div>
+			<div class="ui error message"></div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
 <div class="ui mini revert_app modal">
 	<div class="header">
 		{{_("Revert editor workspace to")}}
@@ -133,6 +170,24 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		</div>
 	</div>
 </div>
+
+{% if show_version_warning %}
+<div class="ui mini warning version_warning modal">
+	<div class="header">
+		{{_("Version Warning!")}}
+	</div>
+	<div class="content">
+		<p>{{_("Current application has newer version than ")}} <b>{{version_want}}</b></p>
+		<p>{{_("You need to upgrade application version to be latest first!!!")}} </p>
+	</div>
+	<div class="actions">
+		<div class="ui positive button">
+			{{_("OK")}}
+		</div>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block script %}
@@ -142,6 +197,13 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 <script>
 	{% include "templates/pages/app_editor.js" %}
 </script>
+
+{% if show_version_warning %}
+<script>
+	$('.ui.version_warning.modal').modal('show');
+</script>
+{% endif %}
+
 {% endblock %}
 
 

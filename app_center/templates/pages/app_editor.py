@@ -16,6 +16,9 @@ def get_context(context):
 	if not app:
 		raise frappe.DoesNotExistError(_("Application not specified"))
 
+	device_link = frappe.form_dict.device
+	version_want = int(frappe.form_dict.version)
+
 	app_doc = frappe.get_doc("IOT Application", app)
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'App User' not in user_roles:
@@ -27,4 +30,10 @@ def get_context(context):
 	context.no_cache = 1
 
 	context.doc = app_doc
+	context.device_link = device_link
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
+
+	context.version_want = version_want
+	if version_want is not None:
+		if version_want < context.releases[0].version:
+			context.show_version_warning = True

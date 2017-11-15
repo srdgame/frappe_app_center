@@ -13,10 +13,9 @@ class IOTApplicationVersion(Document):
 	def validate(self):
 		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')
 		if self.is_new():
-			sql = "select max(version) from `tabIOT Application Version` where app='{0}'".format(self.app)
-			max_version = frappe.db.sql(sql)[0][0]
-			if max_version > self.version:
-				throw(_("Version must be bigger than {0}").format(max_version))
+			latest = self.get_latest_version(self.app)
+			if latest > self.version:
+				throw(_("Version must be bigger than {0}").format(latest))
 
 	def autoname(self):
 		self.name = self.app + "." + str(self.version)
@@ -37,3 +36,8 @@ class IOTApplicationVersion(Document):
 		self.set("approved", 1)
 		self.set("approved_date", now())
 		self.save()
+
+	@staticmethod
+	def get_latest_version(app):
+		sql = "select max(version) from `tabIOT Application Version` where app='{0}'".format(app)
+		return frappe.db.sql(sql)[0][0]

@@ -20,7 +20,7 @@ $(document).ready(function() {
 	});
 
 	$('.ui.app-refresh.button').click(function () {
-		var query_data = {}
+		var query_data = {};
 		var category = $('#category_filter .menu .item.selected').attr("value");
 		if (category != null) {
 			query_data["category"] = category;

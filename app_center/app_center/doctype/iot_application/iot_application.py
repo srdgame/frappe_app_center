@@ -48,8 +48,11 @@ class IOTApplication(Document):
 		except Exception as ex:
 			frappe.logger(__name__).error(ex.message)
 
+	def get_fork(self, owner, version):
+		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version}, "name")
+
 	def fork(self, by_user, version):
-		if frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version}, "name"):
+		if self.get_fork(by_user, version):
 			throw(_("You have already forked {0} version {1}").format(self.app_name, version))
 		data = {
 			"doctype": "IOT Application",

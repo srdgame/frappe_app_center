@@ -373,8 +373,9 @@ $(document).ready(function() {
 		ref.delete_node(sel);
 	};
 
-	$('.ui.new_tag.form').form({
+	$('.ui.new_tag.form, .ui.apply_device.form').form({
 		fields: {
+			device : 'empty',
 			version : 'integer',
 			comment : ['minLength[10]', 'empty'],
 			terms : 'checked'
@@ -402,6 +403,30 @@ $(document).ready(function() {
 	});
 	$('.ui.new_tag.form .cancel.button').click(function(){
 		$('.ui.new_tag.modal').modal('hide');
+	});
+
+	$('.ui.apply_device.form').ajaxForm({
+		dataType: 'json',
+		resetForm: true,
+		beforeSend: function () {
+			$('.ui.apply_device.form').removeClass('success').removeClass('error');
+		},
+		success: function (response) {
+			$('.ui.apply_device.form .ui.success.message').html(response.message);
+			$('.ui.apply_device.form').addClass('success');
+			setTimeout(function () {
+				$('.ui.tag_app.modal').modal('hide');
+			}, 1000);
+		},
+		error: function(xhr) {
+			$('.ui.apply_device.form').addClass('error');
+			$('.ui.apply_device.form .ui.error.message').html(xhr.responseText);
+			console.log('Release Application Exception:' + xhr.responseText);
+			$('.ui.apply_device.form .ui.error.message').html(xhr.responseJSON.exc);
+		}
+	});
+	$('.ui.apply_device.form .cancel.button').click(function(){
+		$('.ui.apply_device.modal').modal('hide');
 	});
 
 	$('.ui.revert_app.form').form({
@@ -461,6 +486,14 @@ $(document).ready(function() {
 				alert("Upload Failed!");
 			});
 	};
+	var apply_application = function() {
+		$('.ui.apply_device.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	};
 	var tag_application = function() {
 		$('.ui.new_tag.modal')
 			.modal({
@@ -488,6 +521,7 @@ $(document).ready(function() {
 	};
 
 	$('#jstree_tree_menu .item.tag').click(tag_application);
+	$('#jstree_tree_menu .item.apply').click(apply_application);
 	$('#jstree_tree_menu .item.upload').click(upload_application);
 	$('#jstree_tree_menu .item.revert').click(revert_application);
 	$('#jstree_tree_menu .item.file').click(jstree_create_file);

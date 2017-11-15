@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import time
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
@@ -70,6 +71,12 @@ class IOTApplication(Document):
 		}
 		return frappe.get_doc(data).insert()
 
+	def update_star(self):
+		sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
+		star = frappe.db.sql(sql)[0][0]
+		self.set("star", star)
+		self.save()
+
 
 def get_recently_apps(as_list=False):
 	"""Returns a count of incomplete todos"""
@@ -84,3 +91,9 @@ def get_recently_apps(as_list=False):
 		return data
 	else:
 		return data[0][0]
+
+
+def update_star(app):
+	time.sleep(3)
+	doc = frappe.get_doc("IOT Application", app)
+	doc.update_star()

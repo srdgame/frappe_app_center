@@ -71,7 +71,7 @@ class IOTApplication(Document):
 		}
 		return frappe.get_doc(data).insert()
 
-	def update_star(self):
+	def update_stars(self):
 		sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
 		star = float(frappe.db.sql(sql)[0][0])
 		self.set("star", star)
@@ -93,7 +93,7 @@ def get_recently_apps(as_list=False):
 		return data[0][0]
 
 
-def update_star(app):
+def update_stars(app):
 	time.sleep(3)
 	doc = frappe.get_doc("IOT Application", app)
-	doc.update_star()
+	doc.update_stars()

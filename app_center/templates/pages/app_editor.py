@@ -19,6 +19,8 @@ def get_context(context):
 	device_link = frappe.form_dict.device
 	app_inst = frappe.form_dict.app_inst
 	version_want = int(frappe.form_dict.version)
+	if device_link and (not app_inst or not version_want):
+		raise frappe.ValidationError
 
 	app_doc = frappe.get_doc("IOT Application", app)
 	user_roles = frappe.get_roles(frappe.session.user)

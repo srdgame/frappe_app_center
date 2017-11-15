@@ -141,7 +141,7 @@ $(document).ready(function() {
 		}
 	};
 
-	var backend_url = '/api/method/app_center.app_editor.editor?app=' + cur_app;
+	var backend_url = '/api/method/app_center.editor.editor?app=' + cur_app;
 	var get_file_content = function(doc_name) {
 		$.get(backend_url+'&operation=get_content&id=' + doc_name, function (d) {
 			if(d && typeof d.type !== 'undefined') {
@@ -461,7 +461,7 @@ $(document).ready(function() {
 	});
 
 	var upload_application_file = function(name, content) {
-		var backend_url = '/api/method/app_center.app_editor.editor';
+		var backend_url = '/api/method/app_center.editor.editor';
 		var args = {
 			'app': cur_app,
 			'operation': 'set_content',

@@ -73,7 +73,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Tag a new version")}}
 	</div>
 	<div class="content">
-		<form class="ui new_tag form" action="/api/method/app_center.app_editor.editor_release" method="post" accept-charset="utf-8">
+		<form class="ui new_tag form" action="/api/method/app_center.editor.editor_release" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>
@@ -103,7 +103,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Tag a new version and apply to device")}} {{device_link}}
 	</div>
 	<div class="content">
-		<form class="ui apply_device form" action="/api/method/app_center.app_editor.editor_apply" method="post" accept-charset="utf-8">
+		<form class="ui apply_device form" action="/api/method/app_center.editor.editor_apply" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<input value="{{device_link}}" readonly="true" name="device" type="hidden">
 			<input value="{{app_inst}}" readonly="true" name="inst" type="hidden">
@@ -135,7 +135,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Revert editor workspace to")}}
 	</div>
 	<div class="content">
-		<form class="ui revert_app form" action="/api/method/app_center.app_editor.editor_revert" method="post" accept-charset="utf-8">
+		<form class="ui revert_app form" action="/api/method/app_center.editor.editor_revert" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>

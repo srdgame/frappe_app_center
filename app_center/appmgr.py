@@ -106,8 +106,9 @@ def save_app_icon(app, f):
 	if ext not in ['png', 'PNG']:
 		throw(_("Application icon must be png file!"))
 
-	file_dir = get_app_release_path(app)
-	f.save(os.path.join(file_dir, "icon.png"))  # 保存文件到upload目录
+	file_path = os.path.join(get_app_release_path(app), "icon.png")
+	f.save(file_path)  # 保存文件到upload目录
+	return file_path
 
 
 @frappe.whitelist()
@@ -137,7 +138,8 @@ def new():
 
 	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
 	if f:
-		save_app_icon(doc.name, f)
+		file_path = save_app_icon(doc.name, f)
+		doc.set("icon_image", file_path)
 
 	return doc
 
@@ -162,11 +164,13 @@ def modify():
 	doc.set("device_supplier", device_supplier)
 	doc.set("device_serial", device_serial)
 	doc.set("description", description)
-	doc.save()
 
 	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
 	if f:
-		save_app_icon(doc.name, f)
+		file_path = save_app_icon(doc.name, f)
+		doc.set("icon_image", file_path)
+
+	doc.save()
 
 	return doc
 

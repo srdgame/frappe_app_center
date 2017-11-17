@@ -87,7 +87,7 @@
 		<div class="ui large feed">
 			<div class="event">
 				<div class="label">
-      				<img src="/assets/app_center/img/avatar/{{review.owner}}.jpg">
+      				<img src="{{frappe.get_gravatar(review.owner)}}">
 				</div>
 				<div class="content">
 					<div class="summary">
@@ -122,7 +122,7 @@
 			{% for comm in review.comments %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
+					<img src="{{frappe.get_gravatar(comm.owner)}}" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{comm.owner if frappe.user != comm.owner else _("Me")}}</a>

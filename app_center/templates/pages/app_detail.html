@@ -94,7 +94,7 @@
 			{% for rev in reviews %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="/assets/app_center/img/avatar/{{rev.owner}}.jpg" alt="image">
+					<img src="{{frappe.get_gravatar(rev.owner)}}" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{rev.owner if frappe.user != rev.owner else _("Me")}}</a>
@@ -143,7 +143,7 @@
 			{% for comm in comments %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="/assets/app_center/img/avatar/{{comm.owner}}.jpg" alt="image">
+					<img src="{{frappe.get_gravatar(comm.owner)}}" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{comm.owner if frappe.user != comm.owner else _("Me")}}</a>

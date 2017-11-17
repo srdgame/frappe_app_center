@@ -18,7 +18,7 @@ def get_context(context):
 
 	device_link = frappe.form_dict.device
 	app_inst = frappe.form_dict.app_inst
-	version_want = int(frappe.form_dict.version)
+	version_want = frappe.form_dict.version
 	if device_link and (not app_inst or not version_want):
 		raise frappe.ValidationError
 
@@ -37,7 +37,10 @@ def get_context(context):
 	context.app_inst = app_inst
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 
-	context.version_want = version_want
 	if version_want is not None:
+		version_want = int(version_want)
+
+	if version_want is not None:
+		context.version_want = version_want
 		if version_want < context.releases[0].version:
 			context.show_version_warning = True

@@ -109,7 +109,7 @@ def save_app_icon(app, f):
 	file_path = os.path.join(get_app_release_path(app), "icon.png")
 	f.save(file_path)  # 保存文件到upload目录
 
-	return "/files/app_center_files/" + app.name + "/icon.png"
+	return "/files/app_center_files/" + app + "/icon.png"
 
 
 @frappe.whitelist()
@@ -267,8 +267,8 @@ def add_review_comment():
 	review = frappe.form_dict.review
 	comment = frappe.form_dict.comment.replace('\n', '<br>')
 	doc = frappe.get_doc("IOT Application Review", review)
-	doc.append("comments", {"comment": comment})
-	doc.save()
+	doc.append("comments", {"comment": comment, "owner": frappe.session.user})
+	doc.save(ignore_permissions=True)
 
 	return _("Review comment added!")
 
@@ -282,9 +282,9 @@ def remove_review_comment():
 	name = frappe.form_dict.name
 	doc = frappe.get_doc("IOT Application Review", parent)
 	for comm in doc.comments:
-		if comm.name == name:
+		if comm.name == name and comm.owner == frappe.session.user:
 			doc.remove(comm)
-			doc.save()
+			doc.save(ignore_permissions=True)
 			return _("Review comment removed!")
 
 	return _("Review comment not found!")
@@ -358,8 +358,8 @@ def add_issue_comment():
 	issue = frappe.form_dict.issue
 	comment = frappe.form_dict.comment.replace('\n', '<br>')
 	doc = frappe.get_doc("IOT Application Issue", issue)
-	doc.append("comments", {"comment": comment})
-	doc.save()
+	doc.append("comments", {"comment": comment, "owner": frappe.session.user})
+	doc.save(ignore_permissions=True)
 
 	return _("Issue comment added!")
 
@@ -373,9 +373,9 @@ def remove_issue_comment():
 	name = frappe.form_dict.name
 	doc = frappe.get_doc("IOT Application Issue", parent)
 	for comm in doc.comments:
-		if comm.name == name:
+		if comm.name == name and comm.owner == frappe.session.user:
 			doc.remove(comm)
-			doc.save()
+			doc.save(ignore_permissions=True)
 			return _("Issue comment removed!")
 
 	return _("Issue comment not found!")

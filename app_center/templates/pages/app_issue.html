@@ -126,7 +126,7 @@
 			{% for comm in issue.comments %}
 			<div class="comment">
 				<a class="avatar">
-					<img src="{{frappe.get_gravatar(comm.owner}}" alt="image">
+					<img src="{{frappe.get_gravatar(comm.owner)}}" alt="image">
 				</a>
 				<div class="content">
 					<a class="author">{{comm.owner if frappe.user != comm.owner else _("Me")}}</a>

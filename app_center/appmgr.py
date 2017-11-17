@@ -108,7 +108,8 @@ def save_app_icon(app, f):
 
 	file_path = os.path.join(get_app_release_path(app), "icon.png")
 	f.save(file_path)  # 保存文件到upload目录
-	return file_path
+
+	return "/files/app_center_files/" + app.name + "/icon.png"
 
 
 @frappe.whitelist()
@@ -140,6 +141,7 @@ def new():
 	if f:
 		file_path = save_app_icon(doc.name, f)
 		doc.set("icon_image", file_path)
+		doc.save()
 
 	return doc
 

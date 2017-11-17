@@ -105,7 +105,7 @@
 				<div class="ui horizontal list">
 					{% for app in most_stars %}
 					<div class="item">
-						<img class="ui avatar image" src="/files/app_center_files/{{app.name}}/icon.png" alt="image">
+						<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
 						<div class="content">
 							<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
 							{{app.category}}
@@ -123,7 +123,7 @@
 				<div class="ui ordered horizontal list">
 					{% for app in recently_updated %}
 					<div class="item">
-						<img class="ui avatar image" src="/files/app_center_files/{{app.name}}/icon.png" alt="image">
+						<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
 						<div class="content">
 							<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
 							{{app.category}}

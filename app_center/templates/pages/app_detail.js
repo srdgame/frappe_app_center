@@ -255,7 +255,8 @@ $(document).ready(function() {
 	$('.ui.comments .comment .content .actions .install').click(function() {
 		var app =  $(this).data('app');
 		var version = $(this).data('version');
-		window.open("/files/app_center_files/" + app + "/" + version + ".zip");
+		// Show device list then apply installation to selected device
+		//window.open("/files/app_center_files/" + app + "/" + version + ".zip");
 	});
 	$('.ui.comments .comment .content .actions .fork').click(function() {
 		var version = $(this).data('version');
@@ -266,5 +267,12 @@ $(document).ready(function() {
 			})
 			.modal('show')
 		;
+	});
+	$('.ui.comments .comment .content .actions .reply').click(function(){
+		var reply_name = $(this).data('name');
+		var reply_user = $(this).data('user');
+		$('.ui.comment.form input[name="reply_to"]').val(reply_name);
+		$('.ui.comment.form input[name="reply_to_user"]').val(reply_user);
+		$('.ui.comment.form textarea[name="comment"]').focus();
 	});
 });

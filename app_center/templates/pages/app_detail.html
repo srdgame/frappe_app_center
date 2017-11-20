@@ -154,7 +154,7 @@
 						{{comm.comment}}
 					</div>
 					<div class="actions">
-						<a class="reply" data-name="{{comm.name}}">
+						<a class="reply" data-name="{{comm.name}}" data-user="{{comm.owner}}">
 							<i class="reply icon"></i>
 						</a>
 						<a class="star">
@@ -183,7 +183,11 @@
 			  method="post" accept-charset="utf-8" enctype="application/json">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
-				<input value="" placeholder="{{_('Reply to')}}" readonly="true" name="reply_to" type="text">
+				<input value="" placeholder="{{_('Reply to')}}" readonly="true" name="reply_to" type="hidden">
+			</div>
+			<div class="inline field">
+				<labe>{{_("Reply to")}}:</labe>
+				<input value="" placeholder="{{_('Reply to')}}" readonly="true" name="reply_to_user" type="text">
 			</div>
 			<div class="field">
 				<textarea name="comment" placeholder="{{_('Your comment')}}"></textarea>

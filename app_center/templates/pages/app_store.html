@@ -19,49 +19,84 @@
 		</h2>
 		<div class="ui attached segment">
             <div class="ui items">
-				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
+
+				<div class="ui floating dropdown labeled icon button" tabindex="0" id="category_filter">
 					<i class="filter icon"></i>
 					{% if filters.category %}
-					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
+					<span class="text"><i class="ui green empty circular label"></i> {{_(filters.category)}}</span>
 					{% else %}
 					<span class="text">{{_("Category Filter")}}</span>
 					{% endif %}
 					<div class="menu">
-						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category == item else ''}}" value="{{item}}">
-							<i class="ui green empty circular label"></i>{{_(item)}}
+						<div class="ui icon search input">
+							<i class="search icon"></i>
+							<input placeholder="{{_('Search category')}}..." type="text">
 						</div>
+						<div class="divider"></div>
+						<div class="header">
+							<i class="tags icon"></i>
+							{{_("Application Categories")}}
+						</div>
+						<div class="scrolling menu">
+						{% for item in categories %}
+							<div class="item{{ ' active selected' if filters.category  == item else ''}}" value="{{item}}">
+								<i class="ui green empty circular label"></i> {{_(item)}}
+							</div>
 						{% endfor %}
+						</div>
 					</div>
 				</div>
-				<div class="ui floating dropdown labeled search icon button" id="protocol_filter">
+
+				<div class="ui floating dropdown labeled icon button" tabindex="0" id="protocol_filter">
 					<i class="filter icon"></i>
 					{% if filters.protocol %}
-					<span class="text"><i class="ui teal empty circular label"></i>{{_(filters.protocol)}}</span>
+					<span class="text"><i class="ui green empty circular label"></i> {{_(filters.protocol)}}</span>
 					{% else %}
 					<span class="text">{{_("Protocol Filter")}}</span>
 					{% endif %}
 					<div class="menu">
-						{% for item in protocols %}
-						<div class="item {{ 'active selected' if filters.protocol == item else ''}}" value="{{item}}">
-							<i class="ui teal empty circular label"></i>{{_(item)}}
+						<div class="ui icon search input">
+							<i class="search icon"></i>
+							<input placeholder="{{_('Search category')}}..." type="text">
 						</div>
+						<div class="divider"></div>
+						<div class="header">
+							<i class="tags icon"></i>
+							{{_("Application Protocols")}}
+						</div>
+						<div class="scrolling menu">
+						{% for item in protocols %}
+							<div class="item{{ ' active selected' if filters.protocol  == item else ''}}" value="{{item}}">
+								<i class="ui green empty circular label"></i> {{_(item)}}
+							</div>
 						{% endfor %}
+						</div>
 					</div>
 				</div>
-				<div class="ui floating dropdown labeled search icon button" id="supplier_filter">
+				<div class="ui floating dropdown labeled icon button" tabindex="0" id="supplier_filter">
 					<i class="filter icon"></i>
 					{% if filters.device_supplier %}
-					<span class="text"><i class="ui blue empty circular label"></i>{{_(filters.device_supplier)}}</span>
+					<span class="text"><i class="ui green empty circular label"></i> {{_(filters.device_supplier)}}</span>
 					{% else %}
 					<span class="text">{{_("Supplier Filter")}}</span>
 					{% endif %}
 					<div class="menu">
-						{% for item in suppliers %}
-						<div class="item {{ 'active selected' if filters.device_supplier == item else ''}}" value="{{item}}">
-							<i class="ui blue empty circular label"></i>{{_(item)}}
+						<div class="ui icon search input">
+							<i class="search icon"></i>
+							<input placeholder="{{_('Search supplier')}}..." type="text">
 						</div>
+						<div class="divider"></div>
+						<div class="header">
+							<i class="tags icon"></i>
+							{{_("Application Suppliers")}}
+						</div>
+						<div class="scrolling menu">
+						{% for item in suppliers %}
+							<div class="item{{ ' active selected' if filters.category  == item else ''}}" value="{{item}}">
+								<i class="ui green empty circular label"></i> {{_(item)}}
+							</div>
 						{% endfor %}
+						</div>
 					</div>
 				</div>
                 <button class="ui app-clean icon button">

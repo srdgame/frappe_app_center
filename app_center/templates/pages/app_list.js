@@ -40,12 +40,19 @@ $(document).ready(function() {
 		var app = $(this).data("name");
 		window.location.href="/app_detail?app="+app+"&tab=comments";
 	});
+	$('.ui.items .item .description .labels .label.category').click(function() {
+		var cate = $(this).data('value');
+		var cate_text = $(this).text();
+		$('#category_filter').find('.text').html('<i class="ui green empty circular label"></i> ' + cate_text);
+		$('#category_filter .menu .item.selected').removeClass("active selected");
+		$('#category_filter .menu [data-value="' + cate + '"]').addClass("active selected");
+	});
 
 	$('.ui.app-add.button').click(function () {
 		window.location.href="/app_new";
 	});
 	$('.ui.app-refresh.button').click(function () {
-		var category = $('#category_filter .menu .item.selected').attr("value");
+		var category = $('#category_filter .menu .item.selected').data("value");
 		if (category != null) {
 			window.location.href="/app_list"+jsonToQueryString({"category":category});
 		} else {

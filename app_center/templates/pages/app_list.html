@@ -37,8 +37,8 @@
 						</div>
 						<div class="scrolling menu">
 						{% for item in categories %}
-							<div class="item{{ ' active selected' if filters.category  == item else ''}}" value="{{item}}">
-								<i class="ui green empty circular label"></i> {{_(item)}}
+							<div class="item{{ ' active selected' if filters.category  == item else ''}}" data-value="{{item}}">
+								<i class="ui teal empty circular label"></i> {{_(item)}}
 							</div>
 						{% endfor %}
 						</div>
@@ -73,18 +73,18 @@
 						</div>
 						<div class="description">
 							<div class="ui small tag labels">
-								<a class="ui label">{{_(app.category)}}</a>
-								<a class="ui label">{{_(app.protocol)}}</a>
-								<a class="ui label">{{_(app.device_supplier)}}</a>
-								<a class="ui label">{{_(app.device_serial)}}</a>
+								<a class="ui teal label category" data-value="{{app.category}}">{{_(app.category)}}</a>
+								<a class="ui blue label protocol" data-value="{{app.protocol}}">{{_(app.protocol)}}</a>
+								<a class="ui olive label supplier" data-value="{{app.device_supplier}}">{{_(app.device_supplier)}}</a>
+								<div class="ui label">{{_(app.device_serial)}}</div>
 								{% if app.license_type == 'Open' %}
-								<a class="ui label">{{_("Free")}}</a>
+								<div class="ui green label">{{_("Free")}}</div>
 								{% endif %}
 								{% if app.license_type == 'Private' %}
-								<a class="ui label">{{_("Private")}}</a>
+								<div class="ui yellow label">{{_("Private")}}</div>
 								{% endif %}
 								{% if app.license_type == 'Close' %}
-								<a class="ui label">{{_("Closed")}}</a>
+								<div class="ui red label">{{_("Closed")}}</div>
 								{% endif %}
 							</div>
 						</div>

@@ -27,17 +27,41 @@ $(document).ready(function() {
 		window.location.href="/app_detail?app="+app+"&tab=reviews";
 	});
 
+	$('.ui.items .item .description .labels .label.category').click(function() {
+		var cate = $(this).data('value');
+		var cate_text = $(this).text();
+		$('#category_filter').find('.text').html('<i class="ui teal empty circular label"></i> ' + cate_text);
+		$('#category_filter .menu .item.selected').removeClass("active selected");
+		$('#category_filter .menu [data-value="' + cate + '"]').addClass("active selected");
+	});
+
+	$('.ui.items .item .description .labels .label.protocol').click(function() {
+		var proto = $(this).data('value');
+		var proto_text = $(this).text();
+		$('#protocol_filter').find('.text').html('<i class="ui blue empty circular label"></i> ' + proto_text);
+		$('#protocol_filter .menu .item.selected').removeClass("active selected");
+		$('#protocol_filter .menu [data-value="' + proto + '"]').addClass("active selected");
+	});
+
+	$('.ui.items .item .description .labels .label.supplier').click(function() {
+		var supplier = $(this).data('value');
+		var supplier_text = $(this).text();
+		$('#supplier_filter').find('.text').html('<i class="ui olive empty circular label"></i> ' + supplier_text);
+		$('#supplier_filter .menu .item.selected').removeClass("active selected");
+		$('#supplier_filter .menu [data-value="' + supplier + '"]').addClass("active selected");
+	});
+
 	$('.ui.app-refresh.button').click(function () {
 		var query_data = {};
-		var category = $('#category_filter .menu .item.selected').attr("value");
+		var category = $('#category_filter .menu .item.selected').data("value");
 		if (category != null) {
 			query_data["category"] = category;
 		}
-		var protocol = $('#protocol_filter .menu .item.selected').attr("value");
+		var protocol = $('#protocol_filter .menu .item.selected').data("value");
 		if (protocol != null) {
 			query_data["protocol"] = protocol;
 		}
-		var supplier = $('#supplier_filter .menu .item.selected').attr("value");
+		var supplier = $('#supplier_filter .menu .item.selected').data("value");
 		if (supplier != null) {
 			query_data["device_supplier"] = supplier;
 		}

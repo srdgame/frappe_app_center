@@ -23,8 +23,8 @@
 					</a>
 					<div class="middle aligned content hiddenui">
 						<div class="header">
-							<i class="like icon"></i>
 							{{doc.app_name}}
+							<i class="like icon"></i>
 						</div>
 						<div class="meta">
 							<i class="user icon"></i>{{doc.owner if frappe.user != doc.owner else _("Me")}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
@@ -261,11 +261,11 @@
 						{{rel.comment}}
 					</div>
 					<div class="actions">
-						<a class="install">
+						<a class="install" data-version="{{rel.version}}" data-app="{{doc.name}}">
 							<i class="download icon"></i>
 						</a>
 						{% if frappe.user != doc.owner %}
-						<a class="fork">
+						<a class="fork" data-version="{{rel.version}}">
 							<i class="fork icon"></i>
 						</a>
 						{% endif %}

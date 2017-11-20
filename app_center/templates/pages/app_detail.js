@@ -251,5 +251,20 @@ $(document).ready(function() {
 			})
 			.modal('show')
 		;
-	})
+	});
+	$('.ui.comments .comment .content .actions .install').click(function() {
+		var app =  $(this).data('app');
+		var version = $(this).data('version');
+		window.open("/files/app_center_files/" + app + "/" + version + ".zip");
+	});
+	$('.ui.comments .comment .content .actions .fork').click(function() {
+		var version = $(this).data('version');
+		$('.ui.fork_app.form input[name="version"]').val(version);
+		$('.ui.fork_app.modal')
+			.modal({
+				closable  : false
+			})
+			.modal('show')
+		;
+	});
 });

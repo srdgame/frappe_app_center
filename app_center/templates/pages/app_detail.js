@@ -274,5 +274,8 @@ $(document).ready(function() {
 		$('.ui.comment.form input[name="reply_to"]').val(reply_name);
 		$('.ui.comment.form input[name="reply_to_user"]').val(reply_user);
 		$('.ui.comment.form textarea[name="comment"]').focus();
+		$('html, body').animate({
+			scrollTop: $('.ui.comment.form textarea[name="comment"]').offset().top
+		}, 0);
 	});
 });

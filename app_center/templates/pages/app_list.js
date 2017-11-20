@@ -42,10 +42,7 @@ $(document).ready(function() {
 	});
 	$('.ui.items .item .description .labels .label.category').click(function() {
 		var cate = $(this).data('value');
-		var cate_text = $(this).text();
-		$('#category_filter').find('.text').html('<i class="ui green empty circular label"></i> ' + cate_text);
-		$('#category_filter .menu .item.selected').removeClass("active selected");
-		$('#category_filter .menu [data-value="' + cate + '"]').addClass("active selected");
+		$('#category_filter').dropdown('set selected', cate);
 	});
 
 	$('.ui.app-add.button').click(function () {
@@ -59,6 +56,15 @@ $(document).ready(function() {
 			window.location.href = "/app_list";
 		}
 	});
+	/*
+	$('#category_filter').dropdown({
+		onChange: function(value, text, $choice) {
+			if (value != null) {
+				window.location.href="/app_list"+jsonToQueryString({"category":value});
+			}
+		}
+	});
+	*/
 	$('.ui.app-clean.button').click(function () {
 		//window.location.href="/app_list";
 		$('#category_filter .text').text('{{_("Category Filter")}}');

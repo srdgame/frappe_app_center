@@ -28,27 +28,18 @@ $(document).ready(function() {
 	});
 
 	$('.ui.items .item .description .labels .label.category').click(function() {
-		var cate = $(this).data('value');
-		var cate_text = $(this).text();
-		$('#category_filter').find('.text').html('<i class="ui teal empty circular label"></i> ' + cate_text);
-		$('#category_filter .menu .item.selected').removeClass("active selected");
-		$('#category_filter .menu [data-value="' + cate + '"]').addClass("active selected");
+		var value = $(this).data('value');
+		$('#category_filter').dropdown('set selected', value);
 	});
 
 	$('.ui.items .item .description .labels .label.protocol').click(function() {
-		var proto = $(this).data('value');
-		var proto_text = $(this).text();
-		$('#protocol_filter').find('.text').html('<i class="ui blue empty circular label"></i> ' + proto_text);
-		$('#protocol_filter .menu .item.selected').removeClass("active selected");
-		$('#protocol_filter .menu [data-value="' + proto + '"]').addClass("active selected");
+		var value = $(this).data('value');
+		$('#protocol_filter').dropdown('set selected', value);
 	});
 
 	$('.ui.items .item .description .labels .label.supplier').click(function() {
-		var supplier = $(this).data('value');
-		var supplier_text = $(this).text();
-		$('#supplier_filter').find('.text').html('<i class="ui olive empty circular label"></i> ' + supplier_text);
-		$('#supplier_filter .menu .item.selected').removeClass("active selected");
-		$('#supplier_filter .menu [data-value="' + supplier + '"]').addClass("active selected");
+		var value = $(this).data('value');
+		$('#supplier_filter').dropdown('set selected', value);
 	});
 
 	$('.ui.app-refresh.button').click(function () {

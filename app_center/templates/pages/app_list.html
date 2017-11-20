@@ -21,7 +21,7 @@
 				<div class="ui floating dropdown labeled icon button" tabindex="0" id="category_filter">
 					<i class="filter icon"></i>
 					{% if filters.category %}
-					<span class="text"><i class="ui green empty circular label"></i> {{_(filters.category)}}</span>
+					<span class="text"><i class="ui teal empty circular label"></i> {{_(filters.category)}}</span>
 					{% else %}
 					<span class="text">{{_("Category Filter")}}</span>
 					{% endif %}
@@ -74,8 +74,8 @@
 						<div class="description">
 							<div class="ui small tag labels">
 								<a class="ui teal label category" data-value="{{app.category}}">{{_(app.category)}}</a>
-								<a class="ui blue label protocol" data-value="{{app.protocol}}">{{_(app.protocol)}}</a>
-								<a class="ui olive label supplier" data-value="{{app.device_supplier}}">{{_(app.device_supplier)}}</a>
+								<div class="ui blue label protocol" data-value="{{app.protocol}}">{{_(app.protocol)}}</div>
+								<div class="ui olive label supplier" data-value="{{app.device_supplier}}">{{_(app.device_supplier)}}</div>
 								<div class="ui label">{{_(app.device_serial)}}</div>
 								{% if app.license_type == 'Open' %}
 								<div class="ui green label">{{_("Free")}}</div>

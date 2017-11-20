@@ -12,6 +12,14 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui breadcrumb">
+	<a class="section" href="/app_dashboard">{{_("Home")}}</a>
+	<i class="right angle icon divider"></i>
+	<a class="section" href="/app_list">{{_("Applications")}}</a>
+	<i class="right angle icon divider"></i>
+	<a class="active section" href="/app_detail?app={{doc.name}}">{{doc.app_name}}</a>
+</div>
+<div class="ui divider"></div>
 <form class="ui app form" action="/api/method/app_center.appmgr.modify"
 	  method="post" accept-charset="utf-8" enctype="multipart/form-data">
 	<div class="ui stackable four column grid">

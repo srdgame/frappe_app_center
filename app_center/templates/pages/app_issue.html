@@ -140,20 +140,24 @@
 						<a class="reply" data-name="{{comm.name}}">
 							<i class="reply icon"></i>
 						</a>
+						<!--
 						<a class="star">
 							<i class="star icon"></i>
 						</a>
 						<a class="retweet">
 							<i class="retweet icon"></i>
 						</a>
+						-->
 						{% if frappe.user == comm.owner %}
 						<a class="delete" data-name="{{comm.name}}" data-type="issue" data-parent="{{issue.name}}">
 							<i class="trash icon"></i>
 						</a>
 						{% else %}
+						<!--
 						<a class="heart">
 							<i class="heart icon"></i>
 						</a>
+						-->
 						{% endif %}
 					</div>
 				</div>

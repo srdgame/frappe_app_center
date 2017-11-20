@@ -136,12 +136,14 @@
 						<a class="reply" data-name="{{comm.name}}">
 							<i class="reply icon"></i>
 						</a>
+						<!--
 						<a class="star">
 							<i class="star icon"></i>
 						</a>
 						<a class="retweet">
 							<i class="retweet icon"></i>
 						</a>
+						-->
 						{% if frappe.user == comm.owner %}
 						<a class="delete" data-name="{{comm.name}}" data-type="review" data-parent="{{review.name}}">
 							<i class="trash icon"></i>

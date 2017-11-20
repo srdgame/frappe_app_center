@@ -18,21 +18,33 @@
 		</h2>
 		<div class="ui attached segment">
             <div class="ui items">
-				<div class="ui floating dropdown labeled search icon button" tabindex="0" id="category_filter">
+				<div class="ui floating dropdown labeled icon button" tabindex="0" id="category_filter">
 					<i class="filter icon"></i>
 					{% if filters.category %}
-					<span class="text"><i class="ui green empty circular label"></i>{{_(filters.category)}}</span>
+					<span class="text"><i class="ui green empty circular label"></i> {{_(filters.category)}}</span>
 					{% else %}
 					<span class="text">{{_("Category Filter")}}</span>
 					{% endif %}
 					<div class="menu">
-						{% for item in categories %}
-						<div class="item {{ 'active selected' if filters.category  == item else ''}}" value="{{item}}">
-							<i class="ui green empty circular label"></i>{{_(item)}}
+						<div class="ui icon search input">
+							<i class="search icon"></i>
+							<input placeholder="{{_('Search category')}}..." type="text">
 						</div>
+						<div class="divider"></div>
+						<div class="header">
+							<i class="tags icon"></i>
+							Application Categories
+						</div>
+						<div class="scrolling menu">
+						{% for item in categories %}
+							<div class="item{{ ' active selected' if filters.category  == item else ''}}" value="{{item}}">
+								<i class="ui green empty circular label"></i> {{_(item)}}
+							</div>
 						{% endfor %}
+						</div>
 					</div>
 				</div>
+
                 <button class="ui app-clean icon button">
                     <i class="trash icon"></i>
                 </button>

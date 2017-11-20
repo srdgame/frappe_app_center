@@ -36,6 +36,11 @@ $(document).ready(function() {
 		var app = $(this).data("name");
 		window.location.href="/app_modify?app="+app;
 	});
+	$('.ui.items .item .content .extra .comment').click(function() {
+		var app = $(this).data("name");
+		window.location.href="/app_detail?app="+app+"&tab=comments";
+	});
+
 	$('.ui.app-add.button').click(function () {
 		window.location.href="/app_new";
 	});

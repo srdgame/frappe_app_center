@@ -38,13 +38,13 @@
 											<div class="content">
 												<div class="header">{{app.app_name}}</div>
 												<div class="description">
-													<div class="ui star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
+      												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
+													{{frappe.get_fullname(app.owner)}}
 												</div>
 											</div>
 											<div class="extra content">
 												<div class="author">
-      												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
-													{{frappe.get_fullname(app.owner)}}
+													<div class="ui right floated star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
     											</div>
 											</div>
 										</a>
@@ -64,14 +64,14 @@
 											<div class="content">
 												<div class="header">{{app.app_name}}</div>
 												<div class="description">
-													<div class="ui star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
-												</div>
-											</div>
-											<div class="extra content">
+    											</div>
 												<div class="author">
       												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
 													{{frappe.get_fullname(app.owner)}}
-    											</div>
+												</div>
+											</div>
+											<div class="extra content">
+												<div class="ui right floated star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
 											</div>
 										</a>
 										{% endfor %}

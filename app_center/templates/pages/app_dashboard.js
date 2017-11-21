@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('.ui.card .content .description .ui.star.rating')
+	$('.ui.card .extra.content .ui.star.rating')
 	  .rating('disable')
 	;
 

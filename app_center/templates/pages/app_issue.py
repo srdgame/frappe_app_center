@@ -7,6 +7,7 @@ import frappe
 import redis
 import json
 from frappe import throw, _
+from urllib import urlencode
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 
@@ -21,7 +22,7 @@ def list_install_apps(device):
 
 def get_context(context):
 	if frappe.session.user == 'Guest':
-		frappe.local.flags.redirect_location = "/login"
+		frappe.local.flags.redirect_location = "/login?" + urlencode({"redirect-to": frappe.local.request.full_path})
 		raise frappe.Redirect
 
 	context.no_cache = 1

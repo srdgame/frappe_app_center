@@ -5,11 +5,12 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import throw, _
+from urllib import urlencode
 
 
 def get_context(context):
 	if frappe.session.user == 'Guest':
-		frappe.local.flags.redirect_location = "/login"
+		frappe.local.flags.redirect_location = "/login?" + urlencode({"redirect-to": frappe.local.request.full_path})
 		raise frappe.Redirect
 
 	app = frappe.form_dict.app

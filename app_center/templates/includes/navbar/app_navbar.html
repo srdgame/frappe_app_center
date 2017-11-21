@@ -8,7 +8,7 @@
 			<i class="search icon"></i>
 		</div>
 		{% if frappe.user == 'Guest' %}
-		<a href="/login" class="icon item" data-content="Login">
+		<a href="/login?redirect-to=/{{ pathname }}" class="icon item" data-content="Login">
 			<i class="large sign in icon"></i>
 		</a>
 		<a href="http://www.symid.com" class="icon item">
@@ -54,7 +54,7 @@
 				<a href="/sys/log" class="item">{{_('Logs')}} <i class="mail icon"></i><div class="ui inverted label">2</div></a>
 				<a href="/sys/comm" class="item">{{_('Messages')}} <i class="bell icon"></i><div class="ui inverted label">25</div></a>
 				<div class="ui divider"></div>
-				<a href="/user/logout" class="item">{{_('Logout')}} <i class="sign out icon"></i></a>
+				<a href="/?cmd=web_logout" class="item">{{_('Logout')}} <i class="sign out icon"></i></a>
 			</div>
 		</div>
 		{% endif %}

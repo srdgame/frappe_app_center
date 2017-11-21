@@ -7,3 +7,6 @@
     margin-right: 5px !important;
     font-size: 4em !important;
 }
+.ui.card {
+    min-width: 140px;
+}

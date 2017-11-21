@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	$('.ui.card .content .description .ui.star.rating')
+	  .rating('disable')
+	;
+
 	$('.ui.segments .ui.segment .right.floated.header .ion-ios-arrow-up.icon.link').click(function(){
 		if ($(this).hasClass('ion-ios-arrow-up')) {
 			$(this.parentNode.parentNode.parentNode).find('.ui.segment.content').hide();

@@ -14,6 +14,9 @@ def get_most_stars():
 def get_recently_updated():
 	return frappe.db.get_all("IOT Application", fields="*", limit=5, order_by="modified desc")
 
+def get_latest_releases():
+	return frappe.db.get_all("IOT Application Version", fields="*", limit=5, order_by="creation desc")
+
 
 def get_context(context):
 	context.no_cache = 1
@@ -31,3 +34,4 @@ def get_context(context):
 	context.filters = filters
 	context.most_stars = get_most_stars()
 	context.recently_updated = get_recently_updated()
+	context.releases = get_latest_releases()

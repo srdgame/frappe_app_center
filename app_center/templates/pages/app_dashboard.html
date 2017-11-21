@@ -65,7 +65,7 @@
 												<div class="header">{{app.app_name}}</div>
 												<div class="description">
     											</div>
-												<div class="author">
+												<div class="description">
       												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
 													{{frappe.get_fullname(app.owner)}}
 												</div>
@@ -170,48 +170,22 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Project Name</th>
-								<th>Date</th>
-								<th>Accept</th>
+								<th>Application</th>
+								<th>Version</th>
 								<th>Status</th>
+								<th>Date</th>
 							</tr>
 						</thead>
 						<tbody>
+						{% for rel in releases %}
 							<tr>
-								<td>1</td>
-								<td>Chrome</td>
-								<td>10 July 2014</td>
-								<td><i class="green check icon"></i></td>
-								<td><a class="ui blue mini basic label">Update</a></td>
+								<td>{{loop.index}}</td>
+								<td><a href="/app_detail?app={{rel.name}}">{{rel.app_name}}</a></td>
+								<td><i class="green check label">{{rel.version}}</i></td>
+								<td><i class="{{'red close' if rel.beta else 'green check'}} icon"></i></td>
+								<td>{{frappe.utils.pretty_date(rel.modified)}}</td>
 							</tr>
-							<tr>
-								<td>2</td>
-								<td>Mozilla</td>
-								<td>2 Feb 2010</td>
-								<td><i class="red close icon"></i></td>
-								<td><a class="ui green mini basic label">Upgrade</a></td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>Yandex</td>
-								<td>29 Aug 2012</td>
-								<td><i class="green check icon"></i></td>
-								<td><a class="ui purple mini basic label">Coming Soon</a></td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>Internet Explorer</td>
-								<td>5 Sep 2005</td>
-								<td><i class="red close icon"></i></td>
-								<td><a class="ui red mini basic label">Released</a></td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>Safari</td>
-								<td>1 Jan 2002</td>
-								<td><i class="red close icon"></i></td>
-								<td><a class="ui yellow mini basic label">Upgrade</a></td>
-							</tr>
+						{% endfor %}
 						</tbody>
 					</table>
 					<div class="ui inverted dimmer">

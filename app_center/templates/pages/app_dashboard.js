@@ -1,35 +1,30 @@
-function jsonToQueryString(json) {
-    return '?' +
-        Object.keys(json).map(function(key) {
-            return encodeURIComponent(key) + '=' +
-                encodeURIComponent(json[key]);
-        }).join('&');
-};
-
 $(document).ready(function() {
-	$('.ui.app-upload.button').click(function () {
-		var app = $(this).attr("app");
-		window.location.href="/app_upload?app="+app;
-	});
-	$('.ui.app-modify.button').click(function () {
-		var app = $(this).attr("app");
-		window.location.href="/app_modify?app="+app;
-	});
-	$('.ui.app-add.button').click(function () {
-		window.location.href="/app_new";
-	});
-	$('.ui.app-refresh.button').click(function () {
-		var category = $('#category_filter .menu .item.selected').attr("value");
-		if (category != null) {
-			window.location.href="/app_list"+jsonToQueryString({"category":category});
+	$('.ui.segments .ui.basic.segment.no-padding-bottom .right.floated.header .ion-ios-arrow-up.icon.link').click(function(){
+		if ($(this).hasClass('ion-ios-arrow-up')) {
+			$('.ui.segments .ui.basic.segment.no-padding .flot-chart').hide();
+			$(this).removeClass('ion-ios-arrow-up').addClass('ion-ios-arrow-down');
 		} else {
-			window.location.href = "/app_list";
+			$('.ui.segments .ui.basic.segment.no-padding .flot-chart').show();
+			$(this).removeClass('ion-ios-arrow-down').addClass('ion-ios-arrow-up');
 		}
 	});
-	$('.ui.app-clean.button').click(function () {
-		//window.location.href="/app_list";
-		$('#category_filter .text').text('{{_("Category Filter")}}');
-		$('#category_filter .menu .item.selected').removeClass("active selected");
+	$('.ui.segments .ui.basic.segment.no-padding-bottom .right.floated.header .ion-ios-close-empty.icon.link').click(function() {
+		$(this.parentNode.parentNode.parentNode).hide();
+	});
+
+	$('.ui.clearing.segment .right.floated.header .ion-ios-arrow-up.icon.link').click(function(){
+		if ($(this).hasClass('ion-ios-arrow-up')) {
+			$(this.parentNode.parentNode).find('.ui.grid').hide();
+			$(this).removeClass('ion-ios-arrow-up').addClass('ion-ios-arrow-down');
+		} else {
+			$(this.parentNode.parentNode).find('.ui.grid').show();
+			$(this).removeClass('ion-ios-arrow-down').addClass('ion-ios-arrow-up');
+		}
+
+	});
+
+	$('.ui.clearing.segment .right.floated.header .ion-ios-close-empty.icon.link').click(function(){
+		$(this.parentNode.parentNode).hide();
 	});
 });
 

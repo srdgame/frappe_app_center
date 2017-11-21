@@ -26,7 +26,7 @@ def get_context(context):
 	if category:
 		filters["category"] = category
 
-	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
+	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="star desc", limit=3)
 
 	context.filters = filters
 	context.most_stars = get_most_stars()

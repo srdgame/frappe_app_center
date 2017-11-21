@@ -11,25 +11,60 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="ui equal width left aligned padded grid stackable">
 	<div class="row">
 		<div class="column">
 			<div class="ui segments no-padding">
-				<div class="ui basic segment no-padding-bottom">
-					<h5 class="ui left floated header">
-						{{_("Application Population")}}
-					</h5>
-					<h5 class="ui right floated header">
+				<div class="ui segment basic no-padding-bottom">
+					Sales Statistics
+					<h4 class="ui right floated header">
 						<i class="ion-ios-arrow-up icon link"></i>
 						<i class="ion-ios-refresh-empty refreshing icon link"></i>
 						<i class="ion-ios-close-empty icon link"></i>
-					</h5>
+					</h4>
 					<div class="clearfix"></div>
 				</div>
-				<div class="ui basic clearing segment no-padding">
-					<div id="chart-curved-line" class="flot-chart" style="width: 100%; height: 200px; padding: 0px; position: relative;">
-					<canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 2344px; height: 200px;" width="2344" height="200"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 2344px; height: 200px;" width="2344" height="200"></canvas></div>
+				<div class="ui basic segment no-padding">
+					<div class="ui grid stackable" style="width:100%;height:200px">
+						<div class="row">
+							<div class="sixteen wide tablet eight wide computer column">
+								<div class="ui clearing segment">
+									<h5 class="ui header">
+										{{_("Most stars")}}
+									</h5>
+									<div class="ui horizontal list">
+										{% for app in most_stars %}
+										<div class="item">
+											<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
+											<div class="content">
+												<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
+												{{app.category}}
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="sixteen wide tablet eight wide computer column">
+								<div class="ui clearing segment">
+									<h5 class="ui header">
+										{{_("Recently updated")}}
+									</h5>
+									<div class="ui ordered horizontal list">
+										{% for app in recently_updated %}
+										<div class="item">
+											<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
+											<div class="content">
+												<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
+												{{app.category}}
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -40,13 +75,15 @@
 			<div class="ui segment left aligned">
 
 				<div class="ui  statistic">
-					<div class="value counter">3,952</div>
+					<div class="value counter">
+						3,952
+					</div>
 					<div class="label">
 						Orders
 					</div>
 					<i class="icon ion-ios-cart teal statisticIcon"></i>
 				</div>
-				<div id="flot-order" class="flotchart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas></div>
+				<div id="flot-order" class="flotchart"></div>
 			</div>
 		</div>
 
@@ -63,7 +100,7 @@
 					</div>
 					<i class="icon ion-ios-timer blue statisticIcon"></i>
 				</div>
-				<div id="flot-avarage" class="flotchart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas></div>
+				<div id="flot-avarage" class="flotchart"></div>
 			</div>
 		</div>
 		<div class="sixteen wide tablet four wide computer column">
@@ -71,13 +108,15 @@
 			<div class="ui segment left aligned">
 
 				<div class="ui  statistic">
-					<div class="value counter">3,112</div>
+					<div class="value counter">
+						3,112
+					</div>
 					<div class="label">
 						Saves
 					</div>
 					<i class="icon ion-magnet purple statisticIcon"></i>
 				</div>
-				<div id="flot-saves" class="flotchart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas></div>
+				<div id="flot-saves" class="flotchart"></div>
 			</div>
 		</div>
 		<div class="sixteen wide tablet four wide computer column">
@@ -86,164 +125,185 @@
 
 				<div class="ui  statistic">
 
-					<div class="value counter">9,582</div>
+					<div class="value counter">
+						9,582
+					</div>
 					<div class="label">
 						Page Views
 					</div>
 					<i class="icon ion-trophy red statisticIcon"></i>
 				</div>
-				<div id="flot-view" class="flotchart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 543px; height: 100px;" width="543" height="100"></canvas></div>
+				<div id="flot-view" class="flotchart"></div>
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="sixteen wide tablet eight wide computer column">
-			<div class="ui clearing segment">
-				<h5 class="ui header">
-					{{_("Most stars")}}
-				</h5>
-				<div class="ui horizontal list">
-					{% for app in most_stars %}
-					<div class="item">
-						<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
-						<div class="content">
-							<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
-							{{app.category}}
-						</div>
+
+	<div class="stretched row">
+
+		<div class="sixteen wide tablet ten wide computer column">
+			<div class="ui segments">
+				<div class="ui segment no-padding-bottom">
+					Populer Browsers
+					<h4 class="ui right floated header">
+						<i class="ion-ios-arrow-up icon link"></i>
+						<i class="ion-ios-refresh-empty refreshing icon link"></i>
+						<i class="ion-ios-close-empty icon link"></i>
+					</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="ui segment left aligned">
+
+					<table class="ui very basic center aligned  celled table">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Project Name</th>
+								<th>Date</th>
+								<th>Accept</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Chrome</td>
+								<td>10 July 2014</td>
+								<td><i class="green check icon"></i></td>
+								<td><a class="ui blue mini basic label">Update</a></td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Mozilla</td>
+								<td>2 Feb 2010</td>
+								<td><i class="red close icon"></i></td>
+								<td><a class="ui green mini basic label">Upgrade</a></td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Yandex</td>
+								<td>29 Aug 2012</td>
+								<td><i class="green check icon"></i></td>
+								<td><a class="ui purple mini basic label">Coming Soon</a></td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Internet Explorer</td>
+								<td>5 Sep 2005</td>
+								<td><i class="red close icon"></i></td>
+								<td><a class="ui red mini basic label">Released</a></td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>Safari</td>
+								<td>1 Jan 2002</td>
+								<td><i class="red close icon"></i></td>
+								<td><a class="ui yellow mini basic label">Upgrade</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="ui inverted dimmer">
+						<div class="ui text loader">Loading</div>
 					</div>
-					{% endfor %}
 				</div>
 			</div>
 		</div>
-		<div class="sixteen wide tablet eight wide computer column">
-			<div class="ui clearing segment">
-				<h5 class="ui header">
-					{{_("Recently updated")}}
-				</h5>
-				<div class="ui ordered horizontal list">
-					{% for app in recently_updated %}
-					<div class="item">
-						<img class="ui avatar image" src="{{app.icon_image}}" alt="image">
-						<div class="content">
-							<a class="header" href="/app_detail?app={{app.name}}">{{app.app_name}}</a>
-							{{app.category}}
-						</div>
+		<div class="sixteen wide tablet six wide computer column">
+
+			<div class="ui segment">
+				<h2 class="ui   center aligned header">
+
+					<div class="content">
+						Melbourne
+						<div class="sub header">Thursday, 29 November</div>
 					</div>
-					{% endfor %}
+				</h2>
+				<h3 class="ui center aligned header">14 &deg;</h3>
+				<div class="ui divider"></div>
+				<div class="ui five column centered grid">
+
+					<div class="column center aligned">
+						<p>Wed</p>
+						<p><i class="wi wi-day-cloudy"></i></p>
+						<p>12&deg;</p>
+					</div>
+					<div class="column center aligned">
+						<p>Thu</p>
+						<p><i class="wi wi-day-sleet"></i></p>
+						<p>10&deg;</p>
+					</div>
+					<div class="column center aligned">
+						<p>Fri</p>
+						<p><i class="wi wi-day-cloudy-gusts"></i></p>
+						<p>8&deg;</p>
+					</div>
+					<div class="column center aligned">
+						<p>Sat</p>
+						<p><i class="wi wi-day-sprinkle"></i></p>
+						<p>-5&deg;</p>
+					</div>
+					<div class="column center aligned">
+						<p>Sun</p>
+						<p><i class="wi wi-day-lightning"></i></p>
+						<p>14&deg;</p>
+					</div>
 				</div>
+				<div id="flot-weather" class="flotchart"></div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="sixteen wide tablet sixteen wide computer column">
-			<div class="ui clearing segment">
-				<h5 class="ui left floated header">
+			<div class="ui segments no-padding">
+				<div class="ui segment no-padding-bottom">
 					Browser Usage Statistics
-				</h5>
-				<h5 class="ui right floated header">
-					<i class="ion-ios-arrow-up icon link"></i>
-					<i class="ion-ios-refresh-empty refreshing icon link"></i>
-					<i class="ion-ios-close-empty icon link"></i>
-				</h5>
-				<div class="ui grid">
-					<div class="stretched row">
-						<div class="sixteen wide tablet ten wide computer column"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px none; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
-							<canvas id="chart_1" width="1441" height="400" style="width: 1441px; height: 400px;"></canvas>
-						</div>
-						<div class="sixteen wide tablet six wide computer column">
-							<div class="ui horizontal large statistic">
-								<div class="value counter">16,482</div>
-								<div class="label">
-									Your Profile Views
-								</div>
+					<h4 class="ui right floated header">
+						<i class="ion-ios-arrow-up icon link"></i>
+						<i class="ion-ios-refresh-empty refreshing icon link"></i>
+						<i class="ion-ios-close-empty icon link"></i>
+					</h4>
+					<div class="clearfix"></div>
+				</div>
+				<div class="ui segment no-padding">
+					<div class="ui grid">
+						<div class="stretched row">
+							<div class="sixteen wide tablet ten wide computer column">
+								<canvas id="chart_1" width="400" height="400"></canvas>
 							</div>
-							<div id="flot-profile" class="flotchart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 855px; height: 132px;" width="855" height="132"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 855px; height: 132px;" width="855" height="132"></canvas></div>
-							<table class="ui celled striped table">
+							<div class="sixteen wide tablet six wide computer column">
+								<div class="ui horizontal large statistic">
+									<div class="value counter">
+										16,482
+									</div>
+									<div class="label">
+										Your Profile Views
+									</div>
+								</div>
+								<div id="flot-profile" class="flotchart"></div>
+								<table class="ui celled striped table">
 								<thead>
 									<tr>
 										<th style="width:10%">#</th>
-										<th style="width:40%">Browser</th>
-										<th style="width:25%">Sessions</th>
-										<th style="width:25%">Up/Down</th>
+										<th style="width:40%">{{_("Name")}}</th>
+										<th style="width:40%">{{_("Stars")}}</th>
+										<th style="width:25%">{{_("Installation")}}</th>
 									</tr>
 								</thead>
 								<tbody>
+									{% for app in apps %}
 									<tr>
-										<td>1</td>
-										<td>Chrome</td>
-										<td>4325</td>
-										<td class="text-success">+3.26%</td>
+										<td>{{loop.index}}</td>
+										<td><a href="/app_detail?app={{app.name}}">{{app.app_name}}</a></td>
+										<td>{{app.star}}</td>
+										<td class="text-success">11289</td>
 									</tr>
-									<tr>
-										<td>2</td>
-										<td>Firefox</td>
-										<td>3257</td>
-										<td class="text-danger">-2.14%</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Edge</td>
-										<td>2314</td>
-										<td class="text-success">+2.92%</td>
-									</tr>
+									{% endfor %}
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
-<div class="ui vertical footer segment">
-	<div class="ui center aligned container">
-		<div class="ui stackable grid">
-			<div class="three wide column">
-				<h4 class="ui header">Community</h4>
-				<div class="ui link list">
-					<a class="item" href="https://www.transifex.com/organization/semantic-org/" target="_blank">Help
-						Translate</a>
-					<a class="item" href="https://github.com/Semantic-Org/Semantic-UI/issues" target="_blank">Submit
-						an Issue</a>
-					<a class="item" href="https://gitter.im/Semantic-Org/Semantic-UI" target="_blank">Join our
-						Chat</a>
-					<a class="item" href="/cla.html" target="_blank">CLA</a>
-				</div>
-			</div>
-			<div class="three wide column">
-				<h4 class="ui header">Network</h4>
-				<div class="ui link list">
-					<a class="item" href="https://github.com/Semantic-Org/Semantic-UI" target="_blank">GitHub
-						Repo</a>
-					<a class="item" href="http://forums.semantic-ui.com" target="_blank">User Forums</a>
-					<a class="item" href="http://1.semantic-ui.com">1.x Docs</a>
-					<a class="item" href="http://legacy.semantic-ui.com">0.x Docs</a>
-				</div>
-			</div>
-			<!--    <div class="three wide column">
-				<h4 class="ui inverted header">Learn</h4>
-				<div class="ui inverted link list">
-				  <a href="#" class="disabled item">Example Layouts</a>
-				  <a href="#" class="disabled item">The Project</a>
-				  <a href="#" class="disabled item">Roadmap</a>
-				  <a href="#" class="disabled item">About the Author</a>
-				</div>
-			  </div> -->
-			<div class="seven wide right floated column">
-				<h4 class="ui teal header">Help Preserve This Project</h4>
-				<p> Support for the continued development of Semantic UI comes directly from the community.</p>
-				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-					<input name="cmd" value="_s-xclick" type="hidden">
-					<input name="hosted_button_id" value="7ZAF2Q8DBZAQL" type="hidden">
-					<button type="submit" class="ui large teal button">Donate Today</button>
-				</form>
-			</div>
-		</div>
-		<div class="ui section divider"></div>
-		<img src="/images/logo.png" class="ui centered mini image">
-		<div class="ui horizontal small divided link list">
-			<a class="item" href="http://semantic-ui.mit-license.org/" target="_blank">Free &amp; Open Source
-				(MIT)</a>
 		</div>
 	</div>
 </div>
@@ -251,6 +311,6 @@
 
 {% block script %}
 <script>
-	{% include "templates/pages/app_list.js" %}
+	{% include "templates/pages/app_dashboard.js" %}
 </script>
 {% endblock %}

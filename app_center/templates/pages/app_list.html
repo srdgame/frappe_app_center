@@ -73,10 +73,10 @@
 						</div>
 						<div class="description">
 							<div class="ui small tag labels">
-								<a class="ui teal label category" data-value="{{app.category}}">{{_(app.category)}}</a>
-								<div class="ui blue label protocol" data-value="{{app.protocol}}">{{_(app.protocol)}}</div>
-								<div class="ui olive label supplier" data-value="{{app.device_supplier}}">{{_(app.device_supplier)}}</div>
-								<div class="ui label">{{_(app.device_serial)}}</div>
+								<a class="ui teal label category" data-value="{{app.category}}">{{_(app.category) or "N/A"}}</a>
+								<div class="ui blue label protocol" data-value="{{app.protocol}}">{{_(app.protocol) or "N/A"}}</div>
+								<div class="ui olive label supplier" data-value="{{app.device_supplier}}">{{_(app.device_supplier) or "N/A"}}</div>
+								<div class="ui label">{{_(app.device_serial) or "N/A"}}</div>
 								{% if app.license_type == 'Open' %}
 								<div class="ui green label">{{_("Free")}}</div>
 								{% endif %}

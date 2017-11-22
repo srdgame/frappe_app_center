@@ -7,7 +7,7 @@ apps/app_center/app_center/public/ace/worker-coffee.js +1,./register,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./rewriter,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./scope,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./sourcemap,
-apps/app_center/app_center/templates/pages/app_editor.html +171,<p>This will delete all local changes! Are you sure?</p>,<p>本操作会删除本地修改的内容,是否执行?</p>
+apps/app_center/app_center/templates/pages/app_editor.html +171,<p>This will delete all local changes! Are you sure?</p>,<p>本操作会删除本地修改的内容.是否执行?</p>
 DocType: App Developer,Admin,管理员
 DocType: App Category,All,所有
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +46,All Logs,所有日志

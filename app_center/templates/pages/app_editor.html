@@ -187,7 +187,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Version Warning!")}}
 	</div>
 	<div class="content">
-		<p>{{_("Current application has newer version than ")}} <b>{{version_want}}</b></p>
+		<p>{{_("Current application has newer version than {0}").format(version_want)}} </p>
 		<p>{{_("You need to upgrade application version to be latest first!!!")}} </p>
 	</div>
 	<div class="actions">

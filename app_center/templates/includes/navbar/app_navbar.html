@@ -8,7 +8,7 @@
 			<i class="search icon"></i>
 		</div>
 		{% if frappe.user == 'Guest' %}
-		<a href="/login?redirect-to=/{{ pathname }}" class="icon item" data-content="Login">
+		<a href="/login?redirect-to={{ frappe.local.request.full_path|urlencode }}" class="icon item" data-content="Login">
 			<i class="large sign in icon"></i>
 		</a>
 		<a href="http://www.symid.com" class="icon item">

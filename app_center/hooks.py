@@ -120,3 +120,7 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "app_center.event.get_events"
 # }
 
+#
+# jenv_filter = [
+# 	"quote:app_center.jenv_filter.quote"
+# ]

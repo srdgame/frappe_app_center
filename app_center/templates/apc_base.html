@@ -72,10 +72,10 @@
 		<script type="text/javascript" src="/assets/app_center/library/less.min.js"></script>
 
 		<script type="text/javascript">
-			window._version_number = "{{ build_version }}";
+			window._version_number = "{{ build_version or 'unknown' }}";
 			if(!window.frappe) window.frappe = {};
 
-			//frappe.user = "{{frappe.user}}";
+			frappe.user = "{{frappe.user}}";
 		</script>
 
 		<script type="text/javascript" src="/assets/app_center/js/main.js"></script>

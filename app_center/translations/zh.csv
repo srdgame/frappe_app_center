@@ -157,7 +157,7 @@ apps/app_center/app_center/templates/pages/app_issue.py +18,Redis Server is empt
 DocType: App Center Settings,Release Folder,发布目录
 apps/app_center/app_center/templates/pages/app_detail.html +85,Releases,版本列表
 DocType: IOT Application Comment,Reply To,回复至
-apps/app_center/app_center/templates/pages/app_detail.html +188,Reply to,回复至
+apps/app_center/app_center/templates/pages/app_detail.html +188,Reply to,回复
 apps/app_center/app_center/editor.py +379,Request Method Must be POST!,只接受POST请求
 apps/app_center/app_center/templates/pages/app_editor.html +158,Revert,重置
 apps/app_center/app_center/templates/pages/app_editor.html +144,Revert editor workspace to,重置编辑器工作区内容到

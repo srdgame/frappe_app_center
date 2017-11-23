@@ -1,9 +1,7 @@
 
 $(document).ready(function() {
 	// For issue detail page
-	$('.ui.items .item .content .extra .primary.button').click(function () {
-		var name = $(this).data('name');
-		$('.ui.issue_action.comment.form input[name="issue"]').val(name);
+	$('.ui.feed .event .meta .fix').click(function () {
 		$('.ui.issue_action.comment.form input[name="action"]').val("Closed");
 		$('.ui.issue_action.modal .header').html('{{_("Issue fixed")}}');
 		$('.ui.issue_action.modal')
@@ -13,9 +11,7 @@ $(document).ready(function() {
 			.modal('show')
 		;
 	});
-	$('.ui.items .item .content .extra .cancel.button').click(function () {
-		var name = $(this).data('name');
-		$('.ui.issue_action.comment.form input[name="issue"]').val(name);
+	$('.ui.feed .event .meta .invalid').click(function () {
 		$('.ui.issue_action.comment.form input[name="action"]').val("Invalid");
 		$('.ui.issue_action.modal .header').html('{{_("Invalid issue")}}');
 		$('.ui.issue_action.modal')
@@ -26,4 +22,3 @@ $(document).ready(function() {
 		;
 	});
 });
-

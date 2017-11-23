@@ -76,6 +76,9 @@
 			if(!window.frappe) window.frappe = {};
 
 			frappe.user = "{{frappe.user}}";
+			{% if doc %}
+			frappe.doc_owner = "{{doc.owner}}";
+			{% endif %}
 		</script>
 
 		<script type="text/javascript" src="/assets/app_center/js/main.js"></script>

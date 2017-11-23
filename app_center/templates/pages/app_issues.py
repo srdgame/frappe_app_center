@@ -15,14 +15,10 @@ def get_context(context):
 
 	context.no_cache = 1
 
-	category = frappe.form_dict.category
+	apps = frappe.get_list("IOT Application", "*", {"owner": frappe.session.user})
+	context.apps = {d.name:d for d in apps}
 
-	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
+	app_list = [d.name for d in apps]
+	issues = frappe.get_list("IOT Application Issue", "*", {"app": ["in", app_list], "Status": "Open"},  order_by="modified desc")
 
-	filters = {"owner": frappe.session.user}
-	if category:
-		filters["category"] = category
-
-	context.apps = frappe.db.get_all("IOT Application", "*", filters, order_by="modified desc")
-
-	context.filters = filters
+	context.issues = issues

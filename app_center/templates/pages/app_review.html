@@ -26,7 +26,7 @@
 							{{doc.app_name}}
 						</div>
 						<div class="meta">
-							<i class="user icon"></i>{{doc.owner if frappe.user != doc.owner else _("Me")}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
+							<i class="user icon"></i>{{frappe.get_fullname(doc.owner) if frappe.user != doc.owner else _("Me")}}, <i class="bookmark icon"></i>{{_(doc.category)}} <br>
 							<i class="fork icon"></i>{{_(doc.protocol)}}, <i class="puzzle icon"></i>{{_(doc.device_supplier)}}, {{_(doc.device_serial)}}
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 				</div>
 				<div class="content">
 					<div class="summary">
-						{{review.title}} - <a>{{review.owner if frappe.user != review.owner else _("Me")}}</a>
+						{{review.title}} - <a>{{frappe.get_fullname(review.owner) if frappe.user != review.owner else _("Me")}}</a>
 						<div class="date">
 							<span class="ui mini star rating" data-rating="{{review.star}}" data-max-rating="5"></span>
 							{{ frappe.utils.pretty_date(review.modified) }}
@@ -125,7 +125,7 @@
 					<img src="{{frappe.get_gravatar(comm.owner)}}" alt="image">
 				</a>
 				<div class="content">
-					<a class="author">{{comm.owner if frappe.user != comm.owner else _("Me")}}</a>
+					<a class="author">{{frappe.get_fullname(comm.owner) if frappe.user != comm.owner else _("Me")}}</a>
 					<div class="metadata">
 						<span class="date">{{ frappe.utils.pretty_date(comm.modified) }}</span>
 					</div>

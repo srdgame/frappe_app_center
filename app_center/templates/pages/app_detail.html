@@ -97,13 +97,13 @@
 					<img src="{{frappe.get_gravatar(rev.owner)}}" alt="image">
 				</a>
 				<div class="content">
-					<a class="author">{{frappe.get_fullname(rev.owner) if frappe.user != rev.owner else _("Me")}}</a>
+					<a class="author" href="/app_review?name={{rev.name}}">{{rev.title|title|truncate(40)}}</a>
+					<a class="author"><i class="ui user icon"></i>{{frappe.get_fullname(rev.owner) if frappe.user != rev.owner else _("Me")}}</a>
 					<div class="metadata">
 						<span class="ui mini star rating" data-rating="{{rev.star}}" data-max-rating="5"></span>
 						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
 					</div>
 					<div class="text">
-						{{rev.title|title}} <br>
 						{{rev.content|truncate(80)}} <br>
 						<a href="/app_review?name={{rev.name}}">More...</a>
 					</div>

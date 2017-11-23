@@ -93,7 +93,9 @@
 					<div class="summary">
 						{{issue.title|title}}
 						<div class="date">
-							<a><i class="user icon"></i>{{frappe.get_fullname(issue.owner) if frappe.user != issue.owner else _("Me")}}</a>
+							<a href="/user/profile?name={{issue.owner}}">
+								<i class="user icon"></i>{{frappe.get_fullname(issue.owner) if frappe.user != issue.owner else _("Me")}}
+							</a>
 							<i class="ui {{'orange' if issue.status =='Open' else 'green' if issue.status=='Fixed' else 'red'}} leaf icon"></i>{{issue.status}}
 							<i class="ui {{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} alarm icon"></i>{{issue.priority}}
 						</div>

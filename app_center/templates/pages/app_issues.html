@@ -3,42 +3,122 @@
 
 {% block title %} {{ _("Issues of Your Applications") }} {% endblock %}
 
-{% block content %}
-<div class="ui divided items">
-	{% for iss in issues %}
-	<div class="item">
-		<div class="ui tiny image">
-			<img src="{{apps[iss.app].icon_image}}">
-		</div>
-		<div class="content">
-			<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title}}</a>
-			<div class="meta">
-				<span class="cinema">{{frappe.utils.pretty_date(iss.modified)}}</span>
-			</div>
-			<div class="description">
-				<p></p>{{iss.content}}
-			</div>
-			<div class="extra">
-				<div class="ui basic olive label">
-					<i class="alarm {{ 'red' if iss.priority =='High' else 'yellow' if iss.priority=='Middle' else 'olive'}} middle aligned icon"></i>
-					{{iss.priority}}
-				</div>
-				<a class="ui basic green label" href="/app_detail?app={{iss.app}}">
-					<i class="external square icon"></i> {{apps[iss.app].app_name}}
-				</a>
+{% block style %}
+<style>
+	{% include "templates/includes/app_dashboard.css" %}
+</style>
+{% endblock %}
 
-				<div class="ui mini right floated cancel button" data-name="{{iss.name}}">
-					<i class="close icon"></i>
-					{{_("Invalid")}}
+{% block content %}
+
+<div class="ui equal width left aligned padded grid stackable">
+	<div class="row">
+		<div class="sixteen wide tablet four wide computer column">
+
+			<div class="ui segment left aligned">
+
+				<div class="ui  statistic">
+					<div class="value counter">
+						{{total_open}}
+					</div>
+					<div class="label">
+						{{_("Open")}}
+					</div>
+					<i class="icon ion-ios-cart teal statisticIcon"></i>
 				</div>
-				<div class="ui mini right floated primary button" data-name="{{iss.name}}">
-					<i class="check icon"></i>
-					{{_("Fixed")}}
+				<div id="flot-order" class="flotchart"></div>
+			</div>
+		</div>
+
+		<div class="sixteen wide tablet four wide computer column">
+
+			<div class="ui segment left aligned">
+
+				<div class="ui  statistic">
+					<div class="value">
+						{{total_fixed}}
+					</div>
+					<div class="label">
+						{{_("Fixed")}}
+					</div>
+					<i class="icon ion-ios-timer blue statisticIcon"></i>
 				</div>
+				<div id="flot-avarage" class="flotchart"></div>
+			</div>
+		</div>
+		<div class="sixteen wide tablet four wide computer column">
+
+			<div class="ui segment left aligned">
+
+				<div class="ui  statistic">
+					<div class="value counter">
+						{{total_invalid}}
+					</div>
+					<div class="label">
+						{{_("Invalid")}}
+					</div>
+					<i class="icon ion-magnet purple statisticIcon"></i>
+				</div>
+				<div id="flot-saves" class="flotchart"></div>
+			</div>
+		</div>
+		<div class="sixteen wide tablet four wide computer column">
+
+			<div class="ui segment left aligned">
+
+				<div class="ui  statistic">
+
+					<div class="value counter">
+						<span class="counter">{{(total_fixed / (total_open + total_fixed))|round(3)}}</span> %
+					</div>
+					<div class="label">
+						{{_("Fix Rate")}}
+					</div>
+					<i class="icon ion-trophy red statisticIcon"></i>
+				</div>
+				<div id="flot-view" class="flotchart"></div>
 			</div>
 		</div>
 	</div>
-	{% endfor %}
+	<div class="ui divider"></div>
+	<div class="row">
+		<div class="ui divided items" style="width:100%">
+			{% for iss in issues %}
+			<div class="item">
+				<div class="ui tiny image">
+					<img src="{{apps[iss.app].icon_image}}">
+				</div>
+				<div class="content">
+					<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title|title}}</a>
+					<div class="meta">
+						<span class="cinema">{{frappe.utils.pretty_date(iss.modified)}}</span>
+					</div>
+					<div class="description">
+						<p></p>{{iss.content|truncate(80)}}
+					</div>
+					<div class="extra">
+						<div class="ui basic olive label">
+							<i class="alarm {{ 'red' if iss.priority =='High' else 'yellow' if iss.priority=='Middle' else 'olive'}} middle aligned icon"></i>
+							{{iss.priority}}
+						</div>
+						<a class="ui basic green label" href="/app_detail?app={{iss.app}}">
+							<i class="external square icon"></i> {{apps[iss.app].app_name}}
+						</a>
+
+						<div class="ui mini right floated cancel button" data-name="{{iss.name}}">
+							<i class="close icon"></i>
+							{{_("Invalid")}}
+						</div>
+						<div class="ui mini right floated primary button" data-name="{{iss.name}}">
+							<i class="check icon"></i>
+							{{_("Fixed")}}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
 </div>
 
 

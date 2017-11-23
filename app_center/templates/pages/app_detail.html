@@ -103,8 +103,8 @@
 						<span class="date">{{ frappe.utils.pretty_date(rev.modified) }}</span>
 					</div>
 					<div class="text">
-						{{rev.title}} <br>
-						{{rev.content}} <br>
+						{{rev.title|title}} <br>
+						{{rev.content|truncate(80)}} <br>
 						<a href="/app_review?name={{rev.name}}">More...</a>
 					</div>
 					<div class="actions">
@@ -214,7 +214,7 @@
 			<div class="item">
 				<i class="large alarm {{ 'red' if iss.priority =='High' else 'yellow' if iss.priority=='Middle' else 'olive'}} middle aligned icon"></i>
 				<div class="content">
-					<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title}}</a>
+					<a class="header" href="/app_issue?name={{iss.name}}">{{iss.title|title}}</a>
 					<div class="description">{{frappe.get_fullname(iss.owner) if frappe.user != iss.owner else _("Me")}} - {{ frappe.utils.pretty_date(iss.modified) }}</div>
 				</div>
 			</div>

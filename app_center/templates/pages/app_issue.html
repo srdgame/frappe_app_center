@@ -91,7 +91,7 @@
 				</div>
 				<div class="content">
 					<div class="summary">
-						{{issue.title}} - <a>{{frappe.get_fullname(issue.owner) if frappe.user != issue.owner else _("Me")}}</a>
+						{{issue.title|title}} - <a>{{frappe.get_fullname(issue.owner) if frappe.user != issue.owner else _("Me")}}</a>
 						<div class="date">
 						<i class="ui {{'orange' if issue.status =='Open' else 'green' if issue.status=='Fixed' else 'red'}} label">{{issue.status}}</i>
 						<i class="ui {{ 'red' if issue.priority =='High' else 'yellow' if issue.priority=='Middle' else 'olive'}} label">{{issue.priority}}</i>
@@ -103,15 +103,15 @@
 					<div class="meta">
 					{% if doc.owner == frappe.user and issue.status == 'Open' %}
 						<a class="fix">
-							<i class="check square icon"></i> Fixed
+							<i class="check square icon"></i> {{_("Fixed")}}
 						</a>
 						<a class="invalid">
-							<i class="alarm mute icon"></i> Fixed
+							<i class="alarm mute icon"></i> {{_("Invalid")}}
 						</a>
 					{% endif %}
 					{% if issue.owner == frappe.user %}
 						<a class="delete" data-name="{{issue.name}}" data-type="issue">
-							<i class="trash icon"></i> Delete
+							<i class="trash icon"></i> {{_("Delete")}}
 						</a>
 					{% endif %}
 						<i class="date">

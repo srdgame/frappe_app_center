@@ -91,8 +91,9 @@
 				</div>
 				<div class="content">
 					<div class="summary">
-						{{review.title|title}} - <a>{{frappe.get_fullname(review.owner) if frappe.user != review.owner else _("Me")}}</a>
+						{{review.title|title}}
 						<div class="date">
+							<a><i class="user icon"></i>{{frappe.get_fullname(review.owner) if frappe.user != review.owner else _("Me")}}</a>
 							<span class="ui mini star rating" data-rating="{{review.star}}" data-max-rating="5"></span>
 							{{ frappe.utils.pretty_date(review.modified) }}
 						</div>

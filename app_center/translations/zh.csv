@@ -84,6 +84,8 @@ apps/app_center/app_center/editor.py +35,EEEEEEEEEEEEEEEEEEEEEEE,
 DocType: App Developer,Enabled,启用
 apps/app_center/app_center/templates/pages/app_editor.html +168,Fetch file from server,从服务器重新获取文件
 apps/app_center/app_center/templates/pages/app_editor.html +47,File Editor,文件编辑器
+apps/app_center/app_center/templates/pages/app_issues.html +79,Fix Rate,
+apps/app_center/app_center/templates/pages/app_issues.html +42,Fixed,已修复的
 DocType: IOT Application,For make application unique in Owner,
 apps/app_center/app_center/templates/pages/app_detail.html +302,Fork,克隆
 DocType: IOT Application,Fork From,克隆应用
@@ -111,14 +113,14 @@ DocType: App Center Settings,IOT Center,IOT数据中心
 DocType: IOT Application,Icon Image,图标图像
 DocType: IOT Application,Information,信息
 apps/app_center/app_center/templates/pages/app_dashboard.html +272,Installation,安装数量
-DocType: IOT Application Issue,Invalid,无效
-apps/app_center/app_center/templates/pages/app_detail.js +134,Invalid issue,无效的问题
+DocType: IOT Application Issue,Invalid,无效的
+apps/app_center/app_center/templates/pages/app_issues.js +20,Invalid issue,无效的问题
 apps/app_center/app_center/appmgr.py +339,Issue added!,问题已增加！
 apps/app_center/app_center/appmgr.py +364,Issue comment added!,问题评论已增加！
 apps/app_center/app_center/appmgr.py +381,Issue comment not found!,问题评论不存在！
 apps/app_center/app_center/appmgr.py +379,Issue comment removed!,问题评论已删除！
 apps/app_center/app_center/templates/pages/app_detail.html +240,Issue content,问题内容
-apps/app_center/app_center/templates/pages/app_detail.js +124,Issue fixed,问题已修复
+apps/app_center/app_center/templates/pages/app_issues.js +8,Issue fixed,问题已修复
 apps/app_center/app_center/appmgr.py +398,Issue fixed!,问题已修复！
 apps/app_center/app_center/templates/pages/app_issue.html +3,Issue for,问题-
 apps/app_center/app_center/appmgr.py +350,Issue removed!,问题已删除！
@@ -132,7 +134,7 @@ DocType: IOT Application Issue,Low,低
 apps/app_center/app_center/templates/pages/app_detail.html +30,Me,我
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +55,Messages,消息
 DocType: IOT Application Issue,Middle,中
-apps/app_center/app_center/templates/pages/app_issue.html +118,Modified,修改时间
+apps/app_center/app_center/templates/pages/app_issue.html +121,Modified,修改时间
 apps/app_center/app_center/templates/pages/app_modify.html +96,Modify,编辑
 apps/app_center/app_center/templates/pages/app_modify.html +3,Modify Application,编辑应用信息
 apps/app_center/app_center/templates/pages/app_dashboard.html +31,Most stars,评价最高
@@ -141,7 +143,7 @@ apps/app_center/app_center/templates/pages/app_editor.html +175,No,No
 DocType: App Developer,Normal,普通用户
 apps/app_center/app_center/templates/pages/app_editor.html +195,OK,OK
 apps/app_center/app_center/templates/pages/app_editor.html +3,Online Editor ,在线编辑
-DocType: IOT Application,Open,开放
+DocType: IOT Application,Open,打开的
 DocType: IOT Application,Owner,所有人
 apps/app_center/app_center/templates/pages/app_editor.html +106,Pack changes and install to,打包修改内容并安装到
 DocType: App Developer,Power,高级开发者
@@ -179,7 +181,7 @@ DocType: IOT Application,Star,评星
 apps/app_center/app_center/templates/pages/app_dashboard.html +271,Stars,评星
 DocType: IOT Application Issue,Status,状态
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +11,Store,商店
-apps/app_center/app_center/templates/pages/app_issue.html +198,Submit,提交
+apps/app_center/app_center/templates/pages/app_issues.html +141,Submit,提交
 DocType: App Device Supplier,Supplier,供应商
 apps/app_center/app_center/templates/pages/app_store.js +68,Supplier Filter,提供商过滤器
 DocType: App Category,System Manager,系统管理员

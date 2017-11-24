@@ -69,7 +69,11 @@
 				<div class="ui  statistic">
 
 					<div class="value counter">
-						<span class="counter">{{(total_fixed / (total_open + total_fixed))|round(3)}}</span> %
+						{% if total_fixed != 0 %}
+						<span class="counter">{{(total_fixed / (total_open + total_fixed))|round(3)}}</span>
+						{% else %}
+						<span class="counter">0.0</span>
+						{% endif %}
 					</div>
 					<div class="label">
 						{{_("Fix Rate")}}

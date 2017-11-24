@@ -36,16 +36,9 @@
 												<img src="{{app.icon_image}}">
 											</div>
 											<div class="content">
-												<div class="header">{{app.app_name|truncate(16)}}</div>
 												<div class="description">
-      												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
-													{{frappe.get_fullname(app.owner)|truncate(16)}}
+      												{{app.app_name|truncate(16)}}
 												</div>
-											</div>
-											<div class="extra content">
-												<div class="author">
-													<div class="ui right floated star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
-    											</div>
 											</div>
 										</a>
 										{% endfor %}
@@ -62,16 +55,9 @@
 												<img src="{{app.icon_image}}">
 											</div>
 											<div class="content">
-												<div class="header">{{app.app_name}}</div>
 												<div class="description">
-    											</div>
-												<div class="description">
-      												<img class="ui avatar image" src="{{frappe.get_gravatar(app.owner)}}">
-													{{frappe.get_fullname(app.owner)}}
+      												{{app.app_name|truncate(16)}}
 												</div>
-											</div>
-											<div class="extra content">
-												<div class="ui right floated star rating" data-rating="{{app.star}}" data-max-rating="5"></div>
 											</div>
 										</a>
 										{% endfor %}

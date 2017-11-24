@@ -11,7 +11,7 @@ def get_comments(app):
 	comments = frappe.db.get_all("IOT Application Comment",
 								filters={"app": app},
 								fields=["name", "comment", "owner", "modified", "reply_to"],
-								limit=20,
+								#limit=20,
 								order_by="modified desc")
 	comments.reverse()
 	return comments
@@ -21,7 +21,7 @@ def get_reviews(app):
 	return frappe.db.get_all("IOT Application Review",
 								filters={"app": app},
 								fields=["name", "star", "title", "content", "owner", "modified"],
-								limit=20,
+								#limit=20,
 								order_by="modified desc")
 
 
@@ -29,7 +29,7 @@ def get_issues(app):
 	return frappe.db.get_all("IOT Application Issue",
 								fields=["name", "priority", "title", "content", "owner", "modified"],
 								filters={"status": "Open", "app": app},
-								limit=20,
+								#limit=20,
 								order_by="modified desc")
 
 

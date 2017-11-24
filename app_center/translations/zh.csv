@@ -84,7 +84,7 @@ apps/app_center/app_center/editor.py +35,EEEEEEEEEEEEEEEEEEEEEEE,
 DocType: App Developer,Enabled,启用
 apps/app_center/app_center/templates/pages/app_editor.html +168,Fetch file from server,从服务器重新获取文件
 apps/app_center/app_center/templates/pages/app_editor.html +47,File Editor,文件编辑器
-apps/app_center/app_center/templates/pages/app_issues.html +79,Fix Rate,
+apps/app_center/app_center/templates/pages/app_issues.html +79,Fix Rate,修复比例
 apps/app_center/app_center/templates/pages/app_issues.html +42,Fixed,已修复的
 DocType: IOT Application,For make application unique in Owner,
 apps/app_center/app_center/templates/pages/app_detail.html +302,Fork,克隆
@@ -98,7 +98,7 @@ apps/app_center/app_center/templates/pages/app_detail.html +68,Go Master,主分�
 DocType: App Developer,Group,组
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +17,Help,帮助
 DocType: IOT Application Issue,High,高
-apps/app_center/app_center/templates/pages/app_modify.html +16,Home,家
+apps/app_center/app_center/templates/pages/app_modify.html +16,Home,主页
 apps/app_center/app_center/templates/pages/app_list.html +154,I agree to the terms and conditions,我同意使用条款
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +4,IOT App Store,IOT应用商店
 DocType: IOT Application,IOT Application,IOT应用
@@ -137,24 +137,24 @@ DocType: IOT Application Issue,Middle,中
 apps/app_center/app_center/templates/pages/app_issue.html +121,Modified,修改时间
 apps/app_center/app_center/templates/pages/app_modify.html +96,Modify,编辑
 apps/app_center/app_center/templates/pages/app_modify.html +3,Modify Application,编辑应用信息
-apps/app_center/app_center/templates/pages/app_dashboard.html +31,Most stars,评价最高
+apps/app_center/app_center/templates/pages/app_dashboard.html +31,Most stars,评价最高的
 DocType: IOT Application,Name,名称
-apps/app_center/app_center/templates/pages/app_editor.html +175,No,No
+apps/app_center/app_center/templates/pages/app_editor.html +175,No,否
 DocType: App Developer,Normal,普通用户
-apps/app_center/app_center/templates/pages/app_editor.html +195,OK,OK
+apps/app_center/app_center/templates/pages/app_editor.html +195,OK,好
 apps/app_center/app_center/templates/pages/app_editor.html +3,Online Editor ,在线编辑
 DocType: IOT Application,Open,打开的
 DocType: IOT Application,Owner,所有人
 apps/app_center/app_center/templates/pages/app_editor.html +106,Pack changes and install to,打包修改内容并安装到
 DocType: App Developer,Power,高级开发者
-DocType: IOT Application Issue,Priority,优先
+DocType: IOT Application Issue,Priority,优先级
 DocType: IOT Application,Private,私有
-apps/app_center/app_center/templates/includes/navbar/app_navbar.html +53,Profile,轮廓
+apps/app_center/app_center/templates/includes/navbar/app_navbar.html +53,Profile,资料
 DocType: App Device Protocol,Protocol,协议
 apps/app_center/app_center/templates/pages/app_store.js +66,Protocol Filter,协议过滤器
 DocType: IOT Application,Published,发布时间
-apps/app_center/app_center/templates/pages/app_dashboard.html +161,Recently Released,
-apps/app_center/app_center/templates/pages/app_dashboard.html +57,Recently updated,最近修改
+apps/app_center/app_center/templates/pages/app_dashboard.html +161,Recently Released,最近发布的
+apps/app_center/app_center/templates/pages/app_dashboard.html +57,Recently updated,最近修改的
 apps/app_center/app_center/templates/pages/app_issue.py +18,Redis Server is empty in IOT HDB Settings,
 DocType: App Center Settings,Release Folder,发布目录
 apps/app_center/app_center/templates/pages/app_detail.html +85,Releases,版本列表

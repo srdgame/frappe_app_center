@@ -46,7 +46,7 @@ def get_context(context):
 
 	doc = frappe.get_doc("IOT Application", app)
 
-	context.no_cache = 0
+	context.no_cache = 1
 
 	context.tab = tab
 	context.doc = doc

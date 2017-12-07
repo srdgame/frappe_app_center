@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 
 
 
-ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP', 'gz', 'GZ'])
+ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP', 'gz', 'GZ', 'tgz', 'TGZ'])
 
 
 def allowed_file(filename):

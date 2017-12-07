@@ -358,7 +358,7 @@ def editor_revert():
 
 @frappe.whitelist()
 def editor_apply():
-	from iot.iot.device_api import send_action
+	from iot.device_api import send_action
 	device = frappe.form_dict.device
 	inst = frappe.form_dict.inst
 	app = frappe.form_dict.app

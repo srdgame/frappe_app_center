@@ -74,8 +74,8 @@ def upload():
 		file_dir = get_app_release_path(app)
 
 		ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
-		if ext != frappe.get_value("IOT Application", app, "app_ext"):
-			print(ext, frappe.get_value("IOT Application", app, "app_ext"))
+		ext_wanted = frappe.get_value("IOT Application", app, "app_ext")
+		if ext != ext_wanted and ext_wanted != "tar.gz":
 			throw(_("Appication file extension name incorrect!"))
 
 		new_filename = str(version) + '.' + ext  # 修改了上传的文件名

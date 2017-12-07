@@ -368,7 +368,8 @@ def editor_apply():
 	editor_release()
 	data = {
 		"inst": inst,
-		"name": app
+		"name": app,
+		"version": frappe.form_dict.version
 	}
 	return send_action("app", action="upgrade", device=device, data=data)
 

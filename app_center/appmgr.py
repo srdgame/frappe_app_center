@@ -78,7 +78,7 @@ def upload():
 		if ext != ext_wanted and ext_wanted != "tar.gz":
 			throw(_("Appication file extension name incorrect!"))
 
-		new_filename = str(version) + '.' + ext  # 修改了上传的文件名
+		new_filename = str(version) + '.' + ext_wanted  # 修改了上传的文件名
 		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
 
 		data = {

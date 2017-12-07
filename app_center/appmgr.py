@@ -91,6 +91,7 @@ def upload():
 
 		try:
 			doc = frappe.get_doc(data).insert()
+			shutil.copy(os.path.join(file_dir, new_filename), os.path.join(file_dir, 'latest.'+ext_wanted))
 		except Exception as ex:
 			os.remove(os.path.join(file_dir, new_filename))
 			throw(_("Application version creation failed!"))

@@ -1,3 +1,10 @@
+
+function on_upload_app_form_success() {
+	setTimeout(function () {
+		window.location.href = window.location.pathname + "?app={{doc.name}}&tab=releases";
+	}, 1000);
+}
+
 $(document).ready(function() {
 	$('.ui.review.form .ui.star.rating')
 		.rating({

@@ -44,7 +44,7 @@ apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py
 apps/app_center/app_center/templates/pages/app_review.py +32,Application review name is missing!,应用评测实例不存在!
 apps/app_center/app_center/appmgr.py +100,Application upload failed!,应用包上传失败!
 apps/app_center/app_center/editor.py +330,Application upload success,应用包上传成功
-apps/app_center/app_center/editor.py +287,Application version already exits!,应用版本不存在!
+apps/app_center/app_center/editor.py +287,Application version already exits!,应用版本已经存在!
 apps/app_center/app_center/appmgr.py +96,Application version creation failed!,应用版本创建失败!
 apps/app_center/app_center/appmgr.py +68,Application version duplicated!,应用版本重复!
 apps/app_center/app_center/appmgr.py +59,Application version not found!,应用包版本丢失！

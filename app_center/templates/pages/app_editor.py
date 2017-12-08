@@ -21,7 +21,7 @@ def get_context(context):
 
 	device_link = frappe.form_dict.device
 	app_inst = frappe.form_dict.app_inst
-	version_want = int(frappe.form_dict.version)
+	version_want = frappe.form_dict.version
 	if device_link and (not app_inst or not version_want):
 		frappe.local.flags.redirect_location = "/app_editor?" + urlencode({"app": app})
 		raise frappe.Redirect
@@ -40,15 +40,12 @@ def get_context(context):
 	context.device_link = device_link
 	context.app_inst = app_inst
 
-	if version_want is not None:
-		context.version_want = version_want
+	version_editor = editor_worksapce_version(app) or -1
+	context.version_editor = version_editor
 
-		version_editor = editor_worksapce_version(app)
-		if version_editor:
-			context.version_editor = version_editor
-			if version_editor != version_want:
-				context.show_version_warning = True
-		else:
-			context.version_editor = -1
+	if version_want is not None:
+		version_want = int(version_want)
+		context.version_want = version_want
+		if version_editor != version_want:
 			context.show_version_warning = True
 

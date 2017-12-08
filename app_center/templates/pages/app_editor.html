@@ -20,7 +20,9 @@
 				<a class="popup icon item apply" data-content="Pack and install to {{device_link}}"><i class="rocket icon"></i></a>
 				{% endif %}
 				<a class="popup icon item tag" data-content="Tag and new version"><i class="tag icon"></i></a>
+				<!--
 				<a class="disabled popup icon item upload" data-content="Upload Changes"><i class="cloud upload icon"></i></a>
+				-->
 				<a class="popup icon item revert" data-content="Revert To Specified Version"><i class="ion-arrow-return-left icon"></i></a>
 				<a class="popup icon item folder" data-content="Create Folder"><i class="folder icon"></i></a>
 				<a class="popup icon item file" data-content="Create File"><i class="file icon"></i></a>
@@ -76,7 +78,7 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<div class="field">
 				<label>{{_("Version")}}</label>
-				<input name="version" type="text" tabindex="0"/>
+				<input value="{{version_editor + 1}}" name="version" type="text" tabindex="0"/>
 			</div>
 			<div class="field">
 				<label>{{_("Comment")}}</label>

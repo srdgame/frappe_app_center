@@ -286,7 +286,10 @@ def zip_application(app, version, editor=False):
 		app_file = os.path.join(app_dir, str(version) + '.editor.zip')
 
 	if os.access(app_file, os.R_OK):
-		throw(_("Application version already exits!"))
+		if editor:
+			os.remove(app_file)
+		else:
+			throw(_("Application version already exits!"))
 
 	editor_dir = get_app_editor_file_path(app)
 	vf = open(os.path.join(editor_dir, "version"), 'w')
@@ -365,7 +368,7 @@ def editor_worksapce_version(app):
 		if vf:
 			version = vf.readline()
 			vf.close()
-		return version
+		return int(version)
 
 	except Exception:
 		return
@@ -387,7 +390,7 @@ def editor_apply():
 	data = {
 		"inst": inst,
 		"name": app,
-		"version": frappe.form_dict.version
+		"version": "beta." + frappe.form_dict.version
 	}
 	return send_action("app", action="upgrade", device=device, data=data)
 

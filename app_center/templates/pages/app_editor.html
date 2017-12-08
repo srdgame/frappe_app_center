@@ -100,22 +100,21 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 </div>
 
 {% if device_link %}
-<div class="ui apply_device modal">
+<div class="ui mini apply_device modal">
 	<div class="header">
 		{{_("Pack changes and install to")}} {{device_link}}
 	</div>
 	<div class="content">
 		<form class="ui apply_device form" action="/api/method/app_center.editor.editor_apply" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
-			<input value="{{device_link}}" readonly="true" name="device" type="hidden">
 			<input value="{{version_want}}" readonly="true" name="version" type="hidden">
 			<div class="field">
-				<label>{{_("Application Instance")}}</label>
-				<input value="{{app_inst}}" readonly="true" name="inst" type="text" tabindex="0"/>
+				<label>{{_("Device SN")}}</label>
+				<input value="{{device_link}}" readonly="true" name="device" type="text">
 			</div>
 			<div class="field">
-				<label>{{_("Comment")}}</label>
-				<textarea name="comment"></textarea>
+				<label>{{_("Application Instance")}}</label>
+				<input value="{{app_inst}}" readonly="true" name="inst" type="text">
 			</div>
 			<div class="inline field">
 				<div class="ui checkbox">

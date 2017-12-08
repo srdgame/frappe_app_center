@@ -18,9 +18,8 @@
 			<div class="ui small secondary menu toolbar">
 				{% if device_link %}
 				<a class="popup icon item apply" data-content="Pack and install to {{device_link}}"><i class="rocket icon"></i></a>
-				{% else %}
-				<a class="popup icon item tag" data-content="Tag and new version"><i class="tag icon"></i></a>
 				{% endif %}
+				<a class="popup icon item tag" data-content="Tag and new version"><i class="tag icon"></i></a>
 				<a class="disabled popup icon item upload" data-content="Upload Changes"><i class="cloud upload icon"></i></a>
 				<a class="popup icon item revert" data-content="Revert To Specified Version"><i class="ion-arrow-return-left icon"></i></a>
 				<a class="popup icon item folder" data-content="Create Folder"><i class="folder icon"></i></a>
@@ -109,13 +108,10 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		<form class="ui apply_device form" action="/api/method/app_center.editor.editor_apply" method="post" accept-charset="utf-8">
 			<input value="{{doc.name}}" readonly="true" name="app" type="hidden">
 			<input value="{{device_link}}" readonly="true" name="device" type="hidden">
+			<input value="{{version_want}}" readonly="true" name="version" type="hidden">
 			<div class="field">
 				<label>{{_("Application Instance")}}</label>
 				<input value="{{app_inst}}" readonly="true" name="inst" type="text" tabindex="0"/>
-			</div>
-			<div class="field">
-				<label>{{_("Version")}}</label>
-				<input value="{{version_want + 1}}" readonly="true" name="version" type="text" tabindex="0"/>
 			</div>
 			<div class="field">
 				<label>{{_("Comment")}}</label>
@@ -187,8 +183,8 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Version Warning!")}}
 	</div>
 	<div class="content">
-		<p>{{_("Current application has newer version than {0}").format(version_want)}} </p>
-		<p>{{_("You need to upgrade application version to be latest first!!!")}} </p>
+		<p>{{_("Current editor workspace is not based on version {0}").format(version_want)}} </p>
+		<p>{{_("You need to editor upgrade application version to {0} or revert workspace to version {1}").format(version_editor, version_want)}} </p>
 	</div>
 	<div class="actions">
 		<div class="ui positive button">

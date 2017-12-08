@@ -279,9 +279,11 @@ def editor():
 		fire_raw_content(json.dumps(content), 200, 'application/json; charset=utf-8')
 
 
-def zip_application(app, version):
+def zip_application(app, version, editor=False):
 	app_dir = get_app_release_path(app)
 	app_file = os.path.join(app_dir, str(version) + '.zip')
+	if editor:
+		app_file = os.path.join(app_dir, str(version) + '.editor.zip')
 
 	if os.access(app_file, os.R_OK):
 		throw(_("Application version already exits!"))
@@ -356,6 +358,19 @@ def editor_revert():
 	return _("Workspace revert success!")
 
 
+def editor_worksapce_version(app):
+	editor_dir = get_app_editor_file_path(app)
+	try:
+		vf = open(os.path.join(editor_dir, "version"), 'r')
+		if vf:
+			version = vf.readline()
+			vf.close()
+		return version
+
+	except Exception:
+		return
+
+
 @frappe.whitelist()
 def editor_apply():
 	from iot.device_api import send_action
@@ -365,7 +380,10 @@ def editor_apply():
 	if not app or not inst or not device:
 		raise frappe.ValidationError
 
-	editor_release()
+	version = editor_worksapce_version(app) or frappe.form_dict.version
+
+	zip_application(app, version, True)
+
 	data = {
 		"inst": inst,
 		"name": app,

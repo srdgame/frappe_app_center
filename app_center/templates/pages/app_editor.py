@@ -4,8 +4,10 @@
 
 from __future__ import unicode_literals
 import frappe
+import os
 from frappe import throw, _
 from urllib import urlencode
+from app_center.editor import editor_worksapce_version
 
 
 def get_context(context):
@@ -19,9 +21,10 @@ def get_context(context):
 
 	device_link = frappe.form_dict.device
 	app_inst = frappe.form_dict.app_inst
-	version_want = frappe.form_dict.version
+	version_want = int(frappe.form_dict.version)
 	if device_link and (not app_inst or not version_want):
-		raise frappe.ValidationError
+		frappe.local.flags.redirect_location = "/app_editor?" + urlencode({"app": app})
+		raise frappe.Redirect
 
 	app_doc = frappe.get_doc("IOT Application", app)
 	user_roles = frappe.get_roles(frappe.session.user)
@@ -36,12 +39,16 @@ def get_context(context):
 	context.doc = app_doc
 	context.device_link = device_link
 	context.app_inst = app_inst
-	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
-
-	if version_want is not None:
-		version_want = int(version_want)
 
 	if version_want is not None:
 		context.version_want = version_want
-		if version_want < context.releases[0].version:
+
+		version_editor = editor_worksapce_version(app)
+		if version_editor:
+			context.version_editor = version_editor
+			if version_editor != version_want:
+				context.show_version_warning = True
+		else:
+			context.version_editor = -1
 			context.show_version_warning = True
+

@@ -78,8 +78,8 @@ def upload():
 		if ext != ext_wanted and ext_wanted != "tar.gz":
 			throw(_("Appication file extension name incorrect!"))
 
-		new_filename = str(version) + '.' + ext_wanted  # 修改了上传的文件名
-		f.save(os.path.join(file_dir, new_filename))  # 保存文件到upload目录
+		new_filename = os.path.join(file_dir, str(version) + '.' + ext_wanted)  # 修改了上传的文件名
+		f.save(new_filename)  # 保存文件到upload目录
 
 		data = {
 			"doctype": "IOT Application Version",
@@ -91,9 +91,11 @@ def upload():
 
 		try:
 			doc = frappe.get_doc(data).insert()
-			shutil.copy(os.path.join(file_dir, new_filename), os.path.join(file_dir, 'latest.'+ext_wanted))
+			os.system("md5sum " + new_filename + " > " + new_filename + ".md5")
+			shutil.copy(new_filename, os.path.join(file_dir, 'latest.' + ext_wanted))
+			shutil.copy(new_filename + ".md5", os.path.join(file_dir, 'latest.' + ext_wanted + ".md5"))
 		except Exception as ex:
-			os.remove(os.path.join(file_dir, new_filename))
+			os.remove(new_filename)
 			throw(_("Application version creation failed!"))
 
 		return _("Application upload success")

@@ -305,6 +305,7 @@ def zip_application(app, version, editor=False):
 			arcname = filename[len(editor_dir):]
 			f.write(filename, arcname)
 	f.close()
+	return app_file
 
 
 @frappe.whitelist()
@@ -323,10 +324,14 @@ def editor_release():
 		"comment": comment,
 	}
 
-	zip_application(app, version)
+	app_file = zip_application(app, version)
 
 	try:
 		doc = frappe.get_doc(data).insert()
+		os.system("md5sum " + app_file + " > " + app_file + ".md5")
+		app_dir = get_app_release_path(app)
+		shutil.copy(app_file, os.path.join(app_dir, 'latest.zip'))
+		shutil.copy(app_file + ".md5", os.path.join(app_dir, 'latest.zip.md5'))
 	except Exception as ex:
 		frappe.logger(__name__).error(ex)
 		remove_version_file(app, version)
@@ -385,7 +390,8 @@ def editor_apply():
 
 	version = editor_worksapce_version(app) or frappe.form_dict.version
 
-	zip_application(app, version, True)
+	app_file = zip_application(app, version, True)
+	os.system("md5sum " + app_file + " > " + app_file + ".md5")
 
 	data = {
 		"inst": inst,

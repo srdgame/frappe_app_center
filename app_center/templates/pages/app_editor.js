@@ -391,7 +391,7 @@ $(document).ready(function() {
 			$('.ui.new_tag.form .ui.success.message').html(response.message);
 			$('.ui.new_tag.form').addClass('success');
 			setTimeout(function () {
-				$('.ui.tag_app.modal').modal('hide');
+				$('.ui.new_tag.modal').modal('hide');
 			}, 1000);
 		},
 		error: function(xhr) {
@@ -415,7 +415,7 @@ $(document).ready(function() {
 			$('.ui.apply_device.form .ui.success.message').html(response.message);
 			$('.ui.apply_device.form').addClass('success');
 			setTimeout(function () {
-				$('.ui.tag_app.modal').modal('hide');
+				$('.ui.apply_device.modal').modal('hide');
 			}, 1000);
 		},
 		error: function(xhr) {

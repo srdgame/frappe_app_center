@@ -7,7 +7,6 @@ apps/app_center/app_center/public/ace/worker-coffee.js +1,./register,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./rewriter,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./scope,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,./sourcemap,
-apps/app_center/app_center/templates/pages/app_editor.html +171,<p>This will delete all local changes! Are you sure?</p>,<p>本操作会删除本地修改的内容.是否执行?</p>
 DocType: App Developer,Admin,管理员
 DocType: App Category,All,所有
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +46,All Logs,所有日志
@@ -27,7 +26,7 @@ apps/app_center/app_center/appmgr.py +79,Appication file extension name incorrec
 DocType: IOT Application Comment,Application,应用
 apps/app_center/app_center/templates/pages/app_list.html +36,Application Categories,应用类别
 DocType: IOT Application,Application Description,应用描述
-apps/app_center/app_center/templates/pages/app_editor.html +113,Application Instance,应用实例
+apps/app_center/app_center/templates/pages/app_editor.html +118,Application Instance,应用实例
 apps/app_center/app_center/templates/pages/app_store.html +18,Application List,应用列表
 apps/app_center/app_center/templates/pages/app_upload.html +26,Application Name,应用名称
 apps/app_center/app_center/templates/pages/app_list.html +147,Application Package,应用包
@@ -35,22 +34,22 @@ apps/app_center/app_center/templates/pages/app_store.html +65,Application Protoc
 apps/app_center/app_center/templates/pages/app_store.html +91,Application Suppliers,设备提供商
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +39,Application count limitation!,应用数量限制!
 apps/app_center/app_center/appmgr.py +65,Application file not found!,没有发现应用包文件!
-apps/app_center/app_center/appmgr.py +107,Application icon must be png file!,应用图标必须是PNG文件
+apps/app_center/app_center/appmgr.py +110,Application icon must be png file!,应用图标必须是PNG文件
 apps/app_center/app_center/templates/pages/app_issue.py +32,Application issue is missing!,不存在此应用问题
 apps/app_center/app_center/appmgr.py +62,Application name not found!,应用名称丢失！
-apps/app_center/app_center/templates/pages/app_editor.py +18,Application not specified,没有指定应用
+apps/app_center/app_center/templates/pages/app_editor.py +20,Application not specified,没有指定应用
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +26,Application path cannot include dot character(.)!,应用路径不能包含字符(.)!
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +29,Application path is not an valid path!,应用路径不合法!
 apps/app_center/app_center/templates/pages/app_review.py +32,Application review name is missing!,应用评测实例不存在!
-apps/app_center/app_center/appmgr.py +100,Application upload failed!,应用包上传失败!
-apps/app_center/app_center/editor.py +330,Application upload success,应用包上传成功
-apps/app_center/app_center/editor.py +287,Application version already exits!,应用版本已经存在!
-apps/app_center/app_center/appmgr.py +96,Application version creation failed!,应用版本创建失败!
+apps/app_center/app_center/appmgr.py +103,Application upload failed!,应用包上传失败!
+apps/app_center/app_center/editor.py +340,Application upload success,应用包上传成功
+apps/app_center/app_center/editor.py +292,Application version already exits!,应用版本已经存在!
+apps/app_center/app_center/appmgr.py +99,Application version creation failed!,应用版本创建失败!
 apps/app_center/app_center/appmgr.py +68,Application version duplicated!,应用版本重复!
 apps/app_center/app_center/appmgr.py +59,Application version not found!,应用包版本丢失！
-apps/app_center/app_center/appmgr.py +212,Application version {0} does not exists!,应用版本{0}不存在!
+apps/app_center/app_center/appmgr.py +215,Application version {0} does not exists!,应用版本{0}不存在!
 apps/app_center/app_center/templates/pages/app_modify.html +18,Applications,应用程序
-apps/app_center/app_center/templates/pages/app_editor.html +133,Apply,应用
+apps/app_center/app_center/templates/pages/app_editor.html +130,Apply,应用
 apps/app_center/app_center/app_center/doctype/iot_application_version/iot_application_version.js +12,Approve,审核通过
 DocType: IOT Application Version,Approved,已验证
 DocType: IOT Application Version,Approved Date,验证日期
@@ -64,26 +63,29 @@ apps/app_center/app_center/templates/pages/app_list.html +26,Category Filter,类
 DocType: IOT Application,Close,关闭
 DocType: IOT Application Issue,Closed,已关闭
 DocType: IOT Application Comment,Comment,评论
-apps/app_center/app_center/appmgr.py +308,Comment added!,评论已添加!
-apps/app_center/app_center/appmgr.py +319,Comment removed!,评论已删除!
+apps/app_center/app_center/appmgr.py +311,Comment added!,评论已添加!
+apps/app_center/app_center/appmgr.py +322,Comment removed!,评论已删除!
 DocType: IOT Application Issue,Comments,评论
 DocType: IOT Application Issue,Content,内容
-apps/app_center/app_center/templates/pages/app_editor.html +95,Create,创建
+apps/app_center/app_center/templates/pages/app_editor.html +96,Create,创建
 apps/app_center/app_center/templates/pages/app_new.html +3,Create new IOT Application,创建新的IOT应用
-apps/app_center/app_center/templates/pages/app_editor.html +190,Current application has newer version than {0},本应用已经有更大的版本号{0}
+apps/app_center/app_center/templates/pages/app_editor.html +187,Current editor workspace is not based on version {0} but {1}},当前工作区并不是基于版本{0}而是{1}
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +10,Dashboard,仪表板
-apps/app_center/app_center/templates/pages/app_dashboard.html +176,Date,日期
+apps/app_center/app_center/templates/pages/app_dashboard.html +162,Date,日期
 apps/app_center/app_center/templates/pages/app_detail.html +72,Delete,删除
 DocType: App Category,Description,描述
+apps/app_center/app_center/templates/pages/app_dashboard.html +100,Developers,开发者
+apps/app_center/app_center/templates/pages/app_editor.html +114,Device SN,设备序列号
 DocType: IOT Application,Device Serial,设备型号
 DocType: IOT Application,Device Supplier,设备厂商
+apps/app_center/app_center/templates/pages/app_dashboard.html +116,Device Suppliers,设备提供商
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +14,Devices,设备列表
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +15,Document,文档
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +31,Documents,文档
 apps/app_center/app_center/editor.py +35,EEEEEEEEEEEEEEEEEEEEEEE,
 DocType: App Developer,Enabled,启用
-apps/app_center/app_center/templates/pages/app_editor.html +168,Fetch file from server,从服务器重新获取文件
-apps/app_center/app_center/templates/pages/app_editor.html +47,File Editor,文件编辑器
+apps/app_center/app_center/templates/pages/app_editor.html +165,Fetch file from server,从服务器重新获取文件
+apps/app_center/app_center/templates/pages/app_editor.html +48,File Editor,文件编辑器
 apps/app_center/app_center/templates/pages/app_issues.html +79,Fix Rate,修复比例
 apps/app_center/app_center/templates/pages/app_issues.html +42,Fixed,已修复的
 DocType: IOT Application,For make application unique in Owner,
@@ -112,22 +114,22 @@ DocType: IOT Application Version,IOT Application Version,IOT应用版本
 DocType: App Center Settings,IOT Center,IOT数据中心
 DocType: IOT Application,Icon Image,图标图像
 DocType: IOT Application,Information,信息
-apps/app_center/app_center/templates/pages/app_dashboard.html +272,Installation,安装数量
+apps/app_center/app_center/templates/pages/app_dashboard.html +258,Installation,安装数量
 DocType: IOT Application Issue,Invalid,无效的
 apps/app_center/app_center/templates/pages/app_issues.js +20,Invalid issue,无效的问题
-apps/app_center/app_center/appmgr.py +339,Issue added!,问题已增加！
-apps/app_center/app_center/appmgr.py +364,Issue comment added!,问题评论已增加！
-apps/app_center/app_center/appmgr.py +381,Issue comment not found!,问题评论不存在！
-apps/app_center/app_center/appmgr.py +379,Issue comment removed!,问题评论已删除！
+apps/app_center/app_center/appmgr.py +342,Issue added!,问题已增加！
+apps/app_center/app_center/appmgr.py +367,Issue comment added!,问题评论已增加！
+apps/app_center/app_center/appmgr.py +384,Issue comment not found!,问题评论不存在！
+apps/app_center/app_center/appmgr.py +382,Issue comment removed!,问题评论已删除！
 apps/app_center/app_center/templates/pages/app_detail.html +240,Issue content,问题内容
 apps/app_center/app_center/templates/pages/app_issues.js +8,Issue fixed,问题已修复
-apps/app_center/app_center/appmgr.py +398,Issue fixed!,问题已修复！
+apps/app_center/app_center/appmgr.py +401,Issue fixed!,问题已修复！
 apps/app_center/app_center/templates/pages/app_issue.html +3,Issue for,问题-
-apps/app_center/app_center/appmgr.py +350,Issue removed!,问题已删除！
+apps/app_center/app_center/appmgr.py +353,Issue removed!,问题已删除！
 apps/app_center/app_center/templates/pages/app_detail.html +84,Issues,问题列表
 apps/app_center/app_center/templates/pages/app_issues.html +4,Issues of Your Applications,您的应用的问题列表
 DocType: IOT Application,License Type,授权类型
-apps/app_center/app_center/templates/pages/app_dashboard.html +192,Loading,载入中
+apps/app_center/app_center/templates/pages/app_dashboard.html +178,Loading,载入中
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +57,Logout,注销
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +54,Logs,日志
 DocType: IOT Application Issue,Low,低
@@ -139,13 +141,13 @@ apps/app_center/app_center/templates/pages/app_modify.html +96,Modify,编辑
 apps/app_center/app_center/templates/pages/app_modify.html +3,Modify Application,编辑应用信息
 apps/app_center/app_center/templates/pages/app_dashboard.html +31,Most stars,评价最高的
 DocType: IOT Application,Name,名称
-apps/app_center/app_center/templates/pages/app_editor.html +175,No,否
+apps/app_center/app_center/templates/pages/app_editor.html +172,No,否
 DocType: App Developer,Normal,普通用户
-apps/app_center/app_center/templates/pages/app_editor.html +195,OK,好
+apps/app_center/app_center/templates/pages/app_editor.html +192,OK,好
 apps/app_center/app_center/templates/pages/app_editor.html +3,Online Editor ,在线编辑
 DocType: IOT Application,Open,打开的
 DocType: IOT Application,Owner,所有人
-apps/app_center/app_center/templates/pages/app_editor.html +106,Pack changes and install to,打包修改内容并安装到
+apps/app_center/app_center/templates/pages/app_editor.html +107,Pack changes and install to,打包修改内容并安装到
 DocType: App Developer,Power,高级开发者
 DocType: IOT Application Issue,Priority,优先级
 DocType: IOT Application,Private,私有
@@ -153,22 +155,22 @@ apps/app_center/app_center/templates/includes/navbar/app_navbar.html +53,Profile
 DocType: App Device Protocol,Protocol,协议
 apps/app_center/app_center/templates/pages/app_store.js +66,Protocol Filter,协议过滤器
 DocType: IOT Application,Published,发布时间
-apps/app_center/app_center/templates/pages/app_dashboard.html +161,Recently Released,最近发布的
-apps/app_center/app_center/templates/pages/app_dashboard.html +57,Recently updated,最近修改的
-apps/app_center/app_center/templates/pages/app_issue.py +18,Redis Server is empty in IOT HDB Settings,
+apps/app_center/app_center/templates/pages/app_dashboard.html +147,Recently Released,最近发布的
+apps/app_center/app_center/templates/pages/app_dashboard.html +50,Recently updated,最近修改的
+apps/app_center/app_center/templates/pages/app_issue.py +18,Redis Server is empty in IOT HDB Settings,IOT HDB设定中Redis服务器未设定
 DocType: App Center Settings,Release Folder,发布目录
 apps/app_center/app_center/templates/pages/app_detail.html +85,Releases,版本列表
 DocType: IOT Application Comment,Reply To,回复至
 apps/app_center/app_center/templates/pages/app_detail.html +188,Reply to,回复
-apps/app_center/app_center/editor.py +379,Request Method Must be POST!,只接受POST请求
-apps/app_center/app_center/templates/pages/app_editor.html +158,Revert,重置
-apps/app_center/app_center/templates/pages/app_editor.html +144,Revert editor workspace to,重置编辑器工作区内容到
-apps/app_center/app_center/appmgr.py +248,Review added!,评测已增加！
-apps/app_center/app_center/appmgr.py +273,Review comment added!,评测的评论已增加！
-apps/app_center/app_center/appmgr.py +290,Review comment not found!,评测的评论不存在！
-apps/app_center/app_center/appmgr.py +288,Review comment removed!,评测的评论已删除！
+apps/app_center/app_center/editor.py +407,Request Method Must be POST!,只接受POST请求
+apps/app_center/app_center/templates/pages/app_editor.html +155,Revert,重置
+apps/app_center/app_center/templates/pages/app_editor.html +141,Revert editor workspace to,重置编辑器工作区内容到
+apps/app_center/app_center/appmgr.py +251,Review added!,评测已增加！
+apps/app_center/app_center/appmgr.py +276,Review comment added!,评测的评论已增加！
+apps/app_center/app_center/appmgr.py +293,Review comment not found!,评测的评论不存在！
+apps/app_center/app_center/appmgr.py +291,Review comment removed!,评测的评论已删除！
 apps/app_center/app_center/templates/pages/app_detail.html +126,Review content,评测内容
-apps/app_center/app_center/appmgr.py +259,Review deleted!,评测已删除！
+apps/app_center/app_center/appmgr.py +262,Review deleted!,评测已删除！
 apps/app_center/app_center/templates/pages/app_review.html +3,Review for,应用评测-
 apps/app_center/app_center/templates/pages/app_detail.html +82,Reviews,评测列表
 apps/app_center/app_center/templates/pages/app_list.html +31,Search category,搜索类别
@@ -176,21 +178,22 @@ apps/app_center/app_center/templates/pages/app_store.html +86,Search supplier,�
 apps/app_center/app_center/templates/pages/app_modify.html +37,Select Category,选择类别
 apps/app_center/app_center/templates/pages/app_modify.html +63,Select Device Supplier,选择设备提供商
 apps/app_center/app_center/templates/pages/app_modify.html +50,Select Protocol,选择协议
-apps/app_center/app_center/templates/pages/app_editor.html +65,Select a file from the tree.,请从文件树中选择要编辑的文件。
+apps/app_center/app_center/templates/pages/app_editor.html +66,Select a file from the tree.,请从文件树中选择要编辑的文件。
 DocType: IOT Application,Star,评星
-apps/app_center/app_center/templates/pages/app_dashboard.html +271,Stars,评星
+apps/app_center/app_center/templates/pages/app_dashboard.html +257,Stars,评星
 DocType: IOT Application Issue,Status,状态
 apps/app_center/app_center/templates/includes/menu/app_side_menu.html +11,Store,商店
 apps/app_center/app_center/templates/pages/app_issues.html +141,Submit,提交
 DocType: App Device Supplier,Supplier,供应商
 apps/app_center/app_center/templates/pages/app_store.js +68,Supplier Filter,提供商过滤器
 DocType: App Category,System Manager,系统管理员
-apps/app_center/app_center/templates/pages/app_editor.html +73,Tag a new version,发布新版本
+apps/app_center/app_center/templates/pages/app_editor.html +74,Tag a new version,发布新版本
 DocType: IOT Application Version,Tested,已测试
 DocType: IOT Application Version,Tested Date,测试日期
 DocType: IOT Application Version,Testing Information,测试详情
+apps/app_center/app_center/templates/pages/app_editor.html +168,This will delete all local changes! Are you sure?,将会删除本地所有的改动，是否执行？
 DocType: IOT Application Issue,Title,标题
-apps/app_center/app_center/templates/pages/app_dashboard.html +262,Total Installation,总安装数量
+apps/app_center/app_center/templates/pages/app_dashboard.html +248,Total Installation,总安装数量
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.js +6,Update Stars,更新评星
 apps/app_center/app_center/templates/pages/app_list.html +164,Upload,上传
 apps/app_center/app_center/templates/pages/app_detail.html +252,Upload New Version,上传新版本
@@ -198,17 +201,17 @@ apps/app_center/app_center/templates/pages/app_list.html +132,Upload new version
 apps/app_center/app_center/templates/pages/app_upload.html +3,Upload release file for ,上传发布包文件
 DocType: App Developer,User,用户
 DocType: IOT Application Version,Version,版本
-apps/app_center/app_center/templates/pages/app_editor.html +187,Version Warning!,版本警告！
+apps/app_center/app_center/templates/pages/app_editor.html +184,Version Warning!,版本警告！
 apps/app_center/app_center/app_center/doctype/iot_application_version/iot_application_version.py +18,Version must be bigger than {0},版本号必须高于{0}
-apps/app_center/app_center/editor.py +347,Version {0}  release file does not exits!,版本{0}对应的文件不存在!
-apps/app_center/app_center/editor.py +341,Version {0} does not exits!,版本{0}不存在!
+apps/app_center/app_center/editor.py +357,Version {0}  release file does not exits!,版本{0}对应的文件不存在!
+apps/app_center/app_center/editor.py +351,Version {0} does not exits!,版本{0}不存在!
 apps/app_center/app_center/templates/pages/app_detail.html +355,Warning!,警告！
-apps/app_center/app_center/editor.py +356,Workspace revert success!,工作区重置成功！
-apps/app_center/app_center/templates/pages/app_editor.html +178,Yes,是
-apps/app_center/app_center/templates/pages/app_editor.py +32,You are not the owner of application {0},应用{0}并不属于您
+apps/app_center/app_center/editor.py +366,Workspace revert success!,工作区重置成功！
+apps/app_center/app_center/templates/pages/app_editor.html +175,Yes,是
+apps/app_center/app_center/templates/pages/app_editor.py +35,You are not the owner of application {0},应用{0}并不属于您
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.py +57,You have already forked {0} version {1},你已经克隆过应用{0}的版本{1}
-apps/app_center/app_center/templates/pages/app_editor.html +191,You need to upgrade application version to be latest first!!!,你需要更新应用到最新版本！！！
-apps/app_center/app_center/templates/pages/app_dashboard.html +243,Your Application Statistics,您的应用统计数据
+apps/app_center/app_center/templates/pages/app_editor.html +188,You need to either upgrade application version to {0} or revert workspace to version {1},请将设备中的应用升级到版本{0}，或者将工作区重置到版本{1}
+apps/app_center/app_center/templates/pages/app_dashboard.html +229,Your Application Statistics,您的应用统计数据
 apps/app_center/app_center/templates/pages/app_list.html +17,Your Applications,您的应用列表
 apps/app_center/app_center/templates/pages/app_list.html +3,Your applications,您的应用列表
 apps/app_center/app_center/templates/pages/app_detail.html +195,Your comment,请输入您的评论
@@ -216,5 +219,5 @@ DocType: App Center Settings,e.g. http://localhost:8000,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,fs,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,module,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,path,
-apps/app_center/app_center/editor.py +381,pong,
+apps/app_center/app_center/editor.py +409,pong,
 apps/app_center/app_center/public/ace/worker-coffee.js +1,vm,

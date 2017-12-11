@@ -184,8 +184,8 @@ io.write("Hello world, from ",_VERSION,"!\n")</div>
 		{{_("Version Warning!")}}
 	</div>
 	<div class="content">
-		<p>{{_("Current editor workspace is not based on version {0}").format(version_want)}} </p>
-		<p>{{_("You need to editor upgrade application version to {0} or revert workspace to version {1}").format(version_editor, version_want)}} </p>
+		<p>{{_("Current editor workspace is not based on version {0} but {1}}").format(version_want, version_editor)}} </p>
+		<p>{{_("You need to either upgrade application version to {0} or revert workspace to version {1}").format(version_editor, version_want)}} </p>
 	</div>
 	<div class="actions">
 		<div class="ui positive button">

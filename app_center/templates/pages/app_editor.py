@@ -39,6 +39,7 @@ def get_context(context):
 	context.doc = app_doc
 	context.device_link = device_link
 	context.app_inst = app_inst
+	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 
 	version_editor = editor_worksapce_version(app) or -1
 	context.version_editor = version_editor

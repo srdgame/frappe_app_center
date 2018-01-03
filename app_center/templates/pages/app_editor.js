@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$(window).resize(function () {
-		var h = Math.max($(window).height() - 130, 420);
+		var h = Math.max($(window).height() - 160, 420);
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
 		$('#jstree_tree_menu').width($('#jstree_tree').width())
 	}).resize();
@@ -396,9 +396,12 @@ $(document).ready(function() {
 		},
 		error: function(xhr) {
 			$('.ui.new_tag.form').addClass('error');
-			$('.ui.new_tag.form .ui.error.message').html(xhr.responseText);
-			console.log('Release Application Exception:' + xhr.responseText);
-			$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON.exc);
+			console.log('Tag Application Exception:' + xhr.responseText);
+			if (xhr.responseJSON._server_messages) {
+				$('.ui.new_tag.form .ui.error.message').html(xhr.responseJSON._server_messages);
+			} else {
+				$('.ui.new_tag.form .ui.error.message').html('Revert Application Failed!');
+			}
 		}
 	});
 	$('.ui.new_tag.form .cancel.button').click(function(){
@@ -420,9 +423,12 @@ $(document).ready(function() {
 		},
 		error: function(xhr) {
 			$('.ui.apply_device.form').addClass('error');
-			$('.ui.apply_device.form .ui.error.message').html(xhr.responseText);
 			console.log('Release Application Exception:' + xhr.responseText);
-			$('.ui.apply_device.form .ui.error.message').html(xhr.responseJSON.exc);
+			if (xhr.responseJSON._server_messages) {
+				$('.ui.apply_device.form .ui.error.message').html(xhr.responseJSON._server_messages);
+			} else {
+				$('.ui.apply_device.form .ui.error.message').html('Revert Application Failed!');
+			}
 		}
 	});
 	$('.ui.apply_device.form .cancel.button').click(function(){
@@ -451,9 +457,12 @@ $(document).ready(function() {
 		},
 		error: function(xhr) {
 			$('.ui.revert_app.form').addClass('error');
-			$('.ui.revert_app.form .ui.error.message').html(xhr.responseText);
 			console.log('Revert Application Exception:' + xhr.responseText);
-			$('.ui.revert_app.form .ui.error.message').html(xhr.responseJSON.exc);
+			if (xhr.responseJSON._server_messages) {
+				$('.ui.revert_app.form .ui.error.message').html(xhr.responseJSON._server_messages);
+			} else {
+				$('.ui.revert_app.form .ui.error.message').html('Revert Application Failed!');
+			}
 		}
 	});
 	$('.ui.revert_app.form .cancel.button').click(function(){

@@ -76,9 +76,12 @@ $(document).ready(function() {
 		},
 		error: function(xhr) {
 			fork_app_form.addClass('error');
-			fork_app_form.find('.ui.error.message').html(xhr.responseText);
 			console.log('Fork Application Exception:' + xhr.responseText);
-			fork_app_form.find('.ui.error.message').html(xhr.responseJSON.exc);
+			if (xhr.responseJSON._server_messages) {
+				fork_app_form.find('.ui.error.message').html(xhr.responseJSON._server_messages);
+			} else {
+				fork_app_form.find('.ui.error.message').html('Fork Application Failed!');
+			}
 		}
 	});
 {% else %}

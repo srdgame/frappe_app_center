@@ -70,11 +70,14 @@ def init_request_headers(headers):
 @frappe.whitelist(allow_guest=True)
 def enable_beta(sn):
 	iot_center = frappe.db.get_single_value("App Center Settings", "iot_center")
-
-	session = requests.session()
-	# session.auth = (username, passwd)
-	init_request_headers(session.headers)
-	r = session.get(iot_center + "/api/method/iot.hdb_api.is_beta_enable", params={"sn":sn})
-	if r.status_code != 200:
-		throw(_("Cannot query beta information from IOT Center"))
-	return r.json().get("message")
+	if iot_center is None or iot_center == "":
+		from iot.hdb_api import is_beta_enable
+		return is_beta_enable(sn=sn)
+	else:
+		session = requests.session()
+		# session.auth = (username, passwd)
+		init_request_headers(session.headers)
+		r = session.get(iot_center + "/api/method/iot.hdb_api.is_beta_enable", params={"sn":sn})
+		if r.status_code != 200:
+			throw(_("Cannot query beta information from IOT Center"))
+		return r.json().get("message")

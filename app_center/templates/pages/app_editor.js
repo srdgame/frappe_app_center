@@ -452,7 +452,8 @@ $(document).ready(function() {
 				localStorage.removeItem(local_storage_prefix + name);
 			}
 			setTimeout(function () {
-				window.location.href="/app_editor?app=" + cur_app;
+				//window.location.href="/app_editor?app=" + cur_app;
+				window.location.reload();
 			}, 1000);
 		},
 		error: function(xhr) {

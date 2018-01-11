@@ -188,6 +188,8 @@ def copy_app_release_file(from_app, to_app, version):
 
 def copy_app_icon_file(from_app, to_app):
 	from_icon = os.path.join(get_app_release_path(from_app), "icon.png")
+	if not os.path.exists(from_icon):
+		return
 	to_icon = os.path.join(get_app_release_path(to_app), "icon.png")
 	shutil.copy(from_icon, to_icon)
 

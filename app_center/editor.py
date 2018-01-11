@@ -341,9 +341,9 @@ def editor_release():
 
 
 @frappe.whitelist()
-def editor_revert():
-	app = frappe.form_dict.app
-	version = frappe.form_dict.version
+def editor_revert(app=None, version=None):
+	app = app or frappe.form_dict.app
+	version = version or frappe.form_dict.version
 	if not app or not version:
 		raise frappe.ValidationError
 

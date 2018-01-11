@@ -41,18 +41,19 @@ def get_context(context):
 	context.app_inst = app_inst
 	context.releases = frappe.db.get_all("IOT Application Version", fields="*", filters={"app": app}, limit=10, order_by="version desc")
 
-	version_editor = editor_worksapce_version(app) or 0
-	if version_editor < 0:
-		version_editor = int(version_want or 0)
-		if version_editor > 0:
-			from app_center.editor import editor_revert
-			editor_revert(app, version_editor)
-
+	version_editor = editor_worksapce_version(app) or -1
 	context.version_editor = version_editor
 
 	if version_want is not None:
 		version_want = int(version_want)
 		context.version_want = version_want
+
+		if version_editor == -1:
+			version_editor = version_want
+			from app_center.editor import editor_revert
+			editor_revert(app, version_editor)
+			context.version_editor = version_editor
+
 		if version_editor != version_want:
 			context.show_version_warning = True
 

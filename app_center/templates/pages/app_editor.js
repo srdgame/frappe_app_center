@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$(window).resize(function () {
 		var h = Math.max($(window).height() - 160, 420);
 		$('#editor_container, #editor_data, #jstree_tree, #editor_data .content').height(h).filter('.default').css('lineHeight', h + 'px');
-		$('#jstree_tree_menu').width($('#jstree_tree').width())
+		$('#jstree_tree_menu').width($('#jstree_tree').width());
 	}).resize();
 
 	var cur_app = "{{ doc.name }}";

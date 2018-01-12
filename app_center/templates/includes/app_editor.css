@@ -9,6 +9,7 @@
 #jstree_tree {
     float:left;
     min-width:319px;
+    max-width:319px;
     border-right:1px solid silver;
     overflow:auto;
     padding:0px 0;

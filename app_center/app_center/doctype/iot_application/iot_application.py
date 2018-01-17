@@ -33,6 +33,8 @@ class IOTApplication(Document):
 		self.app_name_unique = self.owner + "/" + self.app_name
 
 	def before_insert(self):
+		if frappe.session.user == 'Administrator':
+			return
 		applist = frappe.db.get_values('IOT Application', {"owner": self.owner})
 		group = frappe.get_value("App Developer", self.owner, "group")
 		if len(applist) > 10 and group == 'Normal':
@@ -50,7 +52,7 @@ class IOTApplication(Document):
 			frappe.logger(__name__).error(ex.message)
 
 	def get_fork(self, owner, version):
-		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version}, "name")
+		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner":owner}, "name")
 
 	def fork(self, by_user, version):
 		if self.get_fork(by_user, version):

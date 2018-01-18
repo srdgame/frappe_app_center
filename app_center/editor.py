@@ -8,6 +8,7 @@ import os
 import json
 import shutil
 import zipfile
+import codecs
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from appmgr import get_app_release_path, remove_version_file
@@ -230,7 +231,7 @@ def editor_get_content(app, node_id):
 def editor_set_content(app, node_id, text):
 	fpath = get_app_editor_file_path(app, node_id)
 	if os.path.isfile(fpath):
-		file_object = open(fpath, "w")
+		file_object = codecs.open(fpath, "w", "utf-8") #open(fpath, "w")
 		file_object.write(text)
 		file_object.close()
 		return {"status": "OK"}

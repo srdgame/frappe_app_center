@@ -8,6 +8,7 @@ from frappe import throw, _
 
 
 def get_context(context):
+	context.no_cache = 1
 
 	category = frappe.form_dict.category
 	protocol = frappe.form_dict.protocol

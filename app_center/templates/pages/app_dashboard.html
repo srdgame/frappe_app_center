@@ -166,7 +166,7 @@
 						{% for rel in releases %}
 							<tr>
 								<td>{{loop.index}}</td>
-								<td><a href="/app_detail?app={{rel.name}}">{{rel.app_name}}</a></td>
+								<td><a href="/app_detail?app={{rel.app}}">{{rel.app_name}}</a></td>
 								<td><i class="green check label">{{rel.version}}</i></td>
 								<td><i class="{{'red close' if rel.beta else 'green check'}} icon"></i></td>
 								<td>{{frappe.utils.pretty_date(rel.modified)}}</td>

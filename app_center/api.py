@@ -10,13 +10,13 @@ from frappe import throw, msgprint, _
 from werkzeug.utils import secure_filename
 
 
-device_props = ["name", "app_name", "owner", "category", "protocol",
+app_props = ["name", "app_name", "owner", "category", "protocol", "star", "icon_image",
 				"license_type", "device_supplier", "device_serial", "creation"]
 
 
 @frappe.whitelist(allow_guest=True)
 def list_apps(filters=None):
-	return frappe.get_all("IOT Application", fields=device_props, filters=filters)
+	return frappe.get_all("IOT Application", fields=app_props, filters=filters)
 
 
 @frappe.whitelist(allow_guest=True)

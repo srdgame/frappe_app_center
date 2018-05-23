@@ -49,7 +49,7 @@ class IOTApplication(Document):
 		try:
 			remove_app_folder(self.app)
 		except Exception as ex:
-			frappe.logger(__name__).error(ex.message)
+			frappe.logger(__name__).error(ex)
 
 	def get_fork(self, owner, version):
 		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner":owner}, "name")

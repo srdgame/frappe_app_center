@@ -25,7 +25,7 @@ class IOTApplicationVersion(Document):
 		try:
 			remove_version_file(self.app, self.version)
 		except Exception as ex:
-			frappe.logger(__name__).error(ex.message)
+			frappe.logger(__name__).error(ex)
 
 	def set_tested(self):
 		self.set("tested", 1)

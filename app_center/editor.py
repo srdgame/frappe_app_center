@@ -367,6 +367,7 @@ def editor_revert(app=None, version=None):
 	return _("Workspace revert success!")
 
 
+@frappe.whitelist()
 def editor_worksapce_version(app):
 	editor_dir = get_app_editor_file_path(app)
 	try:

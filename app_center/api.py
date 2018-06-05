@@ -42,6 +42,22 @@ def get_latest_version(app, beta):
 
 
 @frappe.whitelist(allow_guest=True)
+def get_versions(app, beta=False):
+	filters = {
+		"app": app
+	}
+	if not beta:
+		filters.update({
+			"beta": 0
+		})
+
+	vlist = frappe.db.get_values("IOT Application Version", filters, "*", order_by="version")
+	if not vlist:
+		return None
+	return vlist
+
+
+@frappe.whitelist(allow_guest=True)
 def check_update(app, beta=False):
 	version = get_latest_version(app, beta)
 	beta = frappe.get_value("IOT Application Version", {"app": app, "version": version}, "beta")

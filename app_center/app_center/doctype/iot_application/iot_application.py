@@ -37,11 +37,11 @@ class IOTApplication(Document):
 			return
 		applist = frappe.db.get_values('IOT Application', {"owner": self.owner})
 		group = frappe.get_value("App Developer", self.owner, "group")
-		if len(applist) > 10 and group == 'Normal':
+		if len(applist) >= 10 and group == 'Normal':
 			throw(_("Application count limitation!"))
-		if len(applist) > 20 and group == 'Power':
+		if len(applist) >= 20 and group == 'Power':
 			throw(_("Application count limitation!"))
-		if len(applist) > 100 and group == 'Admin':
+		if len(applist) >= 100 and group == 'Admin':
 			throw(_("Application count limitation!"))
 
 	def on_trash(self):

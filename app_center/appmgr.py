@@ -9,7 +9,7 @@ import shutil
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
-
+from app_center.editor import valid_app_owner
 
 
 ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP', 'gz', 'GZ', 'tgz', 'TGZ'])
@@ -38,11 +38,13 @@ def get_app_release_filepath(app, version):
 
 @frappe.whitelist()
 def remove_version_file(app, version):
+	valid_app_owner(app)
 	os.remove(get_app_release_filepath(app, version))
 
 
 @frappe.whitelist()
 def remove_app_folder(app):
+	valid_app_owner(app)
 	shutil.rmtree(get_app_release_path(app))
 
 
@@ -54,6 +56,8 @@ def upload():
 	version = int(frappe.form_dict.version)
 	app = frappe.form_dict.app
 	comment = frappe.form_dict.comment or "Unknown comment"
+
+	valid_app_owner(app)
 
 	if not version:
 		throw(_("Application version not found!"))
@@ -163,6 +167,7 @@ def modify():
 
 	app = frappe.form_dict.app
 	doc = frappe.get_doc("IOT Application", app)
+	valid_app_owner(app)
 	doc.set("app_name", app_name)
 	doc.set("category", category)
 	doc.set("protocol", protocol)

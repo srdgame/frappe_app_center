@@ -237,11 +237,17 @@ def editor_set_content(app, node_id, text):
 		return {"status": "OK"}
 
 
+def valid_app_owner(app):
+	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
+		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
+
+
 @frappe.whitelist()
 def editor():
 	app = frappe.form_dict.app
 	operation = frappe.form_dict.operation
 	node_id = frappe.form_dict.id if frappe.form_dict.id != "/" else ""
+	valid_app_owner(app)
 
 	content = None
 	if operation == 'get_node':
@@ -317,6 +323,8 @@ def editor_release():
 	if not app or not version or not comment:
 		raise frappe.ValidationError
 
+	valid_app_owner(app)
+
 	data = {
 		"doctype": "IOT Application Version",
 		"app": app,
@@ -348,6 +356,8 @@ def editor_revert(app=None, version=None):
 	if not app or not version:
 		raise frappe.ValidationError
 
+	valid_app_owner(app)
+
 	if not frappe.get_value("IOT Application Version", {"app": app, "version": version}, "name"):
 		throw(_("Version {0} does not exits!").format(version))
 
@@ -369,6 +379,8 @@ def editor_revert(app=None, version=None):
 
 @frappe.whitelist()
 def editor_worksapce_version(app):
+	valid_app_owner(app)
+
 	editor_dir = get_app_editor_file_path(app)
 	try:
 		vf = open(os.path.join(editor_dir, "version"), 'r')
@@ -389,6 +401,8 @@ def editor_apply():
 	app = frappe.form_dict.app
 	if not app or not inst or not device:
 		raise frappe.ValidationError
+
+	valid_app_owner(app)
 
 	version = editor_worksapce_version(app) or frappe.form_dict.version
 

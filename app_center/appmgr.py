@@ -9,7 +9,6 @@ import shutil
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
-from app_center.editor import valid_app_owner
 
 
 ALLOWED_EXTENSIONS = set(['csv', 'CSV', 'zip', 'ZIP', 'gz', 'GZ', 'tgz', 'TGZ'])
@@ -34,6 +33,11 @@ def get_app_release_filepath(app, version):
 	ext = frappe.get_value("IOT Application", app, "app_ext")
 	filename = str(version) + '.' + ext
 	return os.path.join(file_dir, filename)
+
+
+def valid_app_owner(app):
+	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
+		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
 
 
 @frappe.whitelist()

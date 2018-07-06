@@ -413,7 +413,7 @@ def editor_apply():
 		"inst": inst,
 		"name": app,
 		"fork": 1,
-		"version": "beta." + version + ".editor"
+		"version": "beta." + str(version) + ".editor"
 	}
 	return send_action("app", action="upgrade", device=device, data=data)
 

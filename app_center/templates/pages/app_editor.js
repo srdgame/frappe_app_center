@@ -9,6 +9,7 @@ $(document).ready(function() {
 
 	var editorMode = {
 		'txt': 'text',
+		'csv': 'text',
 		'md': 'markdown',
 		'htaccess': 'text',
 		'log': 'text',
@@ -149,6 +150,7 @@ $(document).ready(function() {
 				switch(d.type) {
 					case 'text':
 					case 'txt':
+					case 'csv':
 					case 'md':
 					case 'htaccess':
 					case 'log':

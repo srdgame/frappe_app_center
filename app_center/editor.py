@@ -189,6 +189,7 @@ def read_binrary_file_url(app, fn):
 read_content_map = {
 	'text': read_text_file_content,
 	'txt': read_text_file_content,
+	'csv': read_text_file_content,
 	'md': read_text_file_content,
 	'htaccess': read_text_file_content,
 	'log': read_text_file_content,

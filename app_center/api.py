@@ -125,3 +125,29 @@ def enable_beta(sn):
 		if r.status_code != 200:
 			throw(_("Cannot query beta information from IOT Center"))
 		return r.json().get("message")
+
+
+@frappe.whitelist(allow_guest=True)
+def user_access(app, user=None):
+	user = user or frappe.session.user
+	doc = frappe.get("IOT Application", app)
+	if doc.license_type == 'Open':
+		return True
+	if doc.owner == user:
+		return True
+
+	# TODO: for application buy
+	return False
+
+
+@frappe.whitelist(allow_guest=True)
+def company_access(app, company):
+	user = frappe.session.user
+	doc = frappe.get("IOT Application", app)
+	if doc.license_type == 'Open':
+		return True
+	if doc.owner == user:
+		return True
+
+	# TODO: for application buy
+	return False

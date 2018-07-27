@@ -15,14 +15,36 @@ app_props = ["name", "app_name", "owner", "category", "protocol", "star", "icon_
 
 
 @frappe.whitelist(allow_guest=True)
-def list_apps(filters=None):
+def list_apps(filters=None, fields=app_props, order_by="modified desc"):
 	if not filters:
 		filters = {"owner": ["!=", 'Administrator']}
 	else:
 		filters.update({
-			"owner": ["!=", 'Administrator']
+			"owner": ["!=", 'Administrator'],
+			"published": 1,
+			"license_type": 'Open'
 		})
-	return frappe.get_all("IOT Application", fields=app_props, filters=filters)
+	return frappe.get_all("IOT Application", fields=fields, filters=filters, order_by=order_by)
+
+
+@frappe.whitelist(allow_guest=True)
+def app_categories():
+	return frappe.get_all("App Category", fields=["name", "description"])
+
+
+@frappe.whitelist(allow_guest=True)
+def app_suppliers():
+	return frappe.get_all("App Device Supplier", fields=["name", "description"])
+
+
+@frappe.whitelist(allow_guest=True)
+def app_protocols():
+	return frappe.get_all("App Device Protocol", fields=["name", "description"])
+
+
+@frappe.whitelist(allow_guest=True)
+def app_detail(app, fields=app_props):
+	return frappe.get_doc('IOT Application', app, fields=fields)
 
 
 @frappe.whitelist(allow_guest=True)

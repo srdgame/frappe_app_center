@@ -44,6 +44,7 @@ def valid_app_owner(app):
 def remove_version_file(app, version):
 	valid_app_owner(app)
 	os.remove(get_app_release_filepath(app, version))
+	os.remove(get_app_release_filepath(app, version) + ".md5")
 
 
 @frappe.whitelist()
@@ -193,6 +194,7 @@ def copy_app_release_file(from_app, to_app, version):
 	from_file = get_app_release_filepath(from_app, version)
 	to_file = get_app_release_filepath(to_app, version)
 	shutil.copy(from_file, to_file)
+	shutil.copy(from_file + ".md5", to_file + ".md5")
 
 
 def copy_app_icon_file(from_app, to_app):

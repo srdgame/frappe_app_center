@@ -130,7 +130,7 @@ def enable_beta(sn):
 @frappe.whitelist(allow_guest=True)
 def user_access(app, user=None):
 	user = user or frappe.session.user
-	doc = frappe.get("IOT Application", app)
+	doc = frappe.get_doc("IOT Application", app)
 	if doc.license_type == 'Open':
 		return True
 	if doc.owner == user:
@@ -143,7 +143,7 @@ def user_access(app, user=None):
 @frappe.whitelist(allow_guest=True)
 def company_access(app, company):
 	user = frappe.session.user
-	doc = frappe.get("IOT Application", app)
+	doc = frappe.get_doc("IOT Application", app)
 	if doc.license_type == 'Open':
 		return True
 	if doc.owner == user:

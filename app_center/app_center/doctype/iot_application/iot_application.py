@@ -79,6 +79,23 @@ class IOTApplication(Document):
 		self.set("star", star)
 		self.save()
 
+	def clean_before_delete(self):
+		for d in frappe.db.get_values("IOT Application Version", {"app": self.name}, "name"):
+			frappe.delete_doc("IOT Application Version", d[0])
+
+		for d in frappe.db.get_values("IOT Application Comment", {"app": self.name}, "name"):
+			frappe.delete_doc("IOT Application Comment", d[0])
+
+		for d in frappe.db.get_values("IOT Application Issue", {"app": self.name}, "name"):
+			for d1 in frappe.db.get_values("IOT Application IssueReview", {"parent": d[0]}, "name"):
+				frappe.delete_doc("IOT Application IssueReview", d1[0])
+			frappe.delete_doc("IOT Application Issue", d[0])
+
+		for d in frappe.db.get_values("IOT Application Review", {"app": self.name}, "name"):
+			for d1 in frappe.db.get_values("IOT Application ReviewComment", {"parent": d[0]}, "name"):
+				frappe.delete_doc("IOT Application iot_application_reviewcomment", d1[0])
+			frappe.delete_doc("IOT Application Review", d[0])
+
 
 def get_recently_apps(as_list=False):
 	"""Returns a count of incomplete todos"""

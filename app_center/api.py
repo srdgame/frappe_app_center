@@ -44,7 +44,12 @@ def app_protocols():
 
 @frappe.whitelist(allow_guest=True)
 def app_detail(app, fields=app_props):
-	return frappe.get_doc('IOT Application', app, fields=fields)
+	doc = frappe.get_doc('IOT Application', app)
+	data = {}
+	for k in doc:
+		if k in app_props:
+			data[k] = doc[k]
+	return data
 
 
 @frappe.whitelist(allow_guest=True)
@@ -151,3 +156,8 @@ def company_access(app, company):
 
 	# TODO: for application buy
 	return False
+
+
+@frappe.whitelist(allow_guest=True)
+def ping():
+	return _("pong")

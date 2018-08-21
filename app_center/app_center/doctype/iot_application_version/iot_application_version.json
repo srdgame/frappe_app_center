@@ -69,7 +69,7 @@
    "remember_last_selected_value": 0, 
    "report_hide": 0, 
    "reqd": 1, 
-   "search_index": 0, 
+   "search_index": 1, 
    "set_only_once": 1, 
    "unique": 0
   }, 
@@ -415,7 +415,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-11-01 12:21:52.158414", 
+ "modified": "2018-08-21 12:29:42.050522", 
  "modified_by": "Administrator", 
  "module": "App Center", 
  "name": "IOT Application Version", 

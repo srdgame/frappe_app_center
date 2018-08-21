@@ -112,7 +112,6 @@ def get_forks(app):
 
 
 def init_request_headers(headers):
-	headers['Content-Type'] = 'application/json'
 	headers['Accept'] = 'application/json'
 
 

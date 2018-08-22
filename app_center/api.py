@@ -16,14 +16,14 @@ app_props = ["name", "app_name", "owner", "category", "protocol", "star", "icon_
 
 @frappe.whitelist(allow_guest=True)
 def list_apps(filters=None, fields=app_props, order_by="modified desc"):
-	if not filters:
-		filters = {"owner": ["!=", 'Administrator']}
+	if filters:
+		filters.update({"owner": ["!=", 'Administrator']})
 	else:
-		filters.update({
+		filters = {
 			"owner": ["!=", 'Administrator'],
 			"published": 1,
 			"license_type": 'Open'
-		})
+		}
 	return frappe.get_all("IOT Application", fields=fields, filters=filters, order_by=order_by)
 
 

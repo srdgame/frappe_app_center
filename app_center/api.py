@@ -53,19 +53,9 @@ def app_detail(app, fields=app_props):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_latest_version(app, beta):
-	filters = {
-		"app": app
-	}
-	if not beta:
-		filters.update({
-			"beta": 0
-		})
-
-	vlist = [d[0] for d in frappe.db.get_values("IOT Application Version", filters, "version")]
-	if not vlist:
-		return None
-	return max(vlist)
+def get_latest_version(app, beta=False):
+	from app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
+	return _get_latest_version(app, beta)
 
 
 @frappe.whitelist(allow_guest=True)

@@ -44,7 +44,7 @@ def on_doctype_update():
 
 
 def get_latest_version(app, beta=False):
-	if beta is True:
+	if beta == True:
 		sql = "select max(version) from `tabIOT Application Version` where app='{0}' and beta=1".format(app)
 	else:
 		sql = "select max(version) from `tabIOT Application Version` where app='{0}' and beta=0".format(app)

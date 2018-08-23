@@ -41,3 +41,9 @@ class IOTApplicationVersion(Document):
 	def get_latest_version(app):
 		sql = "select max(version) from `tabIOT Application Version` where app='{0}'".format(app)
 		return frappe.db.sql(sql)[0][0]
+
+
+
+def on_doctype_update():
+	"""Add indexes in `IOT Application Version`"""
+	frappe.db.add_index("IOT Application Version", ["app", "version"])

@@ -13,7 +13,7 @@ class IOTApplicationVersion(Document):
 	def validate(self):
 		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')
 		if self.is_new():
-			latest = get_latest_version(self.app, True)
+			latest = get_latest_version(self.app, 1)
 			if latest > self.version:
 				throw(_("Version must be bigger than {0}").format(latest))
 
@@ -43,9 +43,6 @@ def on_doctype_update():
 	frappe.db.add_index("IOT Application Version", ["app", "version"])
 
 
-def get_latest_version(app, beta=False):
-	if beta == True:
-		sql = "select max(version) from `tabIOT Application Version` where app='{0}' and beta=1".format(app)
-	else:
-		sql = "select max(version) from `tabIOT Application Version` where app='{0}' and beta=0".format(app)
+def get_latest_version(app, beta=0):
+	sql = "select max(version) from `tabIOT Application Version` where app='{0}' and beta={1}".format(app, int(beta))
 	return frappe.db.sql(sql)[0][0]

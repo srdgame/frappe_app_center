@@ -241,7 +241,7 @@ def get_fork(app, version, owner=None):
 	owner = owner or frappe.session.user
 	doc = frappe.get_doc("IOT Application", app)
 	app = doc.get_fork(owner, version)
-	lver = get_latest_version(app, True)
+	lver = get_latest_version(app, 1)
 	return app, lver
 
 

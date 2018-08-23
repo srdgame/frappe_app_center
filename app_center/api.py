@@ -53,7 +53,7 @@ def app_detail(app, fields=app_props):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_latest_version(app, beta=False):
+def get_latest_version(app, beta=0):
 	from app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
 	return _get_latest_version(app, beta)
 
@@ -75,7 +75,7 @@ def get_versions(app, beta=False):
 
 
 @frappe.whitelist(allow_guest=True)
-def check_update(app, beta=False):
+def check_update(app, beta=0):
 	version = get_latest_version(app, beta)
 	beta = frappe.get_value("IOT Application Version", {"app": app, "version": version}, "beta")
 	return {

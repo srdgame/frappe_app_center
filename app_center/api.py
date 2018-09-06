@@ -27,6 +27,12 @@ def list_apps(filters=None, fields=app_props, order_by="modified desc"):
 	return frappe.get_all("IOT Application", fields=fields, filters=filters, order_by=order_by)
 
 
+@frappe.whitelist()
+def list_self_apps(fields=app_props, order_by="modified desc"):
+	filters = {"owner": frappe.session.user}
+	return frappe.get_all("IOT Application", fields=fields, filters=filters, order_by=order_by)
+
+
 @frappe.whitelist(allow_guest=True)
 def app_categories():
 	return frappe.get_all("App Category", fields=["name", "description"])
@@ -43,12 +49,13 @@ def app_protocols():
 
 
 @frappe.whitelist(allow_guest=True)
-def app_detail(app, fields=app_props):
+def app_detail(app, fields=None):
 	doc = frappe.get_doc('IOT Application', app)
+	if fields is None:
+		return doc
 	data = {}
-	for k in doc:
-		if k in app_props:
-			data[k] = doc[k]
+	for k in fields:
+		data[k] = doc[k]
 	return data
 
 

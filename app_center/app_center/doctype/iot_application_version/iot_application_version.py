@@ -44,7 +44,7 @@ def on_doctype_update():
 
 
 def get_latest_version(app, beta=0):
-	if beta == 1:
+	if int(beta) == 1:
 		sql = "select max(version) from `tabIOT Application Version` where app='{0}'".format(app)
 		return frappe.db.sql(sql)[0][0]
 	else:

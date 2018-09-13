@@ -155,5 +155,17 @@ def company_access(app, company):
 
 
 @frappe.whitelist(allow_guest=True)
+def user_access_device(sn):
+	from iot.user_api import access_device
+	try:
+		if access_device(sn) is True:
+			return True
+		else:
+			return False
+	except Exception as ex:
+		return False
+
+
+@frappe.whitelist(allow_guest=True)
 def ping():
 	return _("pong")

@@ -359,6 +359,9 @@ def editor_init(app, version=None):
 		return ver
 
 	version = version or get_latest_version(app, beta=1)
+	if not version:
+		return -1
+
 	# Revert editor workspace to specified version
 	editor_revert(app, version)
 	# Make sure the workspace has correct version file

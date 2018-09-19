@@ -353,22 +353,24 @@ def editor_release():
 @frappe.whitelist()
 def editor_init(app, version=None):
 	from app_center.doctype.iot_application_version.iot_application_version import get_latest_version
-	version = version or get_latest_version(app, beta=1)
+
 	ver = editor_worksapce_version(app)
-	if not ver:
-		editor_revert(app, version)
-		# Make sure the workspace has correct version file
-		if editor_worksapce_version(app) is None:
-			editor_dir = get_app_editor_file_path(app)
-			vf = open(os.path.join(editor_dir, "version"), 'w')
-			vf.write(str(version))
-			vf.write('\n')
-			vf.write("WEB_EDITOR")
-			vf.close()
+	if ver:
+		return ver
 
-		return version
+	version = version or get_latest_version(app, beta=1)
+	# Revert editor workspace to specified version
+	editor_revert(app, version)
+	# Make sure the workspace has correct version file
+	if editor_worksapce_version(app) is None:
+		editor_dir = get_app_editor_file_path(app)
+		vf = open(os.path.join(editor_dir, "version"), 'w')
+		vf.write(str(version))
+		vf.write('\n')
+		vf.write("WEB_EDITOR")
+		vf.close()
 
-	return ver
+	return version
 
 
 @frappe.whitelist()

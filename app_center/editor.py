@@ -340,8 +340,8 @@ def editor_release():
 		doc = frappe.get_doc(data).insert()
 		os.system("md5sum " + app_file + " > " + app_file + ".md5")
 		app_dir = get_app_release_path(app)
-		shutil.copy(app_file, os.path.join(app_dir, 'latest.zip'))
-		shutil.copy(app_file + ".md5", os.path.join(app_dir, 'latest.zip.md5'))
+		shutil.copy(app_file, os.path.join(app_dir, 'latest.beta.zip'))
+		shutil.copy(app_file + ".md5", os.path.join(app_dir, 'latest.beta.zip.md5'))
 	except Exception as ex:
 		frappe.logger(__name__).error(ex)
 		remove_version_file(app, version)

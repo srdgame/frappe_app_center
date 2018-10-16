@@ -20,6 +20,21 @@ class IOTApplicationVersion(Document):
 	def autoname(self):
 		self.name = self.app + "." + str(self.version)
 
+	def before_save(self):
+		if self.is_new():
+			return
+
+		if self.beta != 0:
+			return
+
+		org_beta = frappe.get_value("IOT Application Version", self.name, "beta")
+		if org_beta == 0:
+			return
+
+		if self.version > get_latest_version(self.app, 0):
+			from app_center.appmgr import copy_to_latest
+			copy_to_latest(self.app, self.version, 0)
+
 	def on_trash(self):
 		from app_center.appmgr import remove_version_file
 		try:

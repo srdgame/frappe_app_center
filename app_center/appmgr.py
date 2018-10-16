@@ -36,6 +36,8 @@ def get_app_release_filepath(app, version):
 
 
 def valid_app_owner(app):
+	if frappe.session.user == 'Administrator':
+		return
 	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
 		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
 
@@ -45,6 +47,16 @@ def remove_version_file(app, version):
 	valid_app_owner(app)
 	os.remove(get_app_release_filepath(app, version))
 	os.remove(get_app_release_filepath(app, version) + ".md5")
+
+
+def copy_to_latest(app, version, beta=1):
+	valid_app_owner(app)
+
+	from_file = get_app_release_filepath(app, version)
+	to_file = get_app_release_filepath(app, "latest.beta" if beta == 1 else "latest")
+
+	shutil.copy(from_file, to_file)
+	shutil.copy(from_file + ".md5", to_file + ".md5")
 
 
 @frappe.whitelist()
@@ -101,8 +113,8 @@ def upload():
 		try:
 			doc = frappe.get_doc(data).insert()
 			os.system("md5sum " + new_filename + " > " + new_filename + ".md5")
-			shutil.copy(new_filename, os.path.join(file_dir, 'latest.' + ext_wanted))
-			shutil.copy(new_filename + ".md5", os.path.join(file_dir, 'latest.' + ext_wanted + ".md5"))
+			shutil.copy(new_filename, os.path.join(file_dir, 'latest.beta.' + ext_wanted))
+			shutil.copy(new_filename + ".md5", os.path.join(file_dir, 'latest.beta.' + ext_wanted + ".md5"))
 		except Exception as ex:
 			os.remove(new_filename)
 			throw(_("Application version creation failed!"))

@@ -38,6 +38,8 @@ def get_app_release_filepath(app, version):
 def valid_app_owner(app):
 	if frappe.session.user == 'Administrator':
 		return
+	if not "App Manager" in frappe.get_roles():
+		return
 	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
 		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
 

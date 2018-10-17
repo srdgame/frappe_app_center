@@ -17,6 +17,14 @@ class IOTApplicationVersion(Document):
 			if latest > self.version:
 				throw(_("Version must be bigger than {0}").format(latest))
 
+		"""
+		if self.beta == 0:
+			if self.tested == 1:
+				throw(_("Cannot remove beta flag before tested!"))
+			if self.approved == 1:
+				throw(_("Cannot remove beta flag before approved!"))
+		"""
+
 	def autoname(self):
 		self.name = self.app + "." + str(self.version)
 

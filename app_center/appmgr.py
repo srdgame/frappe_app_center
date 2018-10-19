@@ -91,7 +91,7 @@ def upload():
 		throw(_("Application version duplicated!"))
 
 	f = frappe.request.files['app_file']  # 从表单的file字段获取文件，app_file为该表单的name值
-	fname = secure_filename(f.filename)
+	fname = secure_filename(repr(f.filename))
 
 	if f and allowed_file(fname):  # 判断是否是允许上传的文件类型
 		file_dir = get_app_release_path(app)
@@ -127,7 +127,7 @@ def upload():
 
 
 def save_app_icon(app, f):
-	fname = secure_filename(f.filename)
+	fname = secure_filename(repr(f.filename))
 	ext = fname.rsplit('.', 1)[1].lower()  # 获取文件后缀
 	if ext not in ['png', 'PNG']:
 		throw(_("Application icon must be png file!"))

@@ -104,6 +104,16 @@ def upload():
 		new_filename = os.path.join(file_dir, str(version) + '.' + ext_wanted)  # 修改了上传的文件名
 		f.save(new_filename)  # 保存文件到upload目录
 
+		'''
+		Check version file (and automatically correct it?)
+		'''
+		from app_center.editor import editor_revert, editor_worksapce_version, editor_release
+		editor_revert(app, version)
+		got_ver = editor_worksapce_version(app)
+		if got_ver != version:
+			os.remove(new_filename)
+			return editor_release(app, version, comment)
+
 		data = {
 			"doctype": "IOT Application Version",
 			"app": app,

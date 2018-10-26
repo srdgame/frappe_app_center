@@ -11,7 +11,7 @@ import zipfile
 import codecs
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
-from appmgr import get_app_release_path, remove_version_file
+from appmgr import get_app_release_path, remove_version_file, valid_app_owner
 
 
 def fire_raw_content(content, status=200, content_type='text/html'):
@@ -238,11 +238,6 @@ def editor_set_content(app, node_id, text):
 		return {"status": "OK"}
 
 
-def valid_app_owner(app):
-	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
-		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
-
-
 @frappe.whitelist()
 def editor():
 	app = frappe.form_dict.app
@@ -317,10 +312,10 @@ def zip_application(app, version, editor=False):
 
 
 @frappe.whitelist()
-def editor_release():
-	app = frappe.form_dict.app
-	version = frappe.form_dict.version
-	comment = frappe.form_dict.comment
+def editor_release(app=None,version=None,comment=None):
+	app = app or frappe.form_dict.app
+	version = version or frappe.form_dict.version
+	comment = comment or frappe.form_dict.comment
 	if not app or not version or not comment:
 		raise frappe.ValidationError
 

@@ -389,7 +389,7 @@ def editor_revert(app=None, version=None, check_db=True):
 		throw(_("Version {0}  release file does not exits!").format(version))
 
 	editor_dir = get_app_editor_file_path(app)
-	shutil.rmtree(editor_dir)
+	shutil.rmtree(editor_dir, ignore_errors=True)
 	os.mkdir(editor_dir)
 	f = zipfile.ZipFile(app_file, 'r')
 	f.extractall(editor_dir)

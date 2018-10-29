@@ -47,8 +47,11 @@ def valid_app_owner(app):
 @frappe.whitelist()
 def remove_version_file(app, version):
 	valid_app_owner(app)
-	os.remove(get_app_release_filepath(app, version))
-	os.remove(get_app_release_filepath(app, version) + ".md5")
+	try:
+		os.remove(get_app_release_filepath(app, version))
+		os.remove(get_app_release_filepath(app, version) + ".md5")
+	except Exception as ex:
+		frappe.logger(__name__).error(repr(ex))
 
 
 def copy_to_latest(app, version, beta=1):
@@ -105,14 +108,15 @@ def upload():
 		f.save(new_filename)  # 保存文件到upload目录
 
 		'''
-		Check version file (and automatically correct it?)
+		Check version file (and automatically correct it?) Only for user application
 		'''
-		from app_center.editor import editor_revert, editor_worksapce_version, editor_release
-		editor_revert(app, version)
-		got_ver = editor_worksapce_version(app)
-		if got_ver != version:
-			os.remove(new_filename)
-			return editor_release(app, version, comment)
+		if ext_wanted == 'zip':
+			from editor import editor_revert, editor_worksapce_version, editor_release
+			editor_revert(app, version, False)
+			got_ver = editor_worksapce_version(app)
+			if got_ver != version:
+				os.remove(new_filename)
+				return editor_release(app, version, comment)
 
 		data = {
 			"doctype": "IOT Application Version",
@@ -125,11 +129,11 @@ def upload():
 		try:
 			doc = frappe.get_doc(data).insert()
 			os.system("md5sum " + new_filename + " > " + new_filename + ".md5")
-			shutil.copy(new_filename, os.path.join(file_dir, 'latest.beta.' + ext_wanted))
-			shutil.copy(new_filename + ".md5", os.path.join(file_dir, 'latest.beta.' + ext_wanted + ".md5"))
 		except Exception as ex:
 			os.remove(new_filename)
 			throw(_("Application version creation failed!"))
+
+		copy_to_latest(app, version)
 
 		return _("Application upload success")
 	else:
@@ -214,11 +218,15 @@ def modify():
 	return doc
 
 
-def copy_app_release_file(from_app, to_app, version):
+def copy_app_release_file(from_app, to_app, version, beta=None):
 	from_file = get_app_release_filepath(from_app, version)
 	to_file = get_app_release_filepath(to_app, version)
 	shutil.copy(from_file, to_file)
 	shutil.copy(from_file + ".md5", to_file + ".md5")
+
+	if beta is None:
+		beta = frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "beta")
+	copy_to_latest(to_app, version, beta)
 
 
 def copy_app_icon_file(from_app, to_app):
@@ -230,14 +238,16 @@ def copy_app_icon_file(from_app, to_app):
 
 
 def copy_forked_app_files(from_app, to_app, version):
+	comment = frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "comment")
+	beta = frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "beta")
 	frappe.get_doc({
 		"doctype": "IOT Application Version",
 		"app": to_app,
 		"version": version,
-		"comment": frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "comment"),
-		"beta": frappe.get_value('IOT Application Version', {"app": from_app, "version": version}, "beta")
+		"comment": comment,
+		"beta": beta
 	}).insert()
-	copy_app_release_file(from_app, to_app, version)
+	copy_app_release_file(from_app, to_app, version, beta)
 	copy_app_icon_file(from_app, to_app)
 
 

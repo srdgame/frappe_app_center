@@ -11,7 +11,7 @@ import zipfile
 import codecs
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
-from appmgr import get_app_release_path, remove_version_file, valid_app_owner
+from appmgr import get_app_release_path, remove_version_file, valid_app_owner, copy_to_latest
 
 
 def fire_raw_content(content, status=200, content_type='text/html'):
@@ -334,13 +334,12 @@ def editor_release(app=None,version=None,comment=None):
 	try:
 		doc = frappe.get_doc(data).insert()
 		os.system("md5sum " + app_file + " > " + app_file + ".md5")
-		app_dir = get_app_release_path(app)
-		shutil.copy(app_file, os.path.join(app_dir, 'latest.beta.zip'))
-		shutil.copy(app_file + ".md5", os.path.join(app_dir, 'latest.beta.zip.md5'))
 	except Exception as ex:
-		frappe.logger(__name__).error(ex)
+		frappe.logger(__name__).error(repr(ex))
 		remove_version_file(app, version)
 		raise ex
+
+	copy_to_latest(app, version)
 
 	return _("Application upload success")
 
@@ -372,7 +371,7 @@ def editor_init(app, version=None):
 
 
 @frappe.whitelist()
-def editor_revert(app=None, version=None):
+def editor_revert(app=None, version=None, check_db=True):
 	app = app or frappe.form_dict.app
 	version = version or frappe.form_dict.version
 	if not app or not version:
@@ -380,7 +379,7 @@ def editor_revert(app=None, version=None):
 
 	valid_app_owner(app)
 
-	if not frappe.get_value("IOT Application Version", {"app": app, "version": version}, "name"):
+	if check_db is True and not frappe.get_value("IOT Application Version", {"app": app, "version": version}, "name"):
 		throw(_("Version {0} does not exits!").format(version))
 
 	app_dir = get_app_release_path(app)

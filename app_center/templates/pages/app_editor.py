@@ -7,7 +7,7 @@ import frappe
 import os
 from frappe import throw, _
 from urllib import urlencode
-from app_center.editor import editor_worksapce_version
+from app_center.editor import editor_worksapce_version, editor_revert
 
 
 def get_context(context):
@@ -50,7 +50,6 @@ def get_context(context):
 
 		if version_editor == -1:
 			version_editor = version_want
-			from app_center.editor import editor_revert
 			editor_revert(app, version_editor)
 			context.version_editor = version_editor
 

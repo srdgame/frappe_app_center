@@ -63,7 +63,7 @@ apps/app_center/app_center/editor.py +272,Cannot remove root folder,不能删除
 DocType: App Category,Category,类别
 apps/app_center/app_center/templates/pages/app_list.html +26,Category Filter,类别过滤器
 apps/app_center/app_center/app_center/doctype/iot_application/iot_application.js +11,Clean Before Delete This,清理相关信息
-DocType: IOT Application,Close,关闭
+DocType: IOT Application,Close,已关闭
 DocType: IOT Application Issue,Closed,已关闭
 DocType: IOT Application Comment,Comment,评论
 apps/app_center/app_center/appmgr.py +324,Comment added!,评论已添加!
@@ -114,16 +114,16 @@ apps/app_center/app_center/templates/includes/menu/app_side_menu.html +17,Help,�
 DocType: IOT Application Issue,High,高
 apps/app_center/app_center/templates/pages/app_modify.html +16,Home,主页
 apps/app_center/app_center/templates/pages/app_list.html +154,I agree to the terms and conditions,我同意使用条款
-apps/app_center/app_center/templates/includes/navbar/app_navbar.html +4,IOT App Store,IOT应用商店
-DocType: IOT Application,IOT Application,IOT应用
-DocType: IOT Application Comment,IOT Application Comment,IOT应用评论
-DocType: IOT Application Issue,IOT Application Issue,IOT应用问题
+apps/app_center/app_center/templates/includes/navbar/app_navbar.html +4,IOT App Store,IOT 应用商店
+DocType: IOT Application,IOT Application,IOT 应用
+DocType: IOT Application Comment,IOT Application Comment,IOT 应用评论
+DocType: IOT Application Issue,IOT Application Issue,IOT 应用问题
 DocType: IOT Application IssueReview,IOT Application IssueReview,
-DocType: IOT Application Review,IOT Application Review,IOT应用评测
+DocType: IOT Application Review,IOT Application Review,IOT 应用评测
 DocType: IOT Application ReviewComment,IOT Application ReviewComment,
-apps/app_center/app_center/templates/pages/app_store.html +3,IOT Application Store,IOT应用商店
-DocType: IOT Application Version,IOT Application Version,IOT应用版本
-DocType: App Center Settings,IOT Center,IOT数据中心
+apps/app_center/app_center/templates/pages/app_store.html +3,IOT Application Store,IOT 应用商店
+DocType: IOT Application Version,IOT Application Version,IOT 应用版本
+DocType: App Center Settings,IOT Center,IOT 数据中心
 DocType: IOT Application,Icon Image,图标图像
 DocType: IOT Application,Information,信息
 apps/app_center/app_center/templates/pages/app_dashboard.html +258,Installation,安装数量
@@ -158,7 +158,7 @@ apps/app_center/app_center/templates/pages/app_editor.html +22,No Device Specifi
 DocType: App Developer,Normal,普通用户
 apps/app_center/app_center/templates/pages/app_editor.html +194,OK,好
 apps/app_center/app_center/templates/pages/app_editor.html +3,Online Editor ,在线编辑
-DocType: IOT Application,Open,打开的
+DocType: IOT Application,Open,公开
 DocType: IOT Application,Owner,所有人
 apps/app_center/app_center/templates/pages/app_editor.html +20,Pack and install to,打包并安装到
 apps/app_center/app_center/templates/pages/app_editor.html +109,Pack changes and install to,打包修改内容并安装到
@@ -168,7 +168,7 @@ DocType: IOT Application,Private,私有
 apps/app_center/app_center/templates/includes/navbar/app_navbar.html +53,Profile,资料
 DocType: App Device Protocol,Protocol,协议
 apps/app_center/app_center/templates/pages/app_store.js +66,Protocol Filter,协议过滤器
-DocType: IOT Application,Published,发布时间
+DocType: IOT Application,Published,已发布
 apps/app_center/app_center/templates/pages/app_dashboard.html +147,Recently Released,最近发布的
 apps/app_center/app_center/templates/pages/app_dashboard.html +50,Recently updated,最近修改的
 apps/app_center/app_center/templates/pages/app_issue.py +18,Redis Server is empty in IOT HDB Settings,IOT HDB设定中Redis服务器未设定

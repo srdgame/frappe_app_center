@@ -312,7 +312,7 @@ def zip_application(app, version, editor=False):
 
 
 @frappe.whitelist()
-def editor_release(app=None,version=None,comment=None):
+def editor_release(app=None, version=None, comment=None):
 	app = app or frappe.form_dict.app
 	version = version or frappe.form_dict.version
 	comment = comment or frappe.form_dict.comment

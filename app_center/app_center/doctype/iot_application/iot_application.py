@@ -70,6 +70,7 @@ class IOTApplication(Document):
 			"device_serial": self.device_serial,
 			"protocol": self.protocol,
 			"app_ext": self.app_ext,
+			"published": 0
 		}
 		return frappe.get_doc(data).insert()
 

@@ -75,12 +75,18 @@ class IOTApplication(Document):
 		return frappe.get_doc(data).insert()
 
 	def update_stars(self):
+		if not self.has_permission("write"):
+			raise frappe.PermissionError
+
 		sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
 		star = float(frappe.db.sql(sql)[0][0])
 		self.set("star", star)
 		self.save()
 
 	def clean_before_delete(self):
+		if not self.has_permission("write"):
+			raise frappe.PermissionError
+
 		for d in frappe.db.get_values("IOT Application Version", {"app": self.name}, "name"):
 			frappe.delete_doc("IOT Application Version", d[0])
 

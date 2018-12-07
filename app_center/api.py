@@ -70,9 +70,9 @@ def get_versions(app, beta=0, order_by="version desc"):
 	filters = {
 		"app": app
 	}
-	if int(beta) != 0:
+	if int(beta) == 0:
 		filters.update({
-			"beta": 1
+			"beta": 0
 		})
 
 	vlist = frappe.db.get_values("IOT Application Version", filters, "*", order_by=order_by)

@@ -78,9 +78,13 @@ class IOTApplication(Document):
 		if not self.has_permission("write"):
 			raise frappe.PermissionError
 
-		sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
-		star = float(frappe.db.sql(sql)[0][0])
-		self.set("star", star)
+		try:
+			sql = "select avg(star) from `tabIOT Application Review` where app='{0}'".format(self.name)
+			star = float(frappe.db.sql(sql)[0][0])
+			self.set("star", star)
+		except Exception as ex:
+			self.set("start", 0)
+
 		self.save()
 
 	def clean_before_delete(self):

@@ -74,7 +74,13 @@ class IOTApplication(Document):
 			"pre_configuration": pre_conf or self.pre_configuration,
 			"published": 0
 		}
-		return frappe.get_doc(data).insert()
+		doc = frappe.get_doc(data).insert()
+
+		# Copy keywords
+		keywords = [d.key for d in self.get("keywords")]
+		doc.add_keywords(keywords)
+
+		return doc
 
 	def update_stars(self):
 		if not self.has_permission("write"):

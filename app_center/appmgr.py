@@ -252,7 +252,7 @@ def copy_forked_app_files(from_app, to_app, version):
 
 
 @frappe.whitelist()
-def fork():
+def fork(pre_conf=None):
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
@@ -262,7 +262,7 @@ def fork():
 		throw(_("Application version {0} does not exists!").format(version))
 
 	doc = frappe.get_doc("IOT Application", app)
-	forked_doc = doc.fork(frappe.session.user, version)
+	forked_doc = doc.fork(frappe.session.user, version, pre_conf)
 
 	copy_forked_app_files(app, forked_doc.name, version)
 

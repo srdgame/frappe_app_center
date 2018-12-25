@@ -54,7 +54,7 @@ class IOTApplication(Document):
 	def get_fork(self, owner, version):
 		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner":owner}, "name")
 
-	def fork(self, by_user, version):
+	def fork(self, by_user, version, pre_conf=None):
 		if self.get_fork(by_user, version):
 			throw(_("You have already forked {0} version {1}").format(self.app_name, version))
 		data = {
@@ -64,12 +64,14 @@ class IOTApplication(Document):
 			"license_type": self.license_type,
 			"fork_from": self.name,
 			"fork_version": version,
+			"fork_track": 1,
 			"description": self.description,
 			"category": self.category,
 			"device_supplier": self.device_supplier,
 			"device_serial": self.device_serial,
 			"protocol": self.protocol,
 			"app_ext": self.app_ext,
+			"pre_configuration": pre_conf or self.pre_configuration,
 			"published": 0
 		}
 		return frappe.get_doc(data).insert()
@@ -106,6 +108,26 @@ class IOTApplication(Document):
 			for d1 in frappe.db.get_values("IOT Application ReviewComment", {"parent": d[0]}, "name"):
 				frappe.delete_doc("IOT Application iot_application_reviewcomment", d1[0])
 			frappe.delete_doc("IOT Application Review", d[0])
+
+	def append_keywords(self, *keywords):
+		"""Add groups to user"""
+		current_keywords = [d.key for d in self.get("keywords")]
+		for key in keywords:
+			if key in current_keywords:
+				continue
+			self.append("keywords", {"key": key})
+
+	def add_keywords(self, *keywords):
+		"""Add groups to user and save"""
+		self.append_keywords(*keywords)
+		self.save()
+
+	def remove_keywords(self, *keywords):
+		existing_keywords = dict((d.key, d) for d in self.get("keywords"))
+		for key in keywords:
+			if key in existing_keywords:
+				self.get("keywords").remove(existing_keywords[key])
+		self.save()
 
 
 def get_recently_apps(as_list=False):

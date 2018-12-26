@@ -11,7 +11,8 @@ from werkzeug.utils import secure_filename
 
 
 app_props = ["name", "app_name", "owner", "category", "protocol", "star", "icon_image",
-				"license_type", "device_supplier", "device_serial", "creation", "has_conf_template", "conf_template"]
+				"license_type", "device_supplier", "device_serial", "creation",
+				"has_conf_template", "conf_template", "pre_configuration"]
 
 
 @frappe.whitelist(allow_guest=True)

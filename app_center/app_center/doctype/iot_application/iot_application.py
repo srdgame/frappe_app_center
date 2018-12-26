@@ -115,6 +115,11 @@ class IOTApplication(Document):
 				frappe.delete_doc("IOT Application iot_application_reviewcomment", d1[0])
 			frappe.delete_doc("IOT Application Review", d[0])
 
+		for d in frappe.db.get_values("IOT Application Conf", {"app": self.name}, "name"):
+			doc = frappe.get_doc("IOT Application Conf", d[0])
+			doc.clean_before_delete()
+			frappe.delete_doc("IOT Application Conf", d[0])
+
 	def append_keywords(self, *keywords):
 		"""Add groups to user"""
 		current_keywords = [d.key for d in self.get("keywords")]

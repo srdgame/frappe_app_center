@@ -67,6 +67,7 @@ def copy_to_latest(app, version, beta=1):
 @frappe.whitelist()
 def remove_app_folder(app):
 	valid_app_owner(app)
+	shutil.rmtree(get_app_release_path(app) + "/.editor")
 	shutil.rmtree(get_app_release_path(app))
 
 

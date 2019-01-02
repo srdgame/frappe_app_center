@@ -78,7 +78,8 @@ class IOTApplication(Document):
 
 		# Copy keywords
 		keywords = [d.key for d in self.get("keywords")]
-		doc.add_keywords(keywords)
+		if len(keywords) > 0:
+			doc.add_keywords(keywords)
 
 		return doc
 

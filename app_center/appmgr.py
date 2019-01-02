@@ -253,12 +253,13 @@ def copy_forked_app_files(from_app, to_app, version):
 
 
 @frappe.whitelist()
-def fork(pre_conf=None):
+def fork():
 	if frappe.request.method != "POST":
 		throw(_("Request Method Must be POST!"))
 
 	version = int(frappe.form_dict.version)
 	app = frappe.form_dict.app
+	pre_conf = frappe.form_dict.pre_conf
 	if not frappe.get_value('IOT Application Version', {"app": app, "version": version}, "name"):
 		throw(_("Application version {0} does not exists!").format(version))
 

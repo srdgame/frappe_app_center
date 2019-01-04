@@ -165,6 +165,11 @@ def new():
 	device_supplier = frappe.form_dict.device_supplier
 	device_serial = frappe.form_dict.device_serial
 	description = frappe.form_dict.description
+	has_conf_template = 0
+	conf_template = frappe.form_dict.conf_template
+	if conf_template is not None and len(conf_template) > 0:
+		has_conf_template = 1
+	pre_configuration = frappe.form_dict.pre_configuration
 	owner = frappe.session.user
 	doc = frappe.get_doc({
 		"doctype": "IOT Application",
@@ -176,6 +181,9 @@ def new():
 		"device_serial": device_serial,
 		"owner": owner,
 		"description": description,
+		"has_conf_template": has_conf_template,
+		"conf_template": conf_template,
+		"pre_configuration": pre_configuration
 	}).insert()
 
 	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
@@ -198,6 +206,11 @@ def modify():
 	device_supplier = frappe.form_dict.device_supplier
 	device_serial = frappe.form_dict.device_serial
 	description = frappe.form_dict.description
+	has_conf_template = 0
+	conf_template = frappe.form_dict.conf_template
+	if conf_template is not None and len(conf_template) > 0:
+		has_conf_template = 1
+	pre_configuration = frappe.form_dict.pre_configuration
 
 	app = frappe.form_dict.app
 	doc = frappe.get_doc("IOT Application", app)
@@ -208,6 +221,9 @@ def modify():
 	doc.set("device_supplier", device_supplier)
 	doc.set("device_serial", device_serial)
 	doc.set("description", description)
+	doc.set("has_conf_template", has_conf_template)
+	doc.set("conf_template", conf_template)
+	doc.set("pre_configuration", pre_configuration)
 
 	f = frappe.request.files.get('icon_file')  # 从表单的file字段获取文件，app_file为该表单的name值
 	if f:

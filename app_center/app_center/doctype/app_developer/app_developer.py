@@ -25,7 +25,7 @@ class AppDeveloper(Document):
 				doc = frappe.get_doc("IOT Application", d[0])
 				doc.save()
 
-		if org_nickname != self.nickname:
+		if org_nickname is not None and org_nickname != self.nickname:
 			from app_center.app_center.doctype.iot_application.iot_application import update_package_owner
 			update_package_owner(org_nickname, self.nickname)
 

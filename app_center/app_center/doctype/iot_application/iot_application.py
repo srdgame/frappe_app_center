@@ -5,9 +5,12 @@
 from __future__ import unicode_literals
 import frappe
 import time
+import os
+from six.moves.urllib.parse import quote
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
+from frappe.utils import get_files_path
 
 RESERVED_NAMES = ['skynet_iot', 'iot']
 
@@ -17,11 +20,11 @@ class IOTApplication(Document):
 		if self.app_path:
 			self.name = self.app_path
 		else:
-			#self.name = self.owner + "." + self.app_name
 			self.name = make_autoname('APP.########')
+			self.app_path = self._gen_app_path()
 
 	def validate(self):
-		if self.app_path:
+		if self.app_path and self.is_new():
 			if self.app_path.find('.') >= 0:
 				throw(_("Application path cannot include dot character(.)!"))
 			if frappe.session.user != 'Administrator':
@@ -29,8 +32,27 @@ class IOTApplication(Document):
 					throw(_("Application path is not an valid path!"))
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
+
 		self.app_ext = self.app_ext.lower()
 		self.app_name_unique = self.owner + "/" + self.app_name
+		if self.name != self.app_path:
+			self.app_path = self._gen_app_path()
+
+	def _gen_app_path(self):
+		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')
+		if dev_nick_name:
+			return dev_nick_name + "/" + self.app_name
+
+	def before_save(self):
+		if self.is_new():
+			create_app_link(self.name, self.app_path)
+		else:
+			org_path = frappe.get_value("IOT Application", self.name, 'app_path')
+			if org_path != self.app_path:
+				if org_path:
+					update_app_link(self.name, org_path, self.app_path)
+				else:
+					create_app_link(self.name, self.app_path)
 
 	def before_insert(self):
 		if frappe.session.user == 'Administrator':
@@ -47,12 +69,13 @@ class IOTApplication(Document):
 	def on_trash(self):
 		from app_center.appmgr import remove_app_folder
 		try:
+			remove_app_link(self.app_path)
 			remove_app_folder(self.app)
 		except Exception as ex:
 			frappe.logger(__name__).error(ex)
 
 	def get_fork(self, owner, version):
-		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner":owner}, "name")
+		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner": owner}, "name")
 
 	def fork(self, by_user, version, pre_conf=None):
 		if self.get_fork(by_user, version):
@@ -95,6 +118,10 @@ class IOTApplication(Document):
 			self.set("start", 0)
 
 		self.save()
+
+	def fix_package_path(self):
+		if self.app_path:
+			create_app_link(self.name, self.app_path)
 
 	def clean_before_delete(self):
 		if not self.has_permission("write"):
@@ -161,3 +188,53 @@ def update_stars(app):
 	time.sleep(3)
 	doc = frappe.get_doc("IOT Application", app)
 	doc.update_stars()
+
+
+def get_app_unique_path(app_path):
+	basedir = get_files_path('app_center_files')
+	package_dir = os.path.join(basedir, 'packages')
+	if not os.path.exists(package_dir):
+		os.makedirs(package_dir)
+
+	unique_path = os.path.join(package_dir, quote(app_path))
+	base_dir = os.path.dirname(unique_path)
+	if not os.path.exists(base_dir):
+		os.makedirs(base_dir)
+	print(unique_path)
+
+	return unique_path
+
+
+def create_app_link(app, app_path):
+	from app_center.appmgr import get_app_release_path
+	src_path = os.path.realpath(get_app_release_path(app))
+	link_path = os.path.realpath(get_app_unique_path(app_path))
+
+	if src_path == link_path:
+		return
+
+	os.symlink(src_path, link_path)
+
+
+def remove_app_link(app_path):
+	link_path = get_app_unique_path(app_path)
+	if os.path.exists(link_path):
+		os.remove(link_path)
+
+
+def update_app_link(app, org_path, new_path):
+	print('update_app_link', org_path, new_path)
+	create_app_link(app, new_path)
+	remove_app_link(org_path)
+
+
+def update_package_owner(org_nickname, new_nickname):
+	basedir = get_files_path('app_center_files')
+	package_dir = os.path.join(basedir, 'packages')
+	if not os.path.exists(package_dir):
+		os.makedirs(package_dir)
+
+	org_dir = os.path.join(package_dir, org_nickname)
+	if not os.path.exists(org_dir):
+		return
+	os.rename(org_dir, os.path.join(package_dir, new_nickname))

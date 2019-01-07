@@ -7,6 +7,10 @@ frappe.ui.form.on('IOT Application', {
 			frm.events.update_stars(frm);
 		}).removeClass("btn-default").addClass("btn-warning");
 
+		frm.add_custom_button(__("Fix Package Path"), function () {
+			frm.events.fix_package_path(frm);
+		}).removeClass("btn-default").addClass("btn-warning");
+
 		if (frappe.user.has_role(['Administrator','App Manager'])) {
 			frm.add_custom_button(__("Clean Before Delete This"), function () {
 				frm.events.clean_before_delete(frm);
@@ -20,6 +24,16 @@ frappe.ui.form.on('IOT Application', {
 			freeze: true,
 			callback: function(r) {
 				if(!r.exc) frm.refresh_fields();
+			}
+		})
+	},
+	fix_package_path: function(frm) {
+		return frappe.call({
+			doc: frm.doc,
+			method: "fix_package_path",
+			freeze: true,
+			callback: function (r) {
+				if (!r.exc) frm.refresh_fields();
 			}
 		})
 	},

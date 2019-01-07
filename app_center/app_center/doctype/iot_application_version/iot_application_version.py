@@ -14,7 +14,7 @@ class IOTApplicationVersion(Document):
 		self.app_name = frappe.get_value('IOT Application', self.app, 'app_name')
 		if self.is_new():
 			latest = get_latest_version(self.app, 1)
-			if latest > self.version:
+			if latest >= self.version:
 				throw(_("Version must be bigger than {0}").format(latest))
 
 		"""

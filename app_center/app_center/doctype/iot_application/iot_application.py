@@ -123,6 +123,11 @@ class IOTApplication(Document):
 		if self.app_path:
 			create_app_link(self.name, self.app_path)
 
+	def update_app_path(self):
+		if self.name != self.app_path:
+			self.app_path = self._gen_app_path()
+			self.save()
+
 	def clean_before_delete(self):
 		if not self.has_permission("write"):
 			raise frappe.PermissionError

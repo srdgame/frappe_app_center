@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import time
 import os
+import json
 from six.moves.urllib.parse import quote
 from frappe import throw, _
 from frappe.model.document import Document
@@ -119,14 +120,12 @@ class IOTApplication(Document):
 
 		self.save()
 
-	def fix_package_path(self):
-		if self.app_path:
-			create_app_link(self.name, self.app_path)
-
 	def update_app_path(self):
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 			self.save()
+		else:
+			create_app_link(self.name, self.app_path, force=False)
 
 	def clean_before_delete(self):
 		if not self.has_permission("write"):
@@ -210,13 +209,17 @@ def get_app_unique_path(app_path):
 	return unique_path
 
 
-def create_app_link(app, app_path):
+def create_app_link(app, app_path, force=True):
 	from app_center.appmgr import get_app_release_path
 	src_path = os.path.realpath(get_app_release_path(app))
 	link_path = os.path.realpath(get_app_unique_path(app_path))
 
 	if src_path == link_path:
 		return
+
+	if not force:
+		if os.path.exists(link_path):
+			return
 
 	os.symlink(src_path, link_path)
 
@@ -243,3 +246,27 @@ def update_package_owner(org_nickname, new_nickname):
 	if not os.path.exists(org_dir):
 		return
 	os.rename(org_dir, os.path.join(package_dir, new_nickname))
+
+
+@frappe.whitelist()
+def update_apps_path(names, status=None):
+	if not frappe.has_permission("IOT Application", "write"):
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+	names = json.loads(names)
+	for name in names:
+		doc = frappe.get_doc("IOT Application", name)
+		doc.update_app_path()
+
+
+
+@frappe.whitelist()
+def update_apps_stars(names, status=None):
+	if not frappe.has_permission("IOT Application", "write"):
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+	names = json.loads(names)
+	for name in names:
+		doc = frappe.get_doc("IOT Application", name)
+		doc.update_stars()
+

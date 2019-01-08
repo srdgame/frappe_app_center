@@ -7,8 +7,8 @@ frappe.ui.form.on('IOT Application', {
 			frm.events.update_stars(frm);
 		}).removeClass("btn-default").addClass("btn-warning");
 
-		frm.add_custom_button(__("Fix Package Path"), function () {
-			frm.events.fix_package_path(frm);
+		frm.add_custom_button(__("Update Package Path"), function () {
+			frm.events.update_app_path(frm);
 		}).removeClass("btn-default").addClass("btn-warning");
 
 		if (frappe.user.has_role(['Administrator','App Manager'])) {
@@ -27,10 +27,10 @@ frappe.ui.form.on('IOT Application', {
 			}
 		})
 	},
-	fix_package_path: function(frm) {
+	update_app_path: function(frm) {
 		return frappe.call({
 			doc: frm.doc,
-			method: "fix_package_path",
+			method: "update_app_path",
 			freeze: true,
 			callback: function (r) {
 				if (!r.exc) frm.refresh_fields();

@@ -7,11 +7,12 @@ import frappe
 import time
 import os
 import json
-from six.moves.urllib.parse import quote
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
 from frappe.utils import get_files_path
+from werkzeug.utils import secure_filename
+
 
 RESERVED_NAMES = ['skynet_iot', 'iot']
 
@@ -34,6 +35,7 @@ class IOTApplication(Document):
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
 
+		self.app_name = secure_filename(self.app_name)
 		self.app_ext = self.app_ext.lower()
 		self.app_name_unique = self.owner + "/" + self.app_name
 		if self.name != self.app_path:
@@ -124,8 +126,8 @@ class IOTApplication(Document):
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 			self.save()
-		else:
-			create_app_link(self.name, self.app_path, force=False)
+
+		create_app_link(self.name, self.app_path, force=False)
 
 	def clean_before_delete(self):
 		if not self.has_permission("write"):
@@ -200,11 +202,10 @@ def get_app_unique_path(app_path):
 	if not os.path.exists(package_dir):
 		os.makedirs(package_dir)
 
-	unique_path = os.path.join(package_dir, quote(app_path))
+	unique_path = os.path.join(package_dir, app_path)
 	base_dir = os.path.dirname(unique_path)
 	if not os.path.exists(base_dir):
 		os.makedirs(base_dir)
-	print(unique_path)
 
 	return unique_path
 
@@ -257,7 +258,6 @@ def update_apps_path(names, status=None):
 	for name in names:
 		doc = frappe.get_doc("IOT Application", name)
 		doc.update_app_path()
-
 
 
 @frappe.whitelist()

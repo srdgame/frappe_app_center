@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-import os
+import re
 import requests
 from frappe import throw, msgprint, _
 from werkzeug.utils import secure_filename
@@ -129,10 +129,21 @@ def enable_beta(sn):
 		return r.json().get("message")
 
 
+MATCH_APP_ID = re.compile(r'^APP(\d+)$')
+
+
+def find_app_by_name(app):
+	g = MATCH_APP_ID.match(app)
+	if g:
+		return frappe.get_doc("IOT Application", app)
+	return frappe.get_doc("IOT Application", {"app_path": app})
+
+
 @frappe.whitelist(allow_guest=True)
 def user_access(app, user=None):
 	user = user or frappe.session.user
-	doc = frappe.get_doc("IOT Application", app)
+
+	doc = find_app_by_name(app)
 	if doc.license_type == 'Open':
 		return True
 	if doc.owner == user:
@@ -145,7 +156,7 @@ def user_access(app, user=None):
 @frappe.whitelist(allow_guest=True)
 def company_access(app, company):
 	user = frappe.session.user
-	doc = frappe.get_doc("IOT Application", app)
+	doc = find_app_by_name(app)
 	if doc.license_type == 'Open':
 		return True
 	if doc.owner == user:

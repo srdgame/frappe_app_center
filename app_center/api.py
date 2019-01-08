@@ -10,7 +10,7 @@ from frappe import throw, msgprint, _
 from werkzeug.utils import secure_filename
 
 
-app_props = ["name", "app_name", "owner", "category", "protocol", "star", "icon_image",
+app_props = ["name", "app_path", "app_name", "owner", "category", "protocol", "star", "icon_image",
 				"license_type", "device_supplier", "device_serial", "creation",
 				"has_conf_template", "conf_template", "pre_configuration"]
 

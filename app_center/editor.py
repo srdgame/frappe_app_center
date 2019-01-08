@@ -85,13 +85,15 @@ def editor_list_nodes(app, sub_folder):
 
 def editor_get_node(app, node_id):
 	if node_id == '#':
-		app_name = frappe.get_value("IOT Application", app, "app_name")
+		code_name = frappe.get_value("IOT Application", app, "code_name") \
+					or frappe.get_value("IOT Application", app, "app_name")
+
 		app_folder = get_app_editor_file_path(app)
 		if not os.path.exists(app_folder):
 			os.makedirs(app_folder)
 		return [{
 			"id": "/",
-			'text': app_name,
+			'text': code_name,
 			"type": "folder",
 			"icon": "folder",
 			"state": {

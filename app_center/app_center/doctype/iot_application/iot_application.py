@@ -35,16 +35,16 @@ class IOTApplication(Document):
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
 
-		self.app_name = secure_filename(self.app_name)
+		self.code_name = secure_filename(self.code_name or self.app_name).replace(' ', '_')
 		self.app_ext = self.app_ext.lower()
-		self.app_name_unique = self.owner + "/" + self.app_name
+		self.app_name_unique = self.owner + "/" + self.code_name
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 
 	def _gen_app_path(self):
 		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')
 		if dev_nick_name:
-			return dev_nick_name + "/" + self.app_name
+			return dev_nick_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
 
 	def before_save(self):
 		if self.is_new():
@@ -86,6 +86,7 @@ class IOTApplication(Document):
 		data = {
 			"doctype": "IOT Application",
 			"app_name": self.app_name + "." + str(version),
+			"code_name": self.code_name,
 			"owner": by_user,
 			"license_type": self.license_type,
 			"fork_from": self.name,
@@ -123,9 +124,14 @@ class IOTApplication(Document):
 		self.save()
 
 	def update_app_path(self):
+		if not self.code_name:
+			self.code_name = secure_filename(self.app_name).replace(' ', '_')
+
 		if self.name != self.app_path:
-			self.app_path = self._gen_app_path()
-			self.save()
+			app_path = self._gen_app_path()
+			if app_path == self.app_path:
+				self.save()
+				return
 
 		create_app_link(self.name, self.app_path, force=False)
 
@@ -218,9 +224,11 @@ def create_app_link(app, app_path, force=True):
 	if src_path == link_path:
 		return
 
-	if not force:
-		if os.path.exists(link_path):
+	if os.path.exists(link_path):
+		if not force:
 			return
+		else:
+			os.remove(link_path)
 
 	os.symlink(src_path, link_path)
 
@@ -232,7 +240,6 @@ def remove_app_link(app_path):
 
 
 def update_app_link(app, org_path, new_path):
-	print('update_app_link', org_path, new_path)
 	create_app_link(app, new_path)
 	remove_app_link(org_path)
 

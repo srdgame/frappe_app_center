@@ -6,8 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import re
 import requests
-from frappe import throw, msgprint, _
-from werkzeug.utils import secure_filename
+from frappe import throw, _
 
 
 app_props = ["name", "app_path", "app_name", "owner", "category", "protocol", "star", "icon_image",
@@ -62,7 +61,7 @@ def app_detail(app, fields=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_latest_version(app, beta=0):
-	from app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
+	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
 	return _get_latest_version(app, int(beta))
 
 
@@ -180,4 +179,4 @@ def user_access_device(sn):
 
 @frappe.whitelist(allow_guest=True)
 def ping():
-	return _("pong")
+	return _("pong from app_center.api.ping")

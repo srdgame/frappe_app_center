@@ -11,7 +11,7 @@ import zipfile
 import codecs
 from frappe import throw, msgprint, _
 from frappe.utils import get_files_path
-from appmgr import get_app_release_path, remove_version_file, valid_app_owner, copy_to_latest
+from .appmgr import get_app_release_path, remove_version_file, valid_app_owner, copy_to_latest
 
 
 def fire_raw_content(content, status=200, content_type='text/html'):
@@ -348,7 +348,7 @@ def editor_release(app=None, version=None, comment=None):
 
 @frappe.whitelist()
 def editor_init(app, version=None):
-	from app_center.doctype.iot_application_version.iot_application_version import get_latest_version
+	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
 
 	ver = editor_worksapce_version(app)
 	if ver:
@@ -443,7 +443,4 @@ def editor_apply():
 
 @frappe.whitelist()
 def ping():
-	if frappe.request.method != "POST":
-		throw(_("Request Method Must be POST!"))
-
-	return _("pong")
+	return _("pong from app_center.editor.ping")

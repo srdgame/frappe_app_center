@@ -61,7 +61,7 @@ def app_detail(app, fields=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_latest_version(app, beta=0):
-	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
+	from .app_center.doctype.iot_application_version.iot_application_version import get_latest_version as _get_latest_version
 	return _get_latest_version(app, int(beta))
 
 

@@ -348,7 +348,7 @@ def editor_release(app=None, version=None, comment=None):
 
 @frappe.whitelist()
 def editor_init(app, version=None):
-	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
+	from .app_center.doctype.iot_application_version.iot_application_version import get_latest_version
 
 	ver = editor_worksapce_version(app)
 	if ver:

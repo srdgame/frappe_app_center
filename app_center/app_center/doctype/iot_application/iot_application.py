@@ -27,8 +27,6 @@ class IOTApplication(Document):
 
 	def validate(self):
 		if self.app_path and self.is_new():
-			if self.app_path.find('.') >= 0:
-				throw(_("Application path cannot include dot character(.)!"))
 			if frappe.session.user != 'Administrator':
 				if self.app_path in RESERVED_NAMES:
 					throw(_("Application path is not an valid path!"))
@@ -36,6 +34,8 @@ class IOTApplication(Document):
 					throw(_("Application path is not an valid path!"))
 
 		self.code_name = secure_filename(self.code_name or self.app_name).replace(' ', '_')
+		if self.code_name.find('.') >= 0:
+			throw(_("Application code name cannot include dot character(.)!"))
 		self.app_ext = self.app_ext.lower()
 		self.app_name_unique = self.owner + "/" + self.code_name
 		if self.name != self.app_path:

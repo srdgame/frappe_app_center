@@ -289,7 +289,7 @@ def fork():
 
 @frappe.whitelist()
 def get_fork(app, version, owner=None):
-	from .app_center.doctype.iot_application_version.iot_application_version import get_latest_version
+	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
 	owner = owner or frappe.session.user
 	doc = frappe.get_doc("IOT Application", app)
 	app = doc.get_fork(owner, version)

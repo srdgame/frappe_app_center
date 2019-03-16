@@ -4,10 +4,9 @@
 
 from __future__ import unicode_literals
 import frappe
-import os
 from frappe import throw, _
 from urllib import urlencode
-from .editor import editor_worksapce_version, editor_revert
+from app_center.editor import editor_worksapce_version, editor_revert
 
 
 def get_context(context):

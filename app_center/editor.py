@@ -41,26 +41,25 @@ def editor_list_nodes(app, sub_folder):
 	nodes = []
 	app_folder = get_app_editor_file_path(app, sub_folder)
 	if hasattr(os, 'scandir'):
-		with os.scandir(app_folder) as it:
-			for entry in it:
-				if not entry.name.startswith('.'):
-					if entry.is_dir():
-						nodes.append({
-							"id": os.path.join(sub_folder, entry.name),
-							"text": entry.name,
-							"children": True,
-							"type": "folder",
-							"icon": "folder"
-						})
-					if entry.is_file():
-						ext = os.path.splitext(entry.name)[1].lower()  # 获取文件后缀
-						nodes.append({
-							"id": os.path.join(sub_folder, entry.name),
-							"text": entry.name,
-							"children": False,
-							"type": "file",
-							"icon": "file file-" + ext,
-						})
+		for entry in os.scandir(app_folder):
+			if not entry.name.startswith('.'):
+				if entry.is_dir():
+					nodes.append({
+						"id": os.path.join(sub_folder, entry.name),
+						"text": entry.name,
+						"children": True,
+						"type": "folder",
+						"icon": "folder"
+					})
+				if entry.is_file():
+					ext = os.path.splitext(entry.name)[1].lower()  # 获取文件后缀
+					nodes.append({
+						"id": os.path.join(sub_folder, entry.name),
+						"text": entry.name,
+						"children": False,
+						"type": "file",
+						"icon": "file file-" + ext,
+					})
 	else:
 		for name in os.listdir(app_folder):
 			if not name.startswith('.'):

@@ -16,7 +16,7 @@ def list_install_apps(device):
 	print(server)
 	if not server:
 		throw(_("Redis Server is empty in IOT HDB Settings"))
-	client = redis.Redis.from_url(server + "/6")
+	client = redis.Redis.from_url(server + "/6", decode_responses=True)
 	return json.loads(client.get(device) or "")
 
 

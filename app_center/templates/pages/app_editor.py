@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import throw, _
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from app_center.editor import editor_worksapce_version, editor_revert
 
 

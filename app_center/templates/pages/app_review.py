@@ -7,7 +7,7 @@ import frappe
 import redis
 import json
 from frappe import throw, _
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from iot.iot.doctype.iot_hdb_settings.iot_hdb_settings import IOTHDBSettings
 
 

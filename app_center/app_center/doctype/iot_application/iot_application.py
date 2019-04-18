@@ -41,8 +41,6 @@ class IOTApplication(Document):
 		""" Keep the app extension in lowercase """
 		self.app_ext = self.app_ext.lower()
 
-		self.app_name_unique = self._gen_app_uinque()
-
 		""" Extension checking """
 		if self.is_extension == 1:
 			self.app_ext = "tar.gz"  # Extension must be tar.gz package.
@@ -57,9 +55,11 @@ class IOTApplication(Document):
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 
+		self.app_name_unique = self._gen_app_uinque()
+
 	def _gen_app_uinque(self):
 		if self.is_extension == 1:
-			return self.ext_name
+			return self.app_path
 		else:
 			return self.self.owner + "/" + self.code_name
 

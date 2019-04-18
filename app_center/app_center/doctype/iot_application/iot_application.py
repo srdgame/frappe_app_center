@@ -23,7 +23,6 @@ class IOTApplication(Document):
 			self.name = self.app_path
 		else:
 			self.name = make_autoname('APP.########')
-			self.app_path = self._gen_app_path()
 
 	def validate(self):
 		if self.app_path and self.is_new():
@@ -66,7 +65,7 @@ class IOTApplication(Document):
 	def _gen_app_path(self):
 		if self.is_extension == 1:
 			arch = frappe.get_value("IOT Hardware Architecture", self.hw_arch, "arch")
-			return "/ext/{0}/{1}/{2}".format(self.os_system, arch, self.ext_name)
+			return "ext/{0}/{1}/{2}".format(self.os_system, arch, self.ext_name)
 
 		# Generate app_path by nick_name/app_code_name
 		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')

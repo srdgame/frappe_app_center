@@ -33,15 +33,42 @@ class IOTApplication(Document):
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
 
+		""" For Application code name """
 		self.code_name = secure_filename(self.code_name or self.app_name).replace(' ', '_')
 		if self.code_name.find('.') >= 0:
 			throw(_("Application code name cannot include dot character(.)!"))
+
+		""" Keep the app extension in lowercase """
 		self.app_ext = self.app_ext.lower()
-		self.app_name_unique = self.owner + "/" + self.code_name
+
+		self.app_name_unique = self._gen_app_uinque()
+
+		""" Extension checking """
+		if self.is_extension == 1:
+			self.app_ext = "tar.gz"  # Extension must be tar.gz package.
+			if not self.ext_name:
+				throw(_("Extension path cannot be empty!"))
+			if not self.hw_arch:
+				throw(_("Extension Hardware Architecture cannot be empty!"))
+			if not self.os_system:
+				throw(_("Extension Hardware Architecture cannot be empty!"))
+
+		""" If Application is system application (freeioe, skynet) correct app_path """
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 
+	def _gen_app_uinque(self):
+		if self.is_extension == 1:
+			return self.ext_name
+		else:
+			return self.self.owner + "/" + self.code_name
+
 	def _gen_app_path(self):
+		if self.is_extension == 1:
+			arch = frappe.get_value("IOT Hardware Architecture", self.hw_arch, "arch")
+			return "/ext/{0}/{1}/{2}".format(self.os_system, arch, self.ext_name)
+
+		# Generate app_path by nick_name/app_code_name
 		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')
 		if dev_nick_name:
 			return dev_nick_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
@@ -81,6 +108,9 @@ class IOTApplication(Document):
 		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner": owner}, "name")
 
 	def fork(self, by_user, version, pre_conf=None):
+		if self.is_extension == 1:
+			throw(_("Extension cannot be forked!!!"))
+
 		if self.get_fork(by_user, version):
 			throw(_("You have already forked {0} version {1}").format(self.app_name, version))
 		data = {

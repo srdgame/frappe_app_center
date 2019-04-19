@@ -60,7 +60,7 @@ class IOTApplication(Document):
 		if self.is_extension == 1:
 			return self.app_path
 		else:
-			return self.self.owner + "/" + self.code_name
+			return self.owner + "/" + self.code_name
 
 	def _gen_app_path(self):
 		if self.is_extension == 1:

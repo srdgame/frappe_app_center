@@ -115,7 +115,7 @@ class IOTApplication(Document):
 		data = {
 			"doctype": "IOT Application",
 			"app_name": self.app_name + "." + str(version),
-			"code_name": self.code_name,
+			"code_name": self.code_name + "_fork_with_" + str(version),
 			"owner": by_user,
 			"license_type": self.license_type,
 			"fork_from": self.name,

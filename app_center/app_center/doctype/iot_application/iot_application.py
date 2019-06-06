@@ -127,6 +127,8 @@ class IOTApplication(Document):
 			"device_serial": self.device_serial,
 			"protocol": self.protocol,
 			"app_ext": self.app_ext,
+			"has_conf_template": self.has_conf_template,
+			"conf_template": self.conf_template,
 			"pre_configuration": pre_conf or self.pre_configuration,
 			"published": 0
 		}

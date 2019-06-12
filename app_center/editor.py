@@ -349,7 +349,7 @@ def editor_release(app=None, version=None, comment=None):
 def editor_init(app, version=None):
 	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
 
-	ver = editor_worksapce_version(app)
+	ver = editor_workspace_version(app)
 	if ver:
 		return ver
 
@@ -360,7 +360,7 @@ def editor_init(app, version=None):
 	# Revert editor workspace to specified version
 	editor_revert(app, version)
 	# Make sure the workspace has correct version file
-	if editor_worksapce_version(app) is None:
+	if editor_workspace_version(app) is None:
 		editor_dir = get_app_editor_file_path(app)
 		vf = open(os.path.join(editor_dir, "version"), 'w')
 		vf.write(str(version))
@@ -400,7 +400,7 @@ def editor_revert(app=None, version=None, check_db=True):
 
 
 @frappe.whitelist()
-def editor_worksapce_version(app):
+def editor_workspace_version(app):
 	valid_app_owner(app)
 
 	editor_dir = get_app_editor_file_path(app)
@@ -416,6 +416,11 @@ def editor_worksapce_version(app):
 
 
 @frappe.whitelist()
+def editor_worksapce_version(app):
+	return editor_workspace_version(app)
+
+
+@frappe.whitelist()
 def editor_apply():
 	from iot.device_api import send_action
 	device = frappe.form_dict.device
@@ -426,7 +431,7 @@ def editor_apply():
 
 	valid_app_owner(app)
 
-	version = editor_worksapce_version(app) or frappe.form_dict.version
+	version = editor_workspace_version(app) or frappe.form_dict.version
 
 	app_file = zip_application(app, version, True)
 	os.system("md5sum " + app_file + " > " + app_file + ".md5")

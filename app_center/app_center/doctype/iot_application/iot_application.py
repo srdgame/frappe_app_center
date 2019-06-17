@@ -50,7 +50,7 @@ class IOTApplication(Document):
 			if not self.os_system:
 				throw(_("Extension Hardware Architecture cannot be empty!"))
 
-		""" If Application is system application (freeioe, skynet) correct app_path """
+		""" If Application is not system application (freeioe, skynet) correct app_path """
 		if self.name != self.app_path:
 			self.app_path = self._gen_app_path()
 

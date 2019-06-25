@@ -356,13 +356,16 @@ def editor_init(app, version=None):
 		return ver
 
 	version = version or get_latest_version(app, beta=1)
-	if not version or version == 0:
-		editor_dir = get_app_editor_file_path(app)
-		os.mkdir(editor_dir)
+	if not version:
 		return -1
 
 	# Revert editor workspace to specified version
-	editor_revert(app, version)
+	if version > 0:
+		editor_revert(app, version)
+	else:
+		editor_dir = get_app_editor_file_path(app)
+		os.mkdir(editor_dir)
+
 	# Make sure the workspace has correct version file
 	if editor_workspace_version(app) is None:
 		editor_dir = get_app_editor_file_path(app)

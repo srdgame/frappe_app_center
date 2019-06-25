@@ -355,7 +355,7 @@ def editor_init(app, version=None):
 	if ver:
 		return ver
 
-	version = version or get_latest_version(app, beta=1)
+	version = int(version or get_latest_version(app, beta=1))
 
 	if version is None:
 		version = 0

@@ -349,12 +349,16 @@ def editor_release(app=None, version=None, comment=None):
 def editor_init(app, version=None):
 	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
 
+	valid_app_owner(app)
+
 	ver = editor_workspace_version(app)
 	if ver:
 		return ver
 
 	version = version or get_latest_version(app, beta=1)
-	if not version:
+	if not version or version == 0:
+		editor_dir = get_app_editor_file_path(app)
+		os.mkdir(editor_dir)
 		return -1
 
 	# Revert editor workspace to specified version

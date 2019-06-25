@@ -365,7 +365,8 @@ def editor_init(app, version=None):
 		editor_revert(app, version)
 	else:
 		editor_dir = get_app_editor_file_path(app)
-		os.mkdir(editor_dir)
+		if not os.access(editor_dir, os.R_OK):
+			os.mkdir(editor_dir)
 
 	# Make sure the workspace has correct version file
 	if editor_workspace_version(app) is None:

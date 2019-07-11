@@ -108,8 +108,6 @@ class IOTApplication(Document):
 			throw(_("Application count limitation!"))
 
 	def after_insert(self):
-		if frappe.get_value("IOT Application", {"app_name_unique": self.app_name_unique}, "name"):
-			throw(_("Duplicated application found! Unique name: {0}".format(self.app_name_unique)))
 		create_app_link(self.name, self.app_path)
 
 	def on_trash(self):

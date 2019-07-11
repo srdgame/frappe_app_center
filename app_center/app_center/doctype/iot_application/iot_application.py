@@ -65,7 +65,7 @@ class IOTApplication(Document):
 
 		""" If Application is not binary application correct app_path """
 		if self.is_new():
-			if frappe.session.user != 'Administrator':
+			if self.is_binary == 0 and frappe.session.user != 'Administrator':
 				self.app_path = self._gen_app_path()
 
 			self.app_name_unique = self._gen_app_uinque()

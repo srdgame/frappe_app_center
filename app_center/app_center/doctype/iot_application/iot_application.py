@@ -87,11 +87,7 @@ class IOTApplication(Document):
 			return dev_nick_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
 
 	def before_save(self):
-		if self.is_new():
-			if frappe.get_value("IOT Application", {"app_name_unique": self.app_name_unique}, "name"):
-				throw(_("Duplicated application found! Unique name: {0}".format(self.app_name_unique)))
-			create_app_link(self.name, self.app_path)
-		else:
+		if not self.is_new():
 			org_path = frappe.get_value("IOT Application", self.name, 'app_path')
 			if org_path != self.app_path:
 				if org_path:
@@ -110,6 +106,11 @@ class IOTApplication(Document):
 			throw(_("Application count limitation!"))
 		if len(applist) >= 100 and group == 'Admin':
 			throw(_("Application count limitation!"))
+
+	def after_insert(self):
+		if frappe.get_value("IOT Application", {"app_name_unique": self.app_name_unique}, "name"):
+			throw(_("Duplicated application found! Unique name: {0}".format(self.app_name_unique)))
+		create_app_link(self.name, self.app_path)
 
 	def on_trash(self):
 		from app_center.appmgr import remove_app_folder

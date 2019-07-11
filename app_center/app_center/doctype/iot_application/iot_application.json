@@ -238,7 +238,7 @@
    "label": "OS System",
    "length": 0,
    "no_copy": 0,
-   "options": "\nopenwrt\nlinux\ndebian\nubuntu\ncentos",
+   "options": "openwrt\nlinux\ndebian\nubuntu\ncentos",
    "permlevel": 0,
    "precision": "",
    "print_hide": 0,

@@ -12,15 +12,19 @@ from frappe.model.document import Document
 from frappe.model.naming import make_autoname
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
+from six.moves.urllib.parse import quote
 
 
-RESERVED_NAMES = ['skynet_iot', 'iot']
+RESERVED_NAMES = ['skynet', 'skynet_iot', 'iot', 'freeioe', 'ioe', 'frpc', 'linux', 'ubuntu', 'debian', 'openwrt', 'admin', 'administrator']
 
 
 class IOTApplication(Document):
 	def autoname(self):
-		if self.app_path:
-			self.name = self.app_path
+		if self.app_path or self.is_binary == 1:
+			if not self.app_path:
+				self.name = self._gen_app_path()
+			else:
+				self.name = self.app_path
 		else:
 			self.name = make_autoname('APP.########')
 
@@ -32,40 +36,50 @@ class IOTApplication(Document):
 				if self.app_path.find("_skynet") >= 0:
 					throw(_("Application path is not an valid path!"))
 
-		""" For Application code name """
-		self.code_name = secure_filename(self.code_name or self.app_name).replace(' ', '_')
-		if self.code_name.find('.') >= 0:
-			throw(_("Application code name cannot include dot character(.)!"))
-
 		""" Keep the app extension in lowercase """
 		self.app_ext = self.app_ext.lower()
 
 		""" Extension checking """
-		if self.is_extension == 1:
+		if self.is_binary == 1:
 			self.app_ext = "tar.gz"  # Extension must be tar.gz package.
-			if not self.ext_name:
-				throw(_("Extension path cannot be empty!"))
-			if not self.hw_arch:
-				throw(_("Extension Hardware Architecture cannot be empty!"))
+			if not self.package_name:
+				throw(_("Package name cannot be empty!"))
+			if self.package_name != quote(self.package_name):
+				throw(_("Package name invalid!!!"))
 			if not self.os_system:
-				throw(_("Extension Hardware Architecture cannot be empty!"))
-
-		""" If Application is not system application (freeioe, skynet) correct app_path """
-		if self.name != self.app_path:
+				throw(_("OS System cannot be empty!"))
+			if not self.os_version:
+				throw(_("OS Version cannot be empty!"))
+			if not self.hw_arch:
+				throw(_("IOT Hardware Architecture cannot be empty!"))
 			self.app_path = self._gen_app_path()
+			self.code_name = None
+		else:
+			""" Validate code name """
+			if self.code_name != quote(self.code_name):
+				throw(_("Application code name invalid!!!"))
 
-		self.app_name_unique = self._gen_app_uinque()
+			self.code_name = secure_filename(self.code_name or self.app_name).replace(' ', '_')
+			if self.code_name.find('.') >= 0:
+				throw(_("Application code name cannot include dot character(.)!"))
+
+		""" If Application is not binary application correct app_path """
+		if self.is_new():
+			if frappe.session.user != 'Administrator':
+				self.app_path = self._gen_app_path()
+
+			self.app_name_unique = self._gen_app_uinque()
 
 	def _gen_app_uinque(self):
-		if self.is_extension == 1:
+		if self.is_binary == 1:
 			return self.app_path
 		else:
 			return self.owner + "/" + self.code_name
 
 	def _gen_app_path(self):
-		if self.is_extension == 1:
+		if self.is_binary == 1:
 			arch = frappe.get_value("IOT Hardware Architecture", self.hw_arch, "arch")
-			return "ext/{0}/{1}/{2}".format(self.os_system, arch, self.ext_name)
+			return "bin/{0}/{1}/{2}/{3}".format(self.os_system, self.os_version, arch, self.package_name)
 
 		# Generate app_path by nick_name/app_code_name
 		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')
@@ -74,6 +88,8 @@ class IOTApplication(Document):
 
 	def before_save(self):
 		if self.is_new():
+			if frappe.get_value("IOT Application", {"app_name_unique": self.app_name_unique}, "name"):
+				throw(_("Duplicated application found! Unique name: {0}".format(self.app_name_unique)))
 			create_app_link(self.name, self.app_path)
 		else:
 			org_path = frappe.get_value("IOT Application", self.name, 'app_path')
@@ -107,7 +123,7 @@ class IOTApplication(Document):
 		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner": owner}, "name")
 
 	def fork(self, by_user, version, pre_conf=None):
-		if self.is_extension == 1:
+		if self.is_binary == 1:
 			throw(_("Extension cannot be forked!!!"))
 
 		if self.get_fork(by_user, version):

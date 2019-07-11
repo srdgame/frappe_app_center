@@ -15,6 +15,18 @@ class AppDeveloper(Document):
 		if self.nickname != quote(self.nickname):
 			throw(_("Invalid Nickname!!!"))
 
+		if len(self.nickname) < 6:
+			throw(_("Nickname cannot be less than six characters!"))
+
+		if self.nickname.find('.') >= 0:
+			throw(_("Nickname cannot include dot character(.)!"))
+
+		if self.nickname.find('/') >= 0:
+			throw(_("Nickname cannot include dot character(/)!"))
+
+		if self.nickname in ['bin', 'admin', 'ext', 'openwrt', 'linux', 'lede', 'ioe', 'freeioe', 'thingsroot', 'administrator', 'user']:
+			throw(_("Invalid Nickname!!!!!!"))
+
 	def after_insert(self):
 		add_role(self.user, 'App User')
 
@@ -28,4 +40,3 @@ class AppDeveloper(Document):
 		if org_nickname is not None and org_nickname != self.nickname:
 			from app_center.app_center.doctype.iot_application.iot_application import update_package_owner
 			update_package_owner(org_nickname, self.nickname)
-

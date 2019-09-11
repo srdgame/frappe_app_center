@@ -19,7 +19,7 @@ class AppDeveloper(Document):
 		if frappe.session.user != 'Administrator' and len(self.nickname) < 6:
 			throw(_("Nickname cannot be less than six characters!"))
 
-		if frappe.session.user != 'Administrator' and frappe.get_value("App Developer", {"id_card": self.id_card}, "name") != self.name:
+		if frappe.session.user != 'Administrator' and frappe.get_value("App Developer", {"id_card": self.id_card, "name": ('!=', self.name)}, "name"):
 			throw(_("id_card_duplicated_with_others!"))
 
 		if self.nickname.find('.') >= 0:

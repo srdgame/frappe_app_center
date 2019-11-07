@@ -6,7 +6,7 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"label": _("Application Center"),
+			"label": _("Developers"),
 			"items": [
 				{
 					"type": "doctype",
@@ -14,6 +14,17 @@ def get_data():
 					"onboard": 1,
 					"description": _("App Developer"),
 				},
+				{
+					"type": "doctype",
+					"name": "App Developer Requisition",
+					"onboard": 1,
+					"description": _("App Developer Requisition"),
+				},
+			]
+		},
+		{
+			"label": _("Application Center"),
+			"items": [
 				{
 					"type": "doctype",
 					"name": "IOT Application",

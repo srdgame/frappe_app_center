@@ -322,19 +322,3 @@ def update_apps_stars(names, status=None):
 	for name in names:
 		doc = frappe.get_doc("IOT Application", name)
 		doc.update_stars()
-
-
-def list_tags(app):
-	return []
-
-
-def add_tags(app, *tags):
-	return tags
-
-
-def remove_tags(app, *tags):
-	return []
-
-
-def clear_tags(app):
-	return []

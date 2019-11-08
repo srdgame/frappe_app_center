@@ -54,12 +54,6 @@ def get_data():
 					"name": "IOT Application Issue",
 					"onboard": 1,
 					"description": _("IOT Application Issue"),
-				},
-				{
-					"type": "doctype",
-					"name": "IOT Application Keyword",
-					"onboard": 1,
-					"description": _("IOT Application Issue"),
 				}
 			]
 		},

@@ -1,0 +1,45 @@
+{
+ "creation": "2019-11-11 18:03:25.564905",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "app",
+  "comment",
+  "priority"
+ ],
+ "fields": [
+  {
+   "fieldname": "app",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "App",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority",
+   "reqd": 1
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Comment"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-11-11 18:17:15.665067",
+ "modified_by": "Administrator",
+ "module": "App Center",
+ "name": "IOT Application FavoritesApp",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

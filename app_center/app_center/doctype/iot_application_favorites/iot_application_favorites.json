@@ -1,36 +1,34 @@
 {
- "autoname": "field:app",
- "creation": "2019-11-11 16:45:06.264087",
+ "autoname": "field:user",
+ "creation": "2019-11-11 18:03:31.473754",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "app",
-  "installed"
+  "user",
+  "favorites"
  ],
  "fields": [
   {
-   "fieldname": "app",
+   "fieldname": "user",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "App",
-   "options": "IOT Application",
+   "label": "User",
+   "options": "User",
    "reqd": 1,
    "unique": 1
   },
   {
-   "default": "0",
-   "fieldname": "installed",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Installed",
-   "reqd": 1
+   "fieldname": "favorites",
+   "fieldtype": "Table",
+   "label": "Favorites",
+   "options": "IOT Application FavoritesApp"
   }
  ],
- "modified": "2019-11-11 17:00:42.350977",
+ "modified": "2019-11-11 18:03:57.992060",
  "modified_by": "Administrator",
  "module": "App Center",
- "name": "IOT Application Counter",
+ "name": "IOT Application Favorites",
  "owner": "Administrator",
  "permissions": [
   {
@@ -47,13 +45,16 @@
   },
   {
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
+   "if_owner": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "All",
-   "share": 1
+   "share": 1,
+   "write": 1
   }
  ],
  "quick_entry": 1,

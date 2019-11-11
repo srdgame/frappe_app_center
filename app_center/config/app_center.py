@@ -71,6 +71,12 @@ def get_data():
 					"name": "IOT Application Statistics",
 					"onboard": 1,
 					"description": _("IOT Application Statistics"),
+				},
+				{
+					"type": "doctype",
+					"name": "IOT Application Favorites",
+					"onboard": 1,
+					"description": _("IOT Application Favorites"),
 				}
 			]
 		},

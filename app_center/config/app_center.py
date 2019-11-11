@@ -58,6 +58,23 @@ def get_data():
 			]
 		},
 		{
+			"label": _("Statistics"),
+			"items": [
+				{
+					"type": "doctype",
+					"name": "IOT Application Counter",
+					"onboard": 1,
+					"description": _("IOT Application Counter"),
+				},
+				{
+					"type": "doctype",
+					"name": "IOT Application Statistics",
+					"onboard": 1,
+					"description": _("IOT Application Statistics"),
+				}
+			]
+		},
+		{
 			"label": _("Settings"),
 			"items": [
 				{

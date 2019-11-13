@@ -467,27 +467,5 @@ def fix_issue():
 
 
 @frappe.whitelist()
-def add_keywords():
-	if frappe.request.method != "POST":
-		throw(_("Request Method Must be POST!"))
-
-	doc = frappe.get_doc("IOT Application", frappe.form_dict.name)
-	doc.add_keywords(frappe.form_dict.keywords)
-
-	return _("Keywords added!")
-
-
-@frappe.whitelist()
-def remove_keywords():
-	if frappe.request.method != "POST":
-		throw(_("Request Method Must be POST!"))
-
-	doc = frappe.get_doc("IOT Application", frappe.form_dict.name)
-	doc.remove_keywords(frappe.form_dict.keywords)
-
-	return _("Keywords removed!")
-
-
-@frappe.whitelist()
 def ping():
 	return _("pong from app_center.appmgr.ping")

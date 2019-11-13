@@ -154,11 +154,6 @@ class IOTApplication(Document):
 		}
 		doc = frappe.get_doc(data).insert()
 
-		# Copy keywords
-		keywords = [d.key for d in self.get("keywords")]
-		if len(keywords) > 0:
-			doc.add_keywords(keywords)
-
 		return doc
 
 	def update_stars(self):
@@ -210,26 +205,6 @@ class IOTApplication(Document):
 			doc = frappe.get_doc("IOT Application Conf", d[0])
 			doc.clean_before_delete()
 			frappe.delete_doc("IOT Application Conf", d[0])
-
-	def append_keywords(self, *keywords):
-		"""Add groups to user"""
-		current_keywords = [d.key for d in self.get("keywords")]
-		for key in keywords:
-			if key in current_keywords:
-				continue
-			self.append("keywords", {"key": key})
-
-	def add_keywords(self, *keywords):
-		"""Add groups to user and save"""
-		self.append_keywords(*keywords)
-		self.save()
-
-	def remove_keywords(self, *keywords):
-		existing_keywords = dict((d.key, d) for d in self.get("keywords"))
-		for key in keywords:
-			if key in existing_keywords:
-				self.get("keywords").remove(existing_keywords[key])
-		self.save()
 
 
 def get_recently_apps(as_list=False):

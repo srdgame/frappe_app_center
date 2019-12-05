@@ -87,7 +87,9 @@ class IOTApplication(Document):
 		if self.is_binary == 1:
 			return self.app_path
 		else:
-			dev_comp = self.developer if self.company is None else self.company
+			dev_comp = self.developer
+			if self.company is None:
+				dev_comp = self.company
 			return dev_comp + "/" + self.code_name
 
 	def _gen_app_path(self):

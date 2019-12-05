@@ -22,8 +22,8 @@ def get_context(context):
 		raise frappe.DoesNotExistError(_("Application not specified"))
 
 	doc = frappe.get_doc("IOT Application", app)
-	if frappe.session.user != 'Administrator' and doc.owner != frappe.session.user:
-		raise frappe.PermissionError(_("You are not the owner of application {0}").format(doc.app_name))
+	if frappe.session.user != 'Administrator' and doc.developer != frappe.session.user:
+		raise frappe.PermissionError(_("You are not the developer of application {0}").format(doc.app_name))
 
 	context.no_cache = 1
 

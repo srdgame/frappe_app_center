@@ -1,0 +1,1 @@
+app_center.patches.v1_0_1.iot_application_rename_owner_to_developer

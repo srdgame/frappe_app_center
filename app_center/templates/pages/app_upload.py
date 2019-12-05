@@ -22,8 +22,8 @@ def get_context(context):
 	if 'App User' not in user_roles:
 		raise frappe.PermissionError
 
-	if frappe.session.user != 'Administrator' and app_doc.owner != frappe.session.user:
-		raise frappe.PermissionError(_("You are not the owner of application {0}").format(app_doc.app_name))
+	if frappe.session.user != 'Administrator' and app_doc.developer != frappe.session.user:
+		raise frappe.PermissionError(_("You are not the developer of application {0}").format(app_doc.app_name))
 
 	context.no_cache = 1
 

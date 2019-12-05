@@ -16,7 +16,7 @@ def get_context(context):
 	context.no_cache = 1
 	user = frappe.session.user
 
-	apps = frappe.get_list("IOT Application", "*", {"owner": user})
+	apps = frappe.get_list("IOT Application", "*", {"developer": user})
 	context.apps = {d.name:d for d in apps}
 
 	app_list = [d.name for d in apps]

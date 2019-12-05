@@ -8,16 +8,16 @@ from frappe import throw, _
 
 
 def get_most_stars():
-	filters = {"owner": ["!=", 'Administrator']}
+	filters = {"developer": ["!=", 'Administrator']}
 	return frappe.db.get_all("IOT Application", filters=filters, fields="*", limit=5, order_by="star desc")
 
 
 def get_recently_updated():
-	filters = {"owner": ["!=", 'Administrator']}
+	filters = {"developer": ["!=", 'Administrator']}
 	return frappe.db.get_all("IOT Application", filters=filters, fields="*", limit=5, order_by="modified desc")
 
 def get_latest_releases():
-	filters = {"owner": ["!=", 'Administrator']}
+	filters = {"developer": ["!=", 'Administrator']}
 	return frappe.db.get_all("IOT Application Version", filters=filters, fields="*", limit=5, order_by="creation desc")
 
 
@@ -28,7 +28,7 @@ def get_context(context):
 
 	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
 
-	filters = {"owner": frappe.session.user}
+	filters = {"developer": frappe.session.user}
 	if category:
 		filters["category"] = category
 
@@ -40,10 +40,10 @@ def get_context(context):
 	context.releases = get_latest_releases()
 
 
-	count_apps = "select count(*) from `tabIOT Application` where owner<>'Administrator'" # and published=1
+	count_apps = "select count(*) from `tabIOT Application` where developer<>'Administrator'" # and published=1
 	context.application_count = frappe.db.sql(count_apps)[0][0]
 
-	count_developers = "select count(*) from `tabApp Developer` where user<>'Administrator'"
+	count_developers = "select count(*) from `tabApp Developer` where developer<>'Administrator'"
 	context.developer_count = frappe.db.sql(count_developers)[0][0]
 
 	count_suppliers = "select count(*) from `tabApp Device Supplier`"

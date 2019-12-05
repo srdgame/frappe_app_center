@@ -19,7 +19,7 @@ def get_context(context):
 
 	context.categories = [d.name for d in frappe.db.get_all("App Category", ["name"], order_by="name")]
 
-	filters = {"owner": frappe.session.user}
+	filters = {"developer": frappe.session.user}
 	if category:
 		filters["category"] = category
 

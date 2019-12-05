@@ -8,7 +8,8 @@
  "field_order": [
   "app_name",
   "code_name",
-  "owner",
+  "developer",
+  "company",
   "published",
   "is_binary",
   "package_name",
@@ -50,15 +51,6 @@
    "fieldname": "code_name",
    "fieldtype": "Data",
    "label": "Code Name"
-  },
-  {
-   "default": "\n",
-   "fieldname": "owner",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Owner",
-   "options": "App Developer",
-   "reqd": 1
   },
   {
    "default": "0",
@@ -246,9 +238,25 @@
    "hidden": 1,
    "label": "Icon Image",
    "read_only": 1
+  },
+  {
+   "default": "\n",
+   "fieldname": "developer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Developer",
+   "options": "App Developer",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Cloud Company"
   }
  ],
- "modified": "2019-11-11 16:45:51.266250",
+ "modified": "2019-12-03 13:37:59.925779",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "IOT Application",
@@ -302,7 +310,7 @@
    "share": 1
   }
  ],
- "search_fields": "app_name,owner,app_path",
+ "search_fields": "app_name,developer,company,app_path",
  "sort_field": "modified",
  "sort_order": "DESC",
  "title_field": "app_name",

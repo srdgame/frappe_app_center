@@ -63,7 +63,7 @@ class IOTApplicationVersion(Document):
 
 def on_doctype_update():
 	"""Add indexes in `IOT Application Version`"""
-	frappe.db.add_index("IOT Application Version", ["app", "version"])
+	frappe.db.add_index("IOT Application Version", ["app", "version", "developer", "company"])
 
 
 def get_latest_version(app, beta=0):

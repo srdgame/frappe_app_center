@@ -9,7 +9,7 @@ import requests
 from frappe import throw, _
 
 
-app_props = ["name", "app_path", "app_name", "owner", "category", "protocol", "star", "icon_image",
+app_props = ["name", "app_path", "app_name", "developer", "company", "category", "protocol", "star", "icon_image",
 				"license_type", "device_supplier", "device_serial", "creation",
 				"has_conf_template", "conf_template", "pre_configuration"]
 
@@ -17,10 +17,10 @@ app_props = ["name", "app_path", "app_name", "owner", "category", "protocol", "s
 @frappe.whitelist(allow_guest=True)
 def list_apps(filters=None, fields=app_props, order_by="modified desc"):
 	if filters:
-		filters.update({"owner": ["!=", 'Administrator']})
+		filters.update({"developer": ["!=", 'Administrator']})
 	else:
 		filters = {
-			"owner": ["!=", 'Administrator'],
+			"developer": ["!=", 'Administrator'],
 			"published": 1,
 			"license_type": 'Open'
 		}
@@ -29,7 +29,7 @@ def list_apps(filters=None, fields=app_props, order_by="modified desc"):
 
 @frappe.whitelist()
 def list_self_apps(fields=app_props, order_by="modified desc"):
-	filters = {"owner": frappe.session.user}
+	filters = {"developer": frappe.session.user}
 	return frappe.get_all("IOT Application", fields=fields, filters=filters, order_by=order_by)
 
 
@@ -145,7 +145,12 @@ def user_access(app, user=None):
 	doc = find_app_by_name(app)
 	if doc.license_type == 'Open':
 		return True
-	if doc.owner == user:
+	if doc.developer == user:
+		return True
+
+	# For Company App
+	from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
+	if doc.company in list_user_companies:
 		return True
 
 	# TODO: for application buy
@@ -158,7 +163,9 @@ def company_access(app, company):
 	doc = find_app_by_name(app)
 	if doc.license_type == 'Open':
 		return True
-	if doc.owner == user:
+	if doc.developer == user:
+		return True
+	if doc.company == company:
 		return True
 
 	# TODO: for application buy

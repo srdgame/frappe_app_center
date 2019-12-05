@@ -40,8 +40,8 @@ def valid_app_owner(app):
 		return
 	if "App Manager" in frappe.get_roles():
 		return
-	if frappe.get_value('IOT Application', app, 'owner') != frappe.session.user:
-		raise frappe.PermissionError(_("You are not owner of application {0}").format(app))
+	if frappe.get_value('IOT Application', app, 'developer') != frappe.session.user:
+		raise frappe.PermissionError(_("You are not developer of application {0}").format(app))
 
 
 @frappe.whitelist()
@@ -170,7 +170,8 @@ def new():
 	if conf_template is not None and len(conf_template) > 0:
 		has_conf_template = 1
 	pre_configuration = frappe.form_dict.pre_configuration
-	owner = frappe.session.user
+	company = frappe.form_dict.company
+	developer = frappe.session.user
 	doc = frappe.get_doc({
 		"doctype": "IOT Application",
 		"app_name": app_name,
@@ -179,7 +180,8 @@ def new():
 		"protocol": protocol,
 		"device_supplier": device_supplier,
 		"device_serial": device_serial,
-		"owner": owner,
+		"developer": developer,
+		"company": company,
 		"description": description,
 		"has_conf_template": has_conf_template,
 		"conf_template": conf_template,
@@ -288,11 +290,11 @@ def fork():
 
 
 @frappe.whitelist()
-def get_fork(app, version, owner=None):
+def get_fork(app, version, developer=None):
 	from app_center.app_center.doctype.iot_application_version.iot_application_version import get_latest_version
-	owner = owner or frappe.session.user
+	developer = developer or frappe.session.user
 	doc = frappe.get_doc("IOT Application", app)
-	app = doc.get_fork(owner, version)
+	app = doc.get_fork(developer, version)
 	lver = get_latest_version(app, 1)
 	return app, lver
 

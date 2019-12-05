@@ -13,6 +13,7 @@ from frappe.model.naming import make_autoname
 from frappe.utils import get_files_path
 from werkzeug.utils import secure_filename
 from six.moves.urllib.parse import quote
+from cloud.cloud.doctype.cloud_company.cloud_company import list_user_companies
 
 
 RESERVED_NAMES = ['skynet', 'skynet_iot', 'iot', 'freeioe', 'ioe', 'frpc', 'linux', 'ubuntu', 'debian', 'openwrt', 'admin', 'administrator']
@@ -38,6 +39,13 @@ class IOTApplication(Document):
 
 		""" Keep the app extension in lowercase """
 		self.app_ext = self.app_ext.lower()
+
+		if not self.developer and self.is_new():
+			self.developer = frappe.session.user
+
+		if self.company is not None:
+			if self.company not in list_user_companies(self.developer):
+				throw(_("You are not in company {0}".format(self.company)))
 
 		""" Extension checking """
 		if self.is_binary == 1:
@@ -70,7 +78,7 @@ class IOTApplication(Document):
 				self.app_path = self._gen_app_path()
 
 			if not self.app_path and frappe.session.user == 'Administrator':
-				if self.owner != frappe.session.user:
+				if self.developer != frappe.session.user:
 					self.app_path = self._gen_app_path()
 
 			self.app_name_unique = self._gen_app_uinque()
@@ -79,15 +87,19 @@ class IOTApplication(Document):
 		if self.is_binary == 1:
 			return self.app_path
 		else:
-			return self.owner + "/" + self.code_name
+			return self.developer if self.company is None else self.company + "/" + self.code_name
 
 	def _gen_app_path(self):
 		if self.is_binary == 1:
 			arch = frappe.get_value("IOT Hardware Architecture", self.hw_arch, "arch")
 			return "bin/{0}/{1}/{2}/{3}".format(self.os_system, self.os_version, arch, self.package_name)
 
+		if self.company is not None:
+			domain = frappe.get_value("Cloud Company", self.company, "domain")
+			return domain + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
+
 		# Generate app_path by nick_name/app_code_name
-		dev_nick_name = frappe.get_value("App Developer", self.owner, 'nickname')
+		dev_nick_name = frappe.get_value("App Developer", self.developer, 'nickname')
 		if dev_nick_name:
 			return dev_nick_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
 
@@ -103,8 +115,8 @@ class IOTApplication(Document):
 	def before_insert(self):
 		if frappe.session.user == 'Administrator':
 			return
-		applist = frappe.db.get_values('IOT Application', {"owner": self.owner})
-		group = frappe.get_value("App Developer", self.owner, "group")
+		applist = frappe.db.get_values('IOT Application', {"developer": self.developer})
+		group = frappe.get_value("App Developer", self.developer, "group")
 		if len(applist) >= 10 and group == 'Normal':
 			throw(_("Application count limitation!"))
 		if len(applist) >= 20 and group == 'Power':
@@ -123,8 +135,8 @@ class IOTApplication(Document):
 		except Exception as ex:
 			frappe.logger(__name__).error(ex)
 
-	def get_fork(self, owner, version):
-		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "owner": owner}, "name")
+	def get_fork(self, developer, version):
+		return frappe.get_value('IOT Application', {"fork_from": self.name, "fork_version": version, "developer": developer}, "name")
 
 	def fork(self, by_user, version, pre_conf=None):
 		if self.is_binary == 1:
@@ -136,7 +148,7 @@ class IOTApplication(Document):
 			"doctype": "IOT Application",
 			"app_name": self.app_name + "." + str(version),
 			"code_name": self.code_name + "_fork_with_" + str(version),
-			"owner": by_user,
+			"developer": by_user,
 			"license_type": self.license_type,
 			"fork_from": self.name,
 			"fork_version": version,

@@ -41,7 +41,7 @@ class AppDeveloper(Document):
 	def before_save(self):
 		org_nickname = frappe.get_value("App Developer", self.name, "nickname")
 		if not org_nickname:
-			for d in frappe.db.get_values("IOT Application", {"owner": self.name}, "name"):
+			for d in frappe.db.get_values("IOT Application", {"developer": self.name}, "name"):
 				doc = frappe.get_doc("IOT Application", d[0])
 				doc.update_app_path()
 

@@ -18,7 +18,7 @@ def get_context(context):
 	context.protocols = [d.name for d in frappe.get_all("App Device Protocol", ["name"], order_by="name")]
 	context.suppliers = [d.name for d in frappe.get_all("App Device Supplier", ["name"], order_by="name")]
 
-	filters = {"owner": ["!=", 'Administrator']}
+	filters = {"developer": ["!=", 'Administrator']}
 	if category:
 		filters["category"] = category
 	if protocol:

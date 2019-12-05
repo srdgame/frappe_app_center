@@ -88,7 +88,7 @@ class IOTApplication(Document):
 			return self.app_path
 		else:
 			dev_comp = self.developer
-			if self.company is None:
+			if self.company is not None:
 				dev_comp = self.company
 			return dev_comp + "/" + self.code_name
 

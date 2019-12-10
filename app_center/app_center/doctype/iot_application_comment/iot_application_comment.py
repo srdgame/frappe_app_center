@@ -10,4 +10,4 @@ from frappe.model.document import Document
 class IOTApplicationComment(Document):
 	def on_trash(self):
 		for d in frappe.db.get_values("IOT Application Comment", {"reply_to": self.name}, "name"):
-			frappe.delete_doc("IOT Application Conf", d[0])
+			frappe.delete_doc("IOT Application Comment", d[0])

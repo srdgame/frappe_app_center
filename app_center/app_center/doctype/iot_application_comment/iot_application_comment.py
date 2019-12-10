@@ -6,5 +6,8 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
+
 class IOTApplicationComment(Document):
-	pass
+	def on_trash(self):
+		for d in frappe.db.get_values("IOT Application Comment", {"app": self.app, "reply_to": self.name}, "name"):
+			frappe.delete_doc("IOT Application Conf", d[0])

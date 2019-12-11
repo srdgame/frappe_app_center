@@ -66,12 +66,11 @@
   {
    "fieldname": "id_card_image",
    "fieldtype": "Attach Image",
-   "label": "ID Card Image",
-   "reqd": 1
+   "label": "ID Card Image"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-11 16:04:05.514522",
+ "modified": "2019-12-11 17:02:43.009123",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "App Developer Requisition",

@@ -14,10 +14,10 @@ class AppDeveloperRequisition(Document):
 			if frappe.db.exists("App Developer", {"user": self.user}):
 				throw("developer_exists")
 
-			if frappe.db.exists("App Developer", {"nickname": self.full_name, "name": ('!=', self.name)}):
+			if frappe.db.exists("App Developer", {"nickname": self.nickname, "name": ('!=', self.name)}):
 				throw("duplicated_developer_nickname")
 
-			if frappe.db.exists("App Developer", {"id_card": self.full_name, "name": ('!=', self.name)}):
+			if frappe.db.exists("App Developer", {"id_card": self.id_card, "name": ('!=', self.name)}):
 				throw("duplicated_developer_id_card")
 
 		if frappe.db.exists("App Developer Requisition",

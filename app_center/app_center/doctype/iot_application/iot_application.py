@@ -64,6 +64,9 @@ class IOTApplication(Document):
 			self.code_name = None
 		else:
 			""" Validate code name """
+			if self.code_name is None:
+				throw(_("Application code name missing!!!"))
+
 			if self.code_name != quote(self.code_name):
 				throw(_("Application code name invalid!!!"))
 

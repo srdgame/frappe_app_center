@@ -46,14 +46,12 @@
   {
    "fieldname": "pay_account",
    "fieldtype": "Data",
-   "label": "Pay Account",
-   "reqd": 1
+   "label": "Pay Account"
   },
   {
    "fieldname": "pay_bank",
    "fieldtype": "Data",
-   "label": "Pay Bank",
-   "reqd": 1
+   "label": "Pay Bank"
   },
   {
    "fieldname": "amended_from",
@@ -73,7 +71,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-07 16:51:11.556162",
+ "modified": "2019-12-11 16:04:05.514522",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "App Developer Requisition",

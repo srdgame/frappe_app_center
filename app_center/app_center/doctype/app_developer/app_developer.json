@@ -1,4 +1,5 @@
 {
+ "_comments": "[{\"name\": \"84f5cb6738\", \"by\": \"Administrator\", \"comment\": \"<div><br></div>\"}]",
  "autoname": "field:user",
  "creation": "2017-10-11 11:29:43.880628",
  "doctype": "DocType",
@@ -9,7 +10,8 @@
   "user",
   "group",
   "enabled",
-  "nickname",
+  "dev_name",
+  "id_name",
   "id_card",
   "address",
   "pay_account",
@@ -45,16 +47,9 @@
    "reqd": 1
   },
   {
-   "fieldname": "nickname",
-   "fieldtype": "Data",
-   "label": "Nickname",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
    "fieldname": "id_card",
    "fieldtype": "Data",
-   "label": "ID card",
+   "label": "ID Card",
    "reqd": 1
   },
   {
@@ -71,9 +66,22 @@
    "fieldname": "pay_bank",
    "fieldtype": "Data",
    "label": "Pay Bank"
+  },
+  {
+   "fieldname": "dev_name",
+   "fieldtype": "Data",
+   "label": "Dev Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "id_name",
+   "fieldtype": "Data",
+   "label": "ID Name",
+   "reqd": 1
   }
  ],
- "modified": "2019-09-06 13:49:22.054326",
+ "modified": "2019-12-13 12:11:42.766745",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "App Developer",

@@ -104,10 +104,10 @@ class IOTApplication(Document):
 			domain = frappe.get_value("Cloud Company", self.company, "domain")
 			return domain + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
 
-		# Generate app_path by nick_name/app_code_name
-		dev_nick_name = frappe.get_value("App Developer", self.developer, 'nickname')
-		if dev_nick_name:
-			return dev_nick_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
+		# Generate app_path by dev_name/app_code_name
+		dev_name = frappe.get_value("App Developer", self.developer, 'dev_name')
+		if dev_name:
+			return dev_name + "/" + (self.code_name or secure_filename(self.app_name).replace(' ', '_'))
 
 	def before_save(self):
 		if not self.is_new():
@@ -288,16 +288,16 @@ def update_app_link(app, org_path, new_path):
 	remove_app_link(org_path)
 
 
-def update_package_owner(org_nickname, new_nickname):
+def update_package_owner(org_dev_name, new_dev_name):
 	basedir = get_files_path('app_center_files')
 	package_dir = os.path.join(basedir, 'packages')
 	if not os.path.exists(package_dir):
 		os.makedirs(package_dir)
 
-	org_dir = os.path.join(package_dir, org_nickname)
+	org_dir = os.path.join(package_dir, org_dev_name)
 	if not os.path.exists(org_dir):
 		return
-	os.rename(org_dir, os.path.join(package_dir, new_nickname))
+	os.rename(org_dir, os.path.join(package_dir, new_dev_name))
 
 
 @frappe.whitelist()

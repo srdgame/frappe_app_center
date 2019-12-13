@@ -6,7 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "user",
-  "nickname",
+  "id_name",
   "id_card",
   "id_card_image",
   "address",
@@ -21,13 +21,6 @@
    "in_list_view": 1,
    "label": "User",
    "options": "User",
-   "reqd": 1
-  },
-  {
-   "fieldname": "nickname",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Nickname",
    "reqd": 1
   },
   {
@@ -66,10 +59,16 @@
    "fieldname": "id_card_image",
    "fieldtype": "Attach Image",
    "label": "ID Card Image"
+  },
+  {
+   "fieldname": "id_name",
+   "fieldtype": "Data",
+   "label": "ID Name",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-11 18:01:14.786434",
+ "modified": "2019-12-13 12:10:49.945633",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "App Developer Requisition",

@@ -13,23 +13,23 @@ from six.moves.urllib.parse import quote
 
 class AppDeveloper(Document):
 	def validate(self):
-		if self.nickname != quote(self.nickname):
-			throw(_("Invalid Nickname!!!"))
+		if self.dev_name != quote(self.dev_name):
+			throw(_("Invalid Developer Name!!!"))
 
-		if frappe.session.user != 'Administrator' and len(self.nickname) < 6:
-			throw(_("Nickname cannot be less than six characters!"))
+		if frappe.session.user != 'Administrator' and len(self.dev_name) < 6:
+			throw(_("dev_name cannot be less than six characters!"))
 
 		if frappe.session.user != 'Administrator' and frappe.get_value("App Developer", {"id_card": self.id_card, "name": ('!=', self.name)}, "name"):
 			throw(_("id_card_duplicated_with_others!"))
 
-		if self.nickname.find('.') >= 0:
-			throw(_("Nickname cannot include dot character(.)!"))
+		if self.dev_name.find('.') >= 0:
+			throw(_("dev_name cannot include dot character(.)!"))
 
-		if self.nickname.find('/') >= 0:
-			throw(_("Nickname cannot include dot character(/)!"))
+		if self.dev_name.find('/') >= 0:
+			throw(_("dev_name cannot include dot character(/)!"))
 
-		if self.nickname in ['bin', 'admin', 'ext', 'openwrt', 'linux', 'lede', 'ioe', 'freeioe', 'thingsroot', 'administrator', 'user']:
-			throw(_("Invalid Nickname!!!!!!"))
+		if self.dev_name in ['bin', 'admin', 'ext', 'openwrt', 'linux', 'lede', 'ioe', 'freeioe', 'thingsroot', 'administrator', 'user']:
+			throw(_("Invalid Developer Name!!!!!!"))
 
 		valid, err = check_id_card(self.id_card)
 		if not valid:
@@ -39,15 +39,15 @@ class AppDeveloper(Document):
 		add_role(self.user, 'App User')
 
 	def before_save(self):
-		org_nickname = frappe.get_value("App Developer", self.name, "nickname")
-		if not org_nickname:
+		org_dev_name = frappe.get_value("App Developer", self.name, "dev_name")
+		if not org_dev_name:
 			for d in frappe.db.get_values("IOT Application", {"developer": self.name}, "name"):
 				doc = frappe.get_doc("IOT Application", d[0])
 				doc.update_app_path()
 
-		if org_nickname is not None and org_nickname != self.nickname:
+		if org_dev_name is not None and org_dev_name != self.dev_name:
 			from app_center.app_center.doctype.iot_application.iot_application import update_package_owner
-			update_package_owner(org_nickname, self.nickname)
+			update_package_owner(org_dev_name, self.dev_name)
 
 
 # Errors=['验证通过!','身份证号码位数不对!','身份证号码出生日期超出范围或含有非法字符!','身份证号码校验错误!','身份证地区非法!']

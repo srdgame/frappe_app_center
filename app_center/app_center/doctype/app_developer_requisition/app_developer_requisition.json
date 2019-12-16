@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "user",
+  "dev_name",
   "id_name",
   "id_card",
   "id_card_image",
@@ -65,10 +66,16 @@
    "fieldtype": "Data",
    "label": "ID Name",
    "reqd": 1
+  },
+  {
+   "fieldname": "dev_name",
+   "fieldtype": "Data",
+   "label": "Developer Name",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-13 12:10:49.945633",
+ "modified": "2019-12-16 16:40:47.886784",
  "modified_by": "Administrator",
  "module": "App Center",
  "name": "App Developer Requisition",

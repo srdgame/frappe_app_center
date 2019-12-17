@@ -33,7 +33,8 @@ class AppDeveloper(Document):
 
 		valid, err = check_id_card(self.id_card)
 		if not valid:
-			throw(err)
+			if frappe.session.user != 'Administrator':
+				throw(err)
 
 	def after_insert(self):
 		add_role(self.user, 'App User')

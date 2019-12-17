@@ -31,9 +31,9 @@ class AppDeveloper(Document):
 		if self.dev_name in ['bin', 'admin', 'ext', 'openwrt', 'linux', 'lede', 'ioe', 'freeioe', 'thingsroot', 'administrator', 'user']:
 			throw(_("Invalid Developer Name!!!!!!"))
 
-		valid, err = check_id_card(self.id_card)
-		if not valid:
-			if frappe.session.user != 'Administrator':
+		if frappe.session.user != 'Administrator':
+			valid, err = check_id_card(self.id_card)
+			if not valid:
 				throw(err)
 
 	def after_insert(self):

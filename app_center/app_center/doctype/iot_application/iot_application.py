@@ -74,17 +74,10 @@ class IOTApplication(Document):
 			if self.code_name.find('.') >= 0:
 				throw(_("Application code name cannot include dot character(.)!"))
 
-		""" If Application is not binary application correct app_path """
-		if self.is_new():
-			""" Generate the path when not administrator and not binary"""
-			if self.is_binary == 0 and frappe.session.user != 'Administrator':
-				self.app_path = self._gen_app_path()
+		if not self.app_path or len(self.app_path) == 0:
+			self.app_path = self._gen_app_path()
 
-			if not self.app_path and frappe.session.user == 'Administrator':
-				if self.developer != frappe.session.user:
-					self.app_path = self._gen_app_path()
-
-			self.app_name_unique = self._gen_app_uinque()
+		self.app_name_unique = self._gen_app_uinque()
 
 	def _gen_app_uinque(self):
 		if self.is_binary == 1:

@@ -91,6 +91,12 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "App Category",
+					"onboard": 1,
+					"description": _("App Category"),
+				},
+				{
+					"type": "doctype",
 					"name": "IOT Hardware Architecture",
 					"onboard": 1,
 					"description": _("IOT Hardware Architecture"),

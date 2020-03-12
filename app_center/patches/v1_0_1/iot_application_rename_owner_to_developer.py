@@ -6,6 +6,8 @@ import frappe
 def execute():
 	frappe.reload_doc('conf_center', 'doctype', 'iot_application')
 	table_columns = frappe.db.get_table_columns("IOT Application")
+	if not table_columns:
+		return
 
 	if "developer" in table_columns:
 		frappe.db.sql('''

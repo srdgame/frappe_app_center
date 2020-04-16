@@ -64,4 +64,14 @@ class AppDeveloperRequisition(Document):
 		}
 		frappe.get_doc(data).insert()
 
+	def after_insert(self):
+		frappe.get_doc({
+			"doctype": "ToDo",
+			"description": "App Developer Requisition needs to be approved!",
+			"priority": "High",
+			"reference_type": "App Developer Requisition",
+			"reference_name": self.name,
+			"role": "App Manager"
+		}).insert()
+
 

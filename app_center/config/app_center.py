@@ -100,6 +100,12 @@ def get_data():
 					"name": "IOT Hardware Architecture",
 					"onboard": 1,
 					"description": _("IOT Hardware Architecture"),
+				},
+				{
+					"type": "doctype",
+					"name": "App Center Child Node",
+					"onboard": 1,
+					"description": _("App Center Child Node"),
 				}
 			]
 		}

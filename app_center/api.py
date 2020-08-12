@@ -107,7 +107,7 @@ def get_forks(app):
 	l = [d[0] for d in frappe.db.get_values("IOT Application", {"fork_from": app}, "name")]
 	return l
 
-
+'''
 def init_request_headers(headers, auth_code=None):
 	headers['Accept'] = 'application/json'
 	headers['AuthorizationCode'] = auth_code
@@ -115,10 +115,10 @@ def init_request_headers(headers, auth_code=None):
 
 @frappe.whitelist(allow_guest=True)
 def enable_beta(sn):
-	iot_center = frappe.db.get_single_value("App Center Settings", "iot_center")
-	auth_code = frappe.db.get_single_value("App Center Settings", "iot_center_auth_code")
+	iot_center = frappe.db.get_single_value("IOT Chan Settings", "upper_center")
+	auth_code = frappe.db.get_single_value("IOT Chan Settings", "auth_code")
 
-	if frappe.db.get_single_value("App Center Settings", "enable_upper_center") != 1:
+	if frappe.db.get_single_value("IOT Chan Settings", "enable_upper_center") != 1:
 		from iot.hdb_api import is_beta_enable
 		return is_beta_enable(sn=sn)
 	else:
@@ -131,6 +131,11 @@ def enable_beta(sn):
 			if r.status_code != 200:
 				throw(_("Cannot query beta information from IOT Center"))
 			return r.json().get("message")
+'''
+@frappe.whitelist(allow_guest=True)
+def enable_beta(sn):
+	from iot.hdb_api import is_beta_enable
+	return is_beta_enable(sn=sn)
 
 
 MATCH_APP_ID = re.compile(r'^APP(\d+)$')

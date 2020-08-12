@@ -85,12 +85,6 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "App Center Settings",
-					"onboard": 1,
-					"description": _("App Center Settings"),
-				},
-				{
-					"type": "doctype",
 					"name": "App Category",
 					"onboard": 1,
 					"description": _("App Category"),
@@ -100,12 +94,6 @@ def get_data():
 					"name": "IOT Hardware Architecture",
 					"onboard": 1,
 					"description": _("IOT Hardware Architecture"),
-				},
-				{
-					"type": "doctype",
-					"name": "App Center Child Node",
-					"onboard": 1,
-					"description": _("App Center Child Node"),
 				}
 			]
 		}

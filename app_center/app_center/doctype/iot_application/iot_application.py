@@ -21,6 +21,8 @@ RESERVED_NAMES = ['skynet', 'skynet_iot', 'iot', 'freeioe', 'ioe', 'frpc', 'linu
 
 class IOTApplication(Document):
 	def autoname(self):
+		if frappe.flags.in_import:
+			return
 		if self.app_path or self.is_binary == 1:
 			if not self.app_path:
 				self.name = self._gen_app_path()

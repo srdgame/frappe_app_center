@@ -106,6 +106,7 @@ class IOTApplication(Document):
 
 	def before_save(self):
 		if not self.is_new():
+			self.owner = self.developer
 			org_path = frappe.get_value("IOT Application", self.name, 'app_path')
 			if org_path != self.app_path:
 				if org_path:
@@ -193,6 +194,13 @@ class IOTApplication(Document):
 				return
 
 		create_app_link(self.name, self.app_path, force=False)
+
+	def update_app_owner(self):
+		if frappe.session.user == "Administrator" or "App Manager" in frappe.get_roles():
+			self.owner = self.developer
+			self.save()
+		else:
+			raise frappe.PermissionError
 
 	def clean_before_delete(self):
 		if not self.has_permission("write"):
